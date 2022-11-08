@@ -134,3 +134,7 @@ build_artifacts
 
 # minian intermediate
 minian_intermediate
+
+testing
+data1
+pipeline_testing.ipynb
