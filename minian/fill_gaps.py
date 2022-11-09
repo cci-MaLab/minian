@@ -22,6 +22,9 @@ def fill_video(
     overwritten and their backup will be stored by appending "_orig". Frames missing
     at the beginning or end will simply repeat the first or last known frame respectively.
 
+    We need to load in videos twice for memory purposes. Once to identify which videos
+    need fixing then a second time to load all necessary videos into one frame.
+
     Parameters
     ----------
     vpath : str
@@ -57,12 +60,26 @@ def fill_video(
     videodata = []
     video_ranges = []
     last_index = 0
+    bad_videos = set()
     for i in range(len(vlist)):
         # RBG values are the same so we collapse the final dimension
-        videodata.append(skvideo.io.vread(vlist[i])[:, :, :, 0])
-        # Format: first index, last_index, position in list
-        video_ranges.append([last_index, last_index + len(videodata[-1]) - 1, i])
-        last_index += len(videodata[-1])
+        video = skvideo.io.vread(vlist[i])[:, :, :, 0]
+        if i == 0:
+            video[800:1000] = 0
+        
+        for idx in check_video(video, i, len(vlist) - 1):
+            bad_videos.add(idx)
+        # Format: first index, last_index
+        video_ranges.append([last_index, last_index + len(video) - 1])
+        last_index += len(video)
+
+    bad_videos = sorted(bad_videos)
+    # Load all the videos to fix in one numpy array
+    for i in bad_videos:
+        video = skvideo.io.vread(vlist[i])[:, :, :, 0]
+        if i == 0:
+            video[800:1000] = 0
+        videodata.append(video)
     
     videodata = np.vstack(videodata)
 
@@ -89,14 +106,14 @@ def fill_video(
         i = 0
         j = 0
         overwritten_videos = []
-        while i < len(video_ranges) and j < len(indices):
+        while i < len(bad_videos) and j < len(indices):
             # Check if ranges overlap
-            if video_ranges[i][0] <= indices[j][0] + 1 <= video_ranges[i][1] or video_ranges[i][0] <= indices[j][1] - 1 <= video_ranges[i][1]:
-                video_idx = video_ranges[i][2]
+            if video_ranges[bad_videos[i]][0] <= indices[j][0] + 1 <= video_ranges[bad_videos[i]][1] or video_ranges[bad_videos[i]][0] <= indices[j][1] - 1 <= video_ranges[bad_videos[i]][1]:
+                video_idx = bad_videos[i]
                 overwritten_videos.append(vlist[video_idx])
                 name, ext = os.path.basename(vlist[video_idx]).split(".")
                 shutil.copyfile(vlist[video_idx], os.path.join(os.path.dirname(vlist[video_idx]), name + "_orig." + ext))
-                skvideo.io.vwrite(vlist[video_idx], videodata[video_ranges[i][0]:video_ranges[i][1]])
+                skvideo.io.vwrite(vlist[video_idx], videodata[video_ranges[bad_videos[i]][0]:video_ranges[bad_videos[i]][1]])
                 i += 1
             else:
                 j += 1
@@ -110,6 +127,27 @@ def fill_video(
         writer.writerow(overwritten_videos)
     f.close()
 
+def check_video(video, idx, total_length):
+    indices_to_return = []
+    frame_max = np.array([np.max(frame) for frame in video])
+
+    if frame_max[0] <= 1:
+        if idx != 0:
+            indices_to_return.append(idx - 1)
+        indices_to_return.append(idx)
+
+    if frame_max[-1] <= 0:
+        if idx != total_length:
+            indices_to_return.append(idx + 1)
+        indices_to_return.append(idx)
+    
+    if not indices_to_return:
+        if (frame_max <= 1).any():
+            indices_to_return.append(idx)
+    
+    return indices_to_return
+
+        
 
 def get_indices(videodata):
     frame_max = np.array([np.max(frame) for frame in videodata])
