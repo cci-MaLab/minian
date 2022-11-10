@@ -136,7 +136,7 @@ def check_video(video, idx, total_length):
             indices_to_return.append(idx - 1)
         indices_to_return.append(idx)
 
-    if frame_min[-1] <= 0:
+    if frame_min[-1] <= 1:
         if idx != total_length:
             indices_to_return.append(idx + 1)
         indices_to_return.append(idx)
