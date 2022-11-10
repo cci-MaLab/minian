@@ -128,20 +128,21 @@ def fill_video(
 
 def check_video(video, idx, total_length):
     indices_to_return = []
-    frame_max = np.array([np.max(frame) for frame in video])
+    sub_frames = video[:, 282:322, 282:322]
+    frame_min = np.array([np.min(frame) for frame in sub_frames])
 
-    if frame_max[0] <= 1:
+    if frame_min[0] <= 1:
         if idx != 0:
             indices_to_return.append(idx - 1)
         indices_to_return.append(idx)
 
-    if frame_max[-1] <= 0:
+    if frame_min[-1] <= 0:
         if idx != total_length:
             indices_to_return.append(idx + 1)
         indices_to_return.append(idx)
     
     if not indices_to_return:
-        if (frame_max <= 1).any():
+        if (frame_min <= 1).any():
             indices_to_return.append(idx)
     
     return indices_to_return
