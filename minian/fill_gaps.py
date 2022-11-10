@@ -64,8 +64,6 @@ def fill_video(
     for i in range(len(vlist)):
         # RBG values are the same so we collapse the final dimension
         video = skvideo.io.vread(vlist[i])[:, :, :, 0]
-        if i == 0:
-            video[800:1000] = 0
         
         for idx in check_video(video, i, len(vlist) - 1):
             bad_videos.add(idx)
@@ -77,8 +75,6 @@ def fill_video(
     # Load all the videos to fix in one numpy array
     for i in bad_videos:
         video = skvideo.io.vread(vlist[i])[:, :, :, 0]
-        if i == 0:
-            video[800:1000] = 0
         videodata.append(video)
     
     videodata = np.vstack(videodata)
