@@ -77,6 +77,8 @@ def fill_video(
         video = skvideo.io.vread(vlist[i])[:, :, :, 0]
         videodata.append(video)
     
+    indices = []
+
     if videodata:
         videodata = np.vstack(videodata)
 
