@@ -150,10 +150,11 @@ def check_video(video, idx, total_length):
         
 
 def get_indices(videodata):
-    frame_max = np.array([np.max(frame) for frame in videodata])
+    sub_frames = videodata[:, 282:322, 282:322]
+    frame_min = np.array([np.min(frame) for frame in sub_frames])
     # Identify ranges we wish to interpolate
     ranges = []
-    indices = frame_max > 1
+    indices = sub_frames <= 1
     valid_indices = np.arange(len(indices))[indices]
     # Prepend -1 if the first value of indices is True
     if not indices[0]:
