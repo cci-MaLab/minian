@@ -5,10 +5,12 @@ import skvideo.io
 import numpy as np
 import shutil
 import csv
-from typing import Callable, List, Optional, Union
+import matplotlib.pyplot as plt
 
 def fill_video(
     vpath: str,
+    thresh=20,
+    fix_brightness = False,
     pattern=r"msCam[0-9]+\.avi$",
     **kwargs
 ):
@@ -58,23 +60,27 @@ def fill_video(
 
     # Load in all movies into one dataframe.
     videodata = []
-    video_ranges = []
+    orig_video_ranges = []
     last_index = 0
     bad_videos = set()
     for i in range(len(vlist)):
         # RBG values are the same so we collapse the final dimension
         video = skvideo.io.vread(vlist[i])[:, :, :, 0]
         
-        for idx in check_video(video, i, len(vlist) - 1):
+        for idx in check_video(video, i, len(vlist) - 1, thresh):
             bad_videos.add(idx)
         # Format: first index, last_index
-        video_ranges.append([last_index, last_index + len(video) - 1])
+        orig_video_ranges.append([last_index, last_index + len(video) - 1])
         last_index += len(video)
 
     bad_videos = sorted(bad_videos)
+    video_ranges = []
+    last_index = 0
     # Load all the videos to fix in one numpy array
     for i in bad_videos:
         video = skvideo.io.vread(vlist[i])[:, :, :, 0]
+        video_ranges.append([last_index, last_index + len(video) - 1])
+        last_index += len(video)
         videodata.append(video)
     
     indices = []
@@ -83,11 +89,34 @@ def fill_video(
         videodata = np.vstack(videodata)
 
         # Check if there is missing data
-        indices = get_indices(videodata)
+        indices = get_indices(videodata, thresh)
 
     if indices:
         for start, end in indices:
             # We have several possible edge cases to consider
+
+            # For the glitching effect we need to extend the window a bit
+            if np.mean(videodata[start:end, 272:332, 272:332]) > 10:
+                start = max(0, start-5)
+                end = min(end + 5, len(videodata))
+            
+            # There is a possibility of a followup glitch with the brigthness increases. This needs to be corrected
+            elif fix_brightness and np.mean(videodata[end, 272:332, 272:332]) > 15 + np.mean(videodata[start, 272:332, 272:332]):
+                i = end
+                last = np.mean(videodata[i, 272:332, 272:332])
+                next = np.mean(videodata[i + 1, 272:332, 272:332])
+                while next + 15 > last:
+                    i += 1
+                    last = next
+                    next = np.mean(videodata[i + 1, 272:332, 272:332])
+                
+                # Lower the birghtened section to match the subsequent signal
+                diff = last - next
+                i += 1
+                videodata[end:i] -= int(diff)
+
+                
+
 
             # The missing frames are within the video
             if start != 0 and end != len(videodata):
@@ -107,12 +136,12 @@ def fill_video(
         overwritten_videos = []
         while i < len(bad_videos) and j < len(indices):
             # Check if ranges overlap
-            if video_ranges[bad_videos[i]][0] <= indices[j][0] + 1 <= video_ranges[bad_videos[i]][1] or video_ranges[bad_videos[i]][0] <= indices[j][1] - 1 <= video_ranges[bad_videos[i]][1]:
+            if video_ranges[i][0] <= indices[j][0] + 1 <= video_ranges[i][1] or video_ranges[i][0] <= indices[j][1] - 1 <= video_ranges[i][1]:
                 video_idx = bad_videos[i]
                 overwritten_videos.append(vlist[video_idx])
                 name, ext = os.path.basename(vlist[video_idx]).split(".")
                 shutil.copyfile(vlist[video_idx], os.path.join(os.path.dirname(vlist[video_idx]), name + "_orig." + ext))
-                skvideo.io.vwrite(vlist[video_idx], videodata[video_ranges[bad_videos[i]][0]:video_ranges[bad_videos[i]][1]])
+                skvideo.io.vwrite(vlist[video_idx], videodata[video_ranges[i][0]:video_ranges[i][1]])
                 i += 1
             else:
                 j += 1
@@ -122,39 +151,49 @@ def fill_video(
     writer = csv.writer(f)
     writer.writerow([vpath])
     if indices:
+        # Fix indices to match global indices
+        for i in range(len(indices)):
+            diff = orig_video_ranges[bad_videos[i]][0] - video_ranges[i][0]
+            indices[i][0] = indices[i][0] + diff
+            indices[i][1] = indices[i][1] + diff
+        
         writer.writerow(indices)
         writer.writerow(overwritten_videos)
     f.close()
 
-def check_video(video, idx, total_length):
+def check_video(video, idx, total_length, thresh):
     indices_to_return = []
-    sub_frames = video[:, 282:322, 282:322]
+    sub_frames = video[:, 272:332, 272:332]
     frame_min = np.array([np.min(frame) for frame in sub_frames])
+    # if the value drops x points below median then it's a bad frame
+    threshold = np.median(frame_min) - thresh
 
-    if frame_min[0] <= 1:
+    if frame_min[0] <= threshold:
         if idx != 0:
             indices_to_return.append(idx - 1)
         indices_to_return.append(idx)
 
-    if frame_min[-1] <= 1:
+    if frame_min[-1] <= threshold:
         if idx != total_length:
             indices_to_return.append(idx + 1)
         indices_to_return.append(idx)
     
     if not indices_to_return:
-        if (frame_min <= 1).any():
+        if (frame_min <= threshold).any():
             indices_to_return.append(idx)
     
     return indices_to_return
 
         
 
-def get_indices(videodata):
-    sub_frames = videodata[:, 282:322, 282:322]
+def get_indices(videodata, thresh):
+    sub_frames = videodata[:, 272:332, 272:332]
     frame_min = np.array([np.min(frame) for frame in sub_frames])
+    # if the value drops 20 points below median then it's a bad frame
+    threshold = np.median(frame_min) - thresh
     # Identify ranges we wish to interpolate
     ranges = []
-    indices = sub_frames <= 1
+    indices = frame_min > threshold
     valid_indices = np.arange(len(indices))[indices]
     # Prepend -1 if the first value of indices is True
     if not indices[0]:
@@ -190,3 +229,4 @@ def fill_linear(videodata, start, end):
         mirrored_frame = videodata[start]
 
     videodata[start: end] = mirrored_frame
+
