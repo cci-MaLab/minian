@@ -5,13 +5,12 @@ import skvideo.io
 import numpy as np
 import shutil
 import csv
-import matplotlib.pyplot as plt
 
 def fill_video(
     vpath: str,
     thresh=20,
     fix_brightness = False,
-    pattern=r"msCam[0-9]+\.avi$",
+    pattern=r"[0-9]+\.avi$",
     **kwargs
 ):
     """
@@ -113,7 +112,9 @@ def fill_video(
                 # Lower the birghtened section to match the subsequent signal
                 diff = last - next
                 i += 1
-                videodata[end:i] -= int(diff)
+                # The subtraction could cause an overflow, therefore clip the data
+                sub_array = np.clip(videodata[end:i].astype("float") - diff, 0, 255)
+                videodata[end:i] = sub_array.astype("uint8")
 
                 
 
@@ -134,14 +135,28 @@ def fill_video(
         i = 0
         j = 0
         overwritten_videos = []
+        adjusted_ranges = []
         while i < len(bad_videos) and j < len(indices):
             # Check if ranges overlap
             if video_ranges[i][0] <= indices[j][0] + 1 <= video_ranges[i][1] or video_ranges[i][0] <= indices[j][1] - 1 <= video_ranges[i][1]:
                 video_idx = bad_videos[i]
                 overwritten_videos.append(vlist[video_idx])
                 name, ext = os.path.basename(vlist[video_idx]).split(".")
-                shutil.copyfile(vlist[video_idx], os.path.join(os.path.dirname(vlist[video_idx]), name + "_orig." + ext))
+                
+                try:
+                    shutil.copyfile(vlist[video_idx], os.path.join(os.path.dirname(vlist[video_idx]), name + "_orig." + ext))
+                except:
+                    print("File copy failed for %s" % (vlist[video_idx]))
+                    return
                 skvideo.io.vwrite(vlist[video_idx], videodata[video_ranges[i][0]:video_ranges[i][1]])
+                
+                # Fix indices to match global indices
+                global_ranges = orig_video_ranges[video_idx]
+                local_ranges = video_ranges[i]
+                # Only check if the beginning is in the video range
+                if video_ranges[i][0] <= indices[j][0] + 1 <= video_ranges[i][1]:
+                    diff = global_ranges[0] - local_ranges[0]
+                    adjusted_ranges.append([indices[j][0] + diff, indices[j][1] + diff])
                 i += 1
             else:
                 j += 1
@@ -150,14 +165,8 @@ def fill_video(
     f = open(os.path.join(vpath, "interpolation_results.csv"), 'w')
     writer = csv.writer(f)
     writer.writerow([vpath])
-    if indices:
-        # Fix indices to match global indices
-        for i in range(len(indices)):
-            diff = orig_video_ranges[bad_videos[i]][0] - video_ranges[i][0]
-            indices[i][0] = indices[i][0] + diff
-            indices[i][1] = indices[i][1] + diff
-        
-        writer.writerow(indices)
+    if indices:        
+        writer.writerow(adjusted_ranges)
         writer.writerow(overwritten_videos)
     f.close()
 
@@ -211,7 +220,7 @@ def get_indices(videodata, thresh):
 def interpolate(videodata, start, end):
     diff = videodata[start].astype("float") - videodata[end].astype("float")
     frames = end - 1 - start
-    coefficients = (np.arange(0, frames) + 1) / frames
+    coefficients = (np.arange(0, frames) + 1) / (frames + 1)
     interpolated_frames = np.empty((videodata[0:len(coefficients)].shape))
     diff_frames = np.empty((videodata[0:len(coefficients)].shape))
     diff_frames[:] = diff
