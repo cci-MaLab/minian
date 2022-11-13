@@ -5,6 +5,8 @@ import skvideo.io
 import numpy as np
 import shutil
 import csv
+from subprocess import PIPE, run
+import sys
 
 def fill_video(
     vpath: str,
@@ -239,3 +241,27 @@ def fill_linear(videodata, start, end):
 
     videodata[start: end] = mirrored_frame
 
+def bypass_notebook(vpath: str,
+    thresh=20,
+    fix_brightness = False,
+    pattern=r"[0-9]+\.avi$",
+    **kwargs):
+    '''
+    This function takes in the same parameters as fill_video().
+    Unfortunately due to a broken pipe error when running the function in 
+    jupyter notebook, the function will need to be invoked through a command line
+    call.
+    '''
+    command = ["python", os.path.abspath(__file__), os.path.abspath(vpath), str(thresh), str(fix_brightness), pattern]
+    result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
+    if result.returncode == 0:
+        print(result.stdout)
+    else:
+        print(result.stderr)
+
+
+if __name__ == "__main__":
+    vpath, thresh, fix_brightness, pattern = sys.argv[1:]
+    thresh = int(thresh)
+    fix_brightness = True if fix_brightness == "True" else False
+    fill_video(vpath, thresh, fix_brightness, pattern)
