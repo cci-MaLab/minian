@@ -7,6 +7,7 @@ import shutil
 import csv
 from subprocess import PIPE, run
 import sys
+import ffmpeg
 
 def fill_video(
     vpath: str,
@@ -150,7 +151,8 @@ def fill_video(
                 except:
                     print("File copy failed for %s" % (vlist[video_idx]))
                     return
-                skvideo.io.vwrite(vlist[video_idx], videodata[video_ranges[i][0]:video_ranges[i][1]])
+                #skvideo.io.vwrite(vlist[video_idx], videodata[video_ranges[i][0]:video_ranges[i][1]])
+                write_vid(vlist[video_idx], videodata[video_ranges[i][0]:video_ranges[i][1]])
                 
                 # Fix indices to match global indices
                 global_ranges = orig_video_ranges[video_idx]
@@ -241,27 +243,19 @@ def fill_linear(videodata, start, end):
 
     videodata[start: end] = mirrored_frame
 
-def bypass_notebook(vpath: str,
-    thresh=20,
-    fix_brightness = False,
-    pattern=r"[0-9]+\.avi$",
-    **kwargs):
-    '''
-    This function takes in the same parameters as fill_video().
-    Unfortunately due to a broken pipe error when running the function in 
-    jupyter notebook, the function will need to be invoked through a command line
-    call.
-    '''
-    command = ["python", os.path.abspath(__file__), os.path.abspath(vpath), str(thresh), str(fix_brightness), pattern]
-    result = run(command, stdout=PIPE, stderr=PIPE, universal_newlines=True)
-    if result.returncode == 0:
-        print(result.stdout)
-    else:
-        print(result.stderr)
 
-
-if __name__ == "__main__":
-    vpath, thresh, fix_brightness, pattern = sys.argv[1:]
-    thresh = int(thresh)
-    fix_brightness = True if fix_brightness == "True" else False
-    fill_video(vpath, thresh, fix_brightness, pattern)
+def write_vid(vpath, arr, options={"crf": "18", "preset": "ultrafast"}):
+    """
+    This is a simplified and refactored version from write_video function
+    in visualization.py
+    """
+    w, h = arr.shape[1:]
+    process = (
+        ffmpeg.input("pipe:", format="rawvideo", pix_fmt="gray", s="{}x{}".format(w, h))
+        .output(vpath, pix_fmt="yuv420p", vcodec="libx264", r=30, **options)
+        .overwrite_output()
+        .run_async(pipe_stdin=True)
+    )
+    process.stdin.write(arr.tobytes())
+    process.stdin.close()
+    process.wait()
