@@ -1,7 +1,8 @@
 from inspect import currentframe
 from PyQt5.QtMultimedia import QMediaPlayer, QMediaContent
 from PyQt5.QtWidgets import (QMainWindow, QVBoxLayout, QStyle, QSizePolicy, QWidget, QMessageBox,
-                             QPushButton, QSlider, QLabel, QApplication, QHBoxLayout, QLineEdit)
+                             QPushButton, QSlider, QLabel, QApplication, QHBoxLayout, QLineEdit, 
+                             QListWidget, QListWidgetItem)
 from PyQt5.QtMultimediaWidgets import QVideoWidget
 from PyQt5.QtCore import Qt, QThread, pyqtSignal
 from PyQt5.QtGui import QIntValidator
@@ -169,6 +170,10 @@ class VideoWindow(QMainWindow):
         self.positionSlider.setRange(0, 0)
         self.positionSlider.sliderMoved.connect(self.setPosition)
 
+        # List
+        self.list_widget = QListWidget()
+        self.list_widget.setFixedWidth(200)
+
         # Frame fixing elements
         self.start_label_fix = QLabel()
         self.start_label_fix.setText("Select Start Fix:")
@@ -260,6 +265,7 @@ class VideoWindow(QMainWindow):
 
         layout = QHBoxLayout()
         layout.addLayout(centralLayout)
+        layout.addWidget(self.list_widget)
 
         # Set widget to contain window contents
         wid.setLayout(layout)
@@ -361,7 +367,9 @@ class VideoWindow(QMainWindow):
     def update_frame(self, term):
         # First check if the values are sensible
         start, end = int(self.startbox_fix.text()), int(self.endbox_fix.text())
-        if (start < end) and (start >= self.start_idx) and (end < self.start_idx + self.range):            
+        if (start < end) and (start >= self.start_idx) and (end < self.start_idx + self.range):
+            start -= self.start_idx
+            end -= self.start_idx         
             videodata_orig = self.videodata_new[start:end+1].copy()
 
             if term == "interpolate":
@@ -379,6 +387,9 @@ class VideoWindow(QMainWindow):
 
             # Store the changes
             self.implemented_changes[str(start + self.start_idx) + "," + str(end + self.start_idx)] = (updated_segment, videodata_orig)
+
+            listWidgetItem = QListWidgetItem(str(start + self.start_idx) + "," + str(end + self.start_idx))
+            self.list_widget.addItem(listWidgetItem)
 
         else:
             msg = QMessageBox()
@@ -403,6 +414,7 @@ class VideoWindow(QMainWindow):
                 new_indices = np.searchsorted(range(start, end), overlap)
                 self.videodata_new[overlap] = value[1][new_indices]
                 self.implemented_changes.popitem()
+                self.list_widget.takeItem(self.list_widget.count()-1)
             
             else:
                 msg = QMessageBox()

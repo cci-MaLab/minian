@@ -329,6 +329,5 @@ def write_vid(vpath, arr, options={"crf": "18", "preset": "ultrafast"}):
     process.stdin.close()
     process.wait()
 
-
 fill_video_gui("/N/project/Cortical_Calcium_Image/Miniscope data/06.2022_Second_group/AA017_985237_D2/2022_06_07/17_27_59/Miniscope_2")
 '''
