@@ -5,10 +5,78 @@ import skvideo.io
 import numpy as np
 import shutil
 import csv
-from subprocess import PIPE, run
-import sys
 import ffmpeg
+from minian.pyqt_window import VideoWindow
+from PyQt5.QtWidgets import QApplication
+import sys
 
+
+
+def fill_video_gui(
+    vpath: str,
+    thresh=20,
+    fix_brightness = False,
+    pattern=r"[0-9]+\.avi$",
+    **kwargs
+):
+    # First check if we have already interpolated
+    if os.path.isfile(os.path.join(vpath, "interpolation_results.csv")):
+        with open(os.path.join(vpath, "interpolation_results.csv"), newline='\n') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                if row[0] == vpath:
+                    print("Files already interpolated. Skipping.")
+                    return
+                else:
+                    break
+    
+
+
+    vpath = os.path.normpath(vpath)
+    vlist = natsorted(
+        [vpath + os.sep + v for v in os.listdir(vpath) if re.search(pattern, v)]
+    )
+    if not vlist:
+        raise FileNotFoundError(
+            "No data with pattern {}"
+            " found in the specified folder {}".format(pattern, vpath)
+        )
+    print("loading {} videos in folder {}".format(len(vlist), vpath))
+    
+    orig_video_ranges = []
+    last_index = 0
+    video_mean = np.array([])
+    video_max = np.array([])
+    print("Getting initial metrics from the video files.")
+    for i in range(len(vlist)):
+        #if i == 4:
+        #    break
+        # RBG values are the same so we collapse the final dimension
+        video = skvideo.io.vread(vlist[i])[:, :, :, 0]
+        # Format: first index, last_index
+        orig_video_ranges.append([last_index, last_index + len(video) - 1])
+        last_index += len(video)
+        flattened = np.reshape(video, (video.shape[0], -1))
+        frame_mean = np.mean(flattened, axis=1)
+        frame_max = np.max(flattened, axis=1)
+        
+        if not video_mean.any():
+            video_mean = frame_mean
+            video_max = frame_max
+        else:
+            video_mean = np.append(video_mean, frame_mean)
+            video_max = np.append(video_max, frame_max)
+
+    video_mean = np.array(video_mean)
+    video_max = np.array(video_max)
+    print("Starting GUI")
+    app = QApplication(sys.argv)
+    player = VideoWindow(video_mean, video_max, orig_video_ranges, vlist)
+    player.resize(1500, 745)
+    player.show()
+    app.exec_()
+
+'''
 def fill_video(
     vpath: str,
     thresh=20,
@@ -249,6 +317,7 @@ def write_vid(vpath, arr, options={"crf": "18", "preset": "ultrafast"}):
     This is a simplified and refactored version from write_video function
     in visualization.py
     """
+    vpath = vpath[:-3] + 'mkv'
     w, h = arr.shape[1:]
     process = (
         ffmpeg.input("pipe:", format="rawvideo", pix_fmt="gray", s="{}x{}".format(w, h))
@@ -259,3 +328,6 @@ def write_vid(vpath, arr, options={"crf": "18", "preset": "ultrafast"}):
     process.stdin.write(arr.tobytes())
     process.stdin.close()
     process.wait()
+
+fill_video_gui("/N/project/Cortical_Calcium_Image/Miniscope data/06.2022_Second_group/AA017_985237_D2/2022_06_07/17_27_59/Miniscope_2")
+'''
