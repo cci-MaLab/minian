@@ -1047,6 +1047,7 @@ class CNMFViewerVerification:
         C: Optional[xr.DataArray] = None,
         S: Optional[xr.DataArray] = None,
         org: Optional[xr.DataArray] = None,
+        processed: Optional[xr.Dataset] = None,
         framerate: Optional[int] = None,
     ):
         """
@@ -1074,6 +1075,7 @@ class CNMFViewerVerification:
         self._C = C if C is not None else minian["C"]
         self._S = S if S is not None else minian["S"]
         self._org = org if org is not None else minian["org"]
+        self._processed = processed
         self._framerate = framerate if framerate is not None else 30
         try:
             self.unit_labels = minian["unit_labels"].compute()
@@ -1107,6 +1109,7 @@ class CNMFViewerVerification:
             self.Asum = self._A.sum("unit_id").compute()
         self._normalize = False
         self._useAC = True
+        self._useOrg = True
         self._showC = True
         self._showS = True
         meta_dims = list(set(self._org.dims) - {"frame", "height", "width"})
@@ -1123,6 +1126,10 @@ class CNMFViewerVerification:
         self.usub_sel = self.strm_usub.usub
         self._AC = self._org.sel(**self.metas)
         self._mov = self._org.sel(**self.metas)
+        self._mov_proc = self._processed.sel(**self.metas)
+        self._AC_proc = self._processed.sel(**self.metas)
+        self._AC_target = self._AC
+        self._mov_target = self._mov
         self.pipAC = Pipe([])
         self.pipmov = Pipe([])
         self.pipusub = Pipe([])
@@ -1179,14 +1186,14 @@ class CNMFViewerVerification:
         self.update_usub_lab()
 
     def callback_f(self, f, y):
-        if len(self._AC) > 0 and len(self._mov) > 0:
+        if len(self._AC) > 0 and len(self._mov_target) > 0:
             fidx = np.abs(self._f - f).argmin()
             f = self._f[fidx]
             if self._useAC:
                 AC = self._AC.sel(frame=f)
             else:
                 AC = self._AC
-            mov = self._mov.sel(frame=f)
+            mov = self._mov_target.sel(frame=f)
             self.pipAC.send(AC)
             self.pipmov.send(mov)
             try:
@@ -1243,7 +1250,7 @@ class CNMFViewerVerification:
             self.spatial_all,
             pn.layout.Row(
                 pn.layout.Column(
-                    pn.layout.Row(self.wgt_meta, self.wgt_spatial_all),
+                    pn.layout.Row(self.wgt_meta, pn.layout.Column(self.wgt_spatial_all[0], self.wgt_spatial_all[1])),
                     self.wgt_temp_comp,
                 ),
                 self.temp_comp_sub,
@@ -1252,6 +1259,7 @@ class CNMFViewerVerification:
         )
 
     def _temp_comp_sub(self, usub=None):
+        # Responsible for displaying the temporal components of the selected unit
         if usub is None:
             usub = self.strm_usub.usub
         if self._normalize:
@@ -1278,7 +1286,9 @@ class CNMFViewerVerification:
         ).opts(style=dict(color="red"))
         cur_cv = hv.Curve([], kdims=["frame"], vdims=["Internsity (A.U.)"])
         self.strm_f.source = cur_cv
-        h_cv = len(self._w) // 8
+        # Height
+        h_cv = len(self._w) // 2
+        # Width
         w_cv = len(self._w) * 2
         temp_comp = (
             cur_cv
@@ -1316,7 +1326,7 @@ class CNMFViewerVerification:
         ntabs = len(cur_idxs)
         sub_idxs = np.array_split(cur_idxs, ntabs)
         idxs_dict = OrderedDict(
-            [("Cell {}".format(i), g.tolist()) for i, g in enumerate(sub_idxs)]
+            [("Cell {}".format(i), [i]) for i in self.cents["unit_id"].values]
         )
         def_idxs = list(idxs_dict.values())[0]
         wgt_grp = pnwgt.Select(
@@ -1411,6 +1421,16 @@ class CNMFViewerVerification:
     def update_temp(self):
         self.update_temp_comp_wgt()
 
+    def update_Vid(self):
+        if self._useOrg:
+            #self._AC_target = self._AC_proc
+            self._mov_target = self._mov
+        else:
+            #self._AC_target = self._AC
+            self._mov_target = self._mov_proc
+
+
+
     def update_AC(self, usub=None):
         if usub is None:
             usub = self.strm_usub.usub
@@ -1437,14 +1457,14 @@ class CNMFViewerVerification:
                     width=slice(wndw.min(), wndw.max()),
                 )
                 self._AC = self._AC.reindex_like(window).fillna(0)
-                self._mov = (self.org_sub.reindex_like(window)).compute()
+                self._mov_target = (self.org_sub.reindex_like(window)).compute()
             else:
                 self._AC = self.A_sub.sel(unit_id=usub).sum("unit_id")
-                self._mov = self.org_sub
+                self._mov_target = self.org_sub
             self.strm_f.event(x=0)
         else:
             self._AC = xr.DataArray([])
-            self._mov = xr.DataArray([])
+            self._mov_target = xr.DataArray([])
             self.strm_f.event(x=0)
 
     def update_usub_lab(self, usub=None):
@@ -1465,7 +1485,18 @@ class CNMFViewerVerification:
             self.update_AC()
 
         wgt_useAC.param.watch(callback_useAC, "value")
-        return pn.layout.WidgetBox(wgt_useAC, width=150)
+
+        wgt_useOrg = pnwgt.Checkbox(
+            name="PlayOrig", value=self._useOrg, width=120, height=15
+        )
+
+        def callback_useOrg(val):
+            self._useOrg = val.new
+            self.update_Vid()
+        
+        wgt_useOrg.param.watch(callback_useOrg, "value")
+
+        return pn.layout.WidgetBox(wgt_useAC, width=150), pn.layout.WidgetBox(wgt_useOrg, width=150)
 
     def _spatial_all(self):
         metas = self.metas

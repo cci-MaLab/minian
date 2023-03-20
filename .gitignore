@@ -138,3 +138,6 @@ minian_intermediate
 testing
 data1
 pipeline_testing.ipynb
+
+# pickle files
+*.pickle
