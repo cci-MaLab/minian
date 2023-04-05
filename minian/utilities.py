@@ -551,6 +551,65 @@ def save_minian(
     return arr
 
 
+def match_information(dpath):# Add by HF
+    '''
+    Parameters 
+    ----------
+    str: dpath
+        The Session dirctory of mice video
+    '''
+    pattern_mouseID = "[A-Z]+[0-9]+"
+    pattern_day = "D[0-9]+"
+    pattern_session = "S\d+"
+    pattern1 = r"(/N/project/Cortical_Calcium_Image/Miniscope data/.*?/(?P<mouse_folder_name>.*?))/.*?/.*?/Miniscope_2/(?P<session>S\d+)"
+    pattern2 = r"(/N/project/Cortical_Calcium_Image/Miniscope data/.*?/(?P<mouse_folder_name>.*?))/.*?/.*?/Miniscope_2"
+    if (re.match(pattern1, dpath)):
+        result = re.match(pattern1, dpath)
+        mouse_folder_name = result.group("mouse_folder_name")
+        mouse_folder_names = mouse_folder_name.split("_")
+        if(re.match(pattern_mouseID, mouse_folder_names[0])):
+            mouseID = mouse_folder_names[0]
+        else:
+            raise FileNotFoundError("Wrong mouseID!")
+        if(re.match(pattern_day, mouse_folder_names[1])):
+            day = mouse_folder_names[1]
+        elif(re.match(pattern_day, mouse_folder_names[2])):
+            day = mouse_folder_names[2]
+        else:
+            raise FileNotFoundError("Cannot find mouseID")
+        if(re.match(pattern_session, result.group("session"))):
+            session = result.group("session")
+        else:
+            raise FileNotFoundError("Wrong session name!")
+        return mouseID, day, session
+    elif (re.match(pattern2, dpath)):
+        result = re.match(pattern2, dpath)
+        mouse_folder_name = result.group("mouse_folder_name")
+        mouse_folder_names = mouse_folder_name.split("_")
+        if(re.match(pattern_mouseID, mouse_folder_names[0])):
+            mouseID = mouse_folder_names[0]
+        else:
+            raise FileNotFoundError("Wrong mouse name!")
+        if(re.match(pattern_day, mouse_folder_names[1])):
+            day = mouse_folder_names[1]
+        elif(re.match(pattern_day, mouse_folder_names[2])):
+            day = mouse_folder_names[2]
+        else:
+            raise FileNotFoundError("Cannot find mouseID") 
+        session = None
+        return mouseID, day, session
+    else:
+        raise FileNotFoundError("Wrong path!")        
+
+
+def match_path(dpath):# Add by HF
+    pattern = r"(?P<video_path>(?P<mouse_path>/N/project/Cortical_Calcium_Image/Miniscope data/.*?/.*?)/.*?/.*?/Miniscope_2)"
+    result = re.match(pattern, dpath)
+    video_path = result.group("video_path")
+    mouse_path = result.group("mouse_path")
+    return mouse_path, video_path
+
+
 def xrconcat_recursive(var: Union[dict, list], dims: List[str]) -> xr.Dataset:
     """
     Recursively concatenate `xr.DataArray` over multiple dimensions.
