@@ -138,6 +138,16 @@ minian_intermediate
 testing
 data1
 pipeline_testing.ipynb
+behavior.ipynb
+cross-registration-Copy1.ipynb
+pipeline_test_by_HF-Copy1.ipynb
+pipeline_test_by_HF.ipynb
+data_analysis_old.ipynb
 
 # pickle files
 *.pickle
+
+
+feature-tool.ipynb
+
+timestamp.txt
