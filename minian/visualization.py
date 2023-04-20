@@ -1073,6 +1073,10 @@ class CNMFViewerVerification:
         """
         self._A = A if A is not None else minian["A"]
         self._C = C if C is not None else minian["C"]
+        # We'll add a coordinate to C to exclude bad cells
+        if "good_cells" not in self._C:
+            self._C = self._C.assign_coords(good_cells=("unit_id", np.full(len(self._C.unit_id), True)))
+        self.current_cell = 0
         self._S = S if S is not None else minian["S"]
         self._org = org if org is not None else minian["org"]
         self._processed = processed
@@ -1166,20 +1170,6 @@ class CNMFViewerVerification:
         else:
             self.cents_sub = self.cents
 
-    def compute_subs(self, clicks=None):
-        self.A_sub = self.A_sub.compute()
-        self.C_sub = self.C_sub.compute()
-        self.S_sub = self.S_sub.compute()
-        self.org_sub = self.org_sub.compute()
-        self.C_norm_sub = self.C_norm_sub.compute()
-        self.S_norm_sub = self.S_norm_sub.compute()
-
-    def update_all(self, clicks=None):
-        self.update_subs()
-        self.strm_uid.event(index=[])
-        self.strm_f.event(x=0)
-        self.update_spatial_all()
-
     def callback_uid(self, index=None):
         self.update_temp()
         self.update_AC()
@@ -1208,6 +1198,28 @@ class CNMFViewerVerification:
         self.update_temp_comp_sub(usub)
         self.update_AC(usub)
         self.update_usub_lab(usub)
+        self.update_button(usub)
+    
+    def change_button(self, clicks=None):
+        if self.wgt_flag.button_type == "success":
+            self.wgt_flag.button_type = "danger"
+            self.wgt_flag.name = "Bad Cell"
+            cell_status = False
+        else:
+            self.wgt_flag.button_type = "success"
+            self.wgt_flag.name = "Good Cell"
+            cell_status = True
+        
+        # Update the coordinates of self._C
+        idx, = np.where(self._C["unit_id"].values == self.current_cell)
+        good_cells = self._C["good_cells"].values
+        good_cells[idx] = cell_status
+        self._C = self._C.assign_coords(good_cells=("unit_id", good_cells))
+
+
+
+    def return_C(self):
+        return self._C
 
     def _meta_wgt(self):
         wgt_meta = {
@@ -1225,16 +1237,15 @@ class CNMFViewerVerification:
         for d, wgt in wgt_meta.items():
             cur_update = make_update_func(d)
             wgt.param.watch(cur_update, "value")
-        wgt_update = pnwgt.Button(
-            name="Refresh", button_type="primary", height=30, width=120
+
+
+        self.wgt_flag = pnwgt.Button(
+            name="Good Cell", button_type="success", height=30, width=120
         )
-        wgt_update.param.watch(self.update_all, "clicks")
-        wgt_load = pnwgt.Button(
-            name="Load Data", button_type="danger", height=30, width=120
-        )
-        wgt_load.param.watch(self.compute_subs, "clicks")
+        self.wgt_flag.param.watch(self.change_button, "clicks")
+
         return pn.layout.WidgetBox(
-            *(list(wgt_meta.values()) + [wgt_update, wgt_load]), width=150
+            *(list(wgt_meta.values()) + [self.wgt_flag]), width=150
         )
 
     def show(self) -> pn.layout.Column:
@@ -1340,6 +1351,7 @@ class CNMFViewerVerification:
         wgt_grp.param.watch(update_usub, "value")
         wgt_grp.value = def_idxs
         self.strm_usub.event(usub=def_idxs)
+        self.current_cell = def_idxs[0]
 
         wgt_norm = pnwgt.Checkbox(
             name="Normalize", value=self._normalize, width=120, height=10
@@ -1429,12 +1441,22 @@ class CNMFViewerVerification:
             #self._AC_target = self._AC
             self._mov_target = self._mov_proc
 
-
+    def update_button(self, usub=None):
+        # Update the button based on the value
+        cell_idx = self._C.unit_id.values.tolist().index(usub[0])
+        good_cell = self._C.good_cells.values[cell_idx]
+        if good_cell:
+            self.wgt_flag.button_type = "success"
+            self.wgt_flag.name = "Good Cell"
+        else:
+            self.wgt_flag.button_type = "danger"
+            self.wgt_flag.name = "Bad Cell"
 
     def update_AC(self, usub=None):
         if usub is None:
             usub = self.strm_usub.usub
-        if usub:
+        if usub:            
+            self.current_cell = usub
             if self._useAC:
                 umask = (self.A_sub.sel(unit_id=usub) > 0).any("unit_id")
                 A_sub = self.A_sub.sel(unit_id=usub).where(umask, drop=True).fillna(0)
@@ -1537,7 +1559,7 @@ class CNMFViewerVerification:
         ulab = hv.DynamicMap(lab, streams=[self.pipusub]).opts(
             style=dict(text_color="red")
         )
-        return pn.panel(Asum * cents + AC * ulab + mov)
+        return pn.panel(Asum * cents + AC * ulab + mov * ulab)
 
     def update_spatial_all(self):
         self.spatial_all.objects = self._spatial_all().objects

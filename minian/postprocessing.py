@@ -12,6 +12,7 @@ import panel as pn
 from scipy.ndimage import gaussian_filter1d
 from holoviews.streams import Stream
 import param
+from scipy.signal import find_peaks
 
 
 
@@ -133,3 +134,11 @@ class VisualizeGaussian():
             ).to(hv.Curve, "frame")
 
         return hv.DynamicMap(cur_temp)
+
+
+def peak_detection(C: xr.Dataset, **kwargs):
+    peaks, _ = find_peaks(C, **kwargs)
+    plt.plot(C)
+    plt.plot(peaks, C[peaks], "x")
+
+    return plt.show()
