@@ -38,6 +38,7 @@ from panel import widgets as pnwgt
 from scipy import linalg
 from scipy.ndimage.measurements import center_of_mass
 from scipy.spatial import cKDTree
+from scipy.signal import find_peaks
 
 from .cnmf import compute_AtC
 from .motion_correction import apply_shifts
@@ -1073,6 +1074,8 @@ class CNMFViewerVerification:
         """
         self._A = A if A is not None else minian["A"]
         self._C = C if C is not None else minian["C"]
+        self.spikes = []
+        self.peaks = []
         # We'll add a coordinate to C to exclude bad cells
         if "good_cells" not in self._C:
             self._C = self._C.assign_coords(good_cells=("unit_id", np.full(len(self._C.unit_id), True)))
@@ -1111,7 +1114,7 @@ class CNMFViewerVerification:
         print("computing sum projection")
         with ProgressBar():
             self.Asum = self._A.sum("unit_id").compute()
-        self._normalize = False
+        self._normalize = True
         self._useAC = True
         self._useOrg = True
         self._showC = True
@@ -1143,6 +1146,8 @@ class CNMFViewerVerification:
         self.temp_comp_sub = self._temp_comp_sub(self._u[:5])
         self.wgt_man = self._man_wgt()
         self.wgt_temp_comp = self._temp_comp_wgt()
+        self.temp_peaks_wgt = self._temp_peaks_wgt()
+        self.update_peaks()
 
     def update_subs(self):
         self.A_sub = self._A.sel(**self.metas)
@@ -1215,7 +1220,101 @@ class CNMFViewerVerification:
         good_cells = self._C["good_cells"].values
         good_cells[idx] = cell_status
         self._C = self._C.assign_coords(good_cells=("unit_id", good_cells))
+    
+    def update_peaks(self, clicks=None):
+        min_height = self.min_height_input.value
+        distance = self.dist_input.value if self.dist_input.value != 0 else 10
+        auc = self.auc.value
+        C_signal = self._C_norm.sel(unit_id=self.strm_usub.usub[0]).values
+        S_signal = self._S_norm.sel(unit_id=self.strm_usub.usub[0]).values
 
+        peaks, _ = find_peaks(C_signal)
+        self.spikes = []
+        self.peaks = []
+        # We must now determine when the beginning of the spiking occurs. It must satisfy the following conditions:
+        # 1.) Use the C signal to detect all potential peaks.
+        # 2.) Going from left to right start evaluating the distance between peaks. If the next peak is close enough and greater than the current, delete the current peak and allocate the S values to the next peak.
+        # 3.) Check the AUC of all allocated S values of the observed peak. If its less than a threshold then delete it.
+        # 4.) Exclude all peaks whose C value (amplitude) is smaller than a threshold) - I decided to do this last in case we want to allocate the S value to another peak.
+        culminated_s_indices = set() # We make use of a set to avoid duplicates
+        for i, current_peak in enumerate(peaks):
+            # Look at the next peak and see if it is close enough to the current peak
+            peak_height = C_signal[current_peak]
+            # Allocate the overlapping S values to the next peak
+            if S_signal[current_peak] == 0:
+                continue # This indicates no corresponding S signal
+            culminated_s_indices.add(self.get_S_dimensions(S_signal, current_peak))
+            if i < len(peaks) - 1 and peaks[i+1] - current_peak <= distance and C_signal[peaks[i+1]] > peak_height:
+                continue
+
+            # Now check the AUC of the current peak we will use the accumulated S values and also keep track of the earliest
+            # index.
+            beg, end = len(S_signal), 0
+            for beg_temp, end_temp in culminated_s_indices:
+                beg = beg_temp if beg_temp < beg else beg
+                end = end_temp if end_temp > end else end
+            
+            culminated_s_indices = set()
+
+            if np.sum(S_signal[beg:end]) < auc:
+                continue
+
+            if C_signal[beg:current_peak+1].max() - C_signal[beg:current_peak+1].min() < min_height:
+                continue
+
+            
+            spike = np.empty(S_signal.shape)
+            spike.fill(np.nan)
+            spike[beg:current_peak+1] = C_signal[beg:current_peak+1]
+
+            self.spikes.append(spike)
+            self.peaks.append([current_peak, C_signal[current_peak]])
+
+
+        self.update_temp_comp_sub()
+
+
+    def get_S_dimensions(self, S_signal, idx):
+        '''
+        This is a helper function for update_peaks. It returns the beginning and end indices of the S signal for a given peak.
+        It will make use of numpy methods to make it quick as possible, as looping through the S signal will be slow.
+        '''
+        # First get the final index of the S signal we'll assume for the time being that an S signal is no longer than 200 frames.
+        # If by a small chance the S signal is longer than 200 frames, then we'll keep doubling the frame length until we find the end of the S signal.
+        frame_length = 200
+        end = -1
+        start = -1
+        while end == -1:
+            reached_end = False
+            if idx + frame_length > len(S_signal):
+                frame_length = idx + frame_length - len(S_signal)
+                reached_end = True
+            values = np.where(S_signal[idx:idx+frame_length] == 0)[0]
+            end = idx + values[0] if values.any() else -1
+            if end == -1:
+                if reached_end:
+                    end = len(S_signal)
+                else:
+                    frame_length *= 2
+        
+        # Now get the beginning index of the S signal we'll do the same as above except backwards
+        frame_length = 200
+        while start == -1:
+            reached_beg = False
+            if idx - frame_length < 0:
+                frame_length = idx
+                reached_beg = True
+            values = np.where(S_signal[idx-frame_length:idx+1][::-1] == 0)[0] # Little hack to reverse it
+            start = idx - values[0] + 1 if values.any() else -1
+            if start == -1:
+                if reached_beg:
+                    start = 0
+                else:
+                    frame_length *= 2
+        
+        return (start, end)
+
+            
 
 
     def return_C(self):
@@ -1262,7 +1361,7 @@ class CNMFViewerVerification:
             pn.layout.Row(
                 pn.layout.Column(
                     pn.layout.Row(self.wgt_meta, pn.layout.Column(self.wgt_spatial_all[0], self.wgt_spatial_all[1])),
-                    self.wgt_temp_comp,
+                    self.wgt_temp_comp, self.temp_peaks_wgt
                 ),
                 self.temp_comp_sub,
                 self.wgt_man,
@@ -1295,7 +1394,13 @@ class CNMFViewerVerification:
         cur_vl = hv.DynamicMap(
             lambda f, y: hv.VLine(f) if f else hv.VLine(0), streams=[self.strm_f]
         ).opts(style=dict(color="red"))
-        cur_cv = hv.Curve([], kdims=["frame"], vdims=["Internsity (A.U.)"])
+        cur_cv = hv.Curve([], kdims=["frame"], vdims=["Intensity (A.U.)"])
+        if self.spikes:
+            curves = hv.Overlay([hv.Curve(spike) for spike in self.spikes])
+            curves = curves.options({'Curve': {'color': 'red'}})
+            points = hv.Points(self.peaks).opts(color='k', marker='x', size=10)
+            cur_cv = cur_cv * curves * points
+
         self.strm_f.source = cur_cv
         # Height
         h_cv = len(self._w) // 2
@@ -1311,7 +1416,7 @@ class CNMFViewerVerification:
                 .add_dimension("time", 0, 0),
                 "trace",
             )
-            .opts(plot=dict(shared_xaxis=True))
+            .opts(plot=dict(shared_xaxis=True, shared_yaxis=True))
             .map(
                 lambda p: p.opts(plot=dict(frame_height=h_cv, frame_width=w_cv)), hv.RGB
             )
@@ -1320,6 +1425,7 @@ class CNMFViewerVerification:
         temp_comp[temp_comp.keys()[0]] = temp_comp[temp_comp.keys()[0]].opts(
             plot=dict(height=h_cv + 75)
         )
+
         return pn.panel(temp_comp)
 
     def update_temp_comp_sub(self, usub=None):
@@ -1345,6 +1451,8 @@ class CNMFViewerVerification:
         )
 
         def update_usub(usub):
+            self.spikes = []
+            self.points = []
             self.usub_sel = []
             self.strm_usub.event(usub=usub.new)
 
@@ -1386,6 +1494,22 @@ class CNMFViewerVerification:
             pn.layout.WidgetBox(wgt_norm, wgt_showC, wgt_showS, wgt_grp, width=150)
         )
         return pn.layout.Column(wgt_groups, wgt_play)
+    
+    def _temp_peaks_wgt(self):
+        # Height
+        self.min_height_input = pn.widgets.FloatSlider(name='Height Slider', start=0, end=1, step=0.005, value=0.)
+        # Distance between two peaks
+        self.dist_input = pn.widgets.IntSlider(name='Distance Slider', start=1, end=500, step=1, value=10)
+        # Prominence of peaks
+        self.auc = pn.widgets.FloatSlider(name='AUC Slider', start=0, end=10, step=0.005, value=0.)
+
+        self.wgt_peak_btn = pnwgt.Button(
+            name="Update peaks", button_type="primary", height=30, width=120
+        )
+
+        self.wgt_peak_btn.param.watch(self.update_peaks, "clicks")
+
+        return pn.layout.Column(self.min_height_input, self.dist_input, self.auc, self.wgt_peak_btn)
 
     def _man_wgt(self):
         usub = self.strm_usub.usub
