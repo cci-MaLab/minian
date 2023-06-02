@@ -44,6 +44,8 @@ from .cnmf import compute_AtC
 from .motion_correction import apply_shifts
 from .utilities import custom_arr_optimize, rechunk_like
 
+from tqdm import tqdm
+
 
 class VArrayViewer:
     """
@@ -1110,6 +1112,29 @@ class CNMFViewerVerification:
             dask="parallelized",
             output_dtypes=[self._C.dtype],
         )
+        global_max_C = self._C.max().compute()
+        global_max_S = self._S.max().compute()
+        self._C_norm_global = xr.apply_ufunc(
+            normalize_global,
+            self._C.chunk(dict(frame=-1, unit_id="auto")),
+            input_core_dims=[["frame"]],
+            output_core_dims=[["frame"]],
+            vectorize=True,
+            kwargs={"b": global_max_C},
+            dask="parallelized",
+            output_dtypes=[self._C.dtype],
+        )
+        self._S_norm_global = xr.apply_ufunc(
+            normalize_global,
+            self._S.chunk(dict(frame=-1, unit_id="auto")), 
+            input_core_dims=[["frame"]],
+            output_core_dims=[["frame"]],
+            vectorize=True,
+            kwargs={"b": global_max_S},
+            dask="parallelized",
+            output_dtypes=[self._C.dtype],
+        )
+
         self.cents = centroid(self._A, verbose=True)
         print("computing sum projection")
         with ProgressBar():
@@ -1156,6 +1181,8 @@ class CNMFViewerVerification:
         self.org_sub = self._org.sel(**self.metas)
         self.C_norm_sub = self._C_norm.sel(**self.metas)
         self.S_norm_sub = self._S_norm.sel(**self.metas)
+        self.C_norm_global_sub = self._C_norm_global.sel(**self.metas)
+        self.S_norm_global_sub = self._S_norm_global.sel(**self.metas)
         self._h = (
             self.A_sub.isel(unit_id=0)
             .dropna("height", how="all")
@@ -1225,8 +1252,12 @@ class CNMFViewerVerification:
         min_height = self.min_height_input.value
         distance = self.dist_input.value if self.dist_input.value != 0 else 10
         auc = self.auc.value
-        C_signal = self._C_norm.sel(unit_id=self.strm_usub.usub[0]).values
-        S_signal = self._S_norm.sel(unit_id=self.strm_usub.usub[0]).values
+        if self._normalize:
+            C_signal = self._C_norm.sel(unit_id=self.strm_usub.usub[0]).values
+            S_signal = self._S_norm.sel(unit_id=self.strm_usub.usub[0]).values
+        else:
+            C_signal = self._C_norm_global.sel(unit_id=self.strm_usub.usub[0]).values
+            S_signal = self._S_norm_global.sel(unit_id=self.strm_usub.usub[0]).values
 
         peaks, _ = find_peaks(C_signal)
         self.spikes = []
@@ -1262,13 +1293,9 @@ class CNMFViewerVerification:
             if C_signal[beg:current_peak+1].max() - C_signal[beg:current_peak+1].min() < min_height:
                 continue
 
-            
-            spike = np.empty(S_signal.shape)
-            spike.fill(np.nan)
-            spike[beg:current_peak+1] = C_signal[beg:current_peak+1]
 
-            self.spikes.append(spike)
-            self.peaks.append([current_peak, C_signal[current_peak]])
+            self.spikes.append([beg, current_peak+1])
+            self.peaks.append([current_peak])
 
 
         self.update_temp_comp_sub()
@@ -1375,7 +1402,7 @@ class CNMFViewerVerification:
         if self._normalize:
             C, S = self.C_norm_sub, self.S_norm_sub
         else:
-            C, S = self.C_sub, self.S_sub
+            C, S = self.C_norm_global_sub, self.S_norm_global_sub
         cur_temp = dict()
         if self._showC:
             cur_temp["C"] = hv.Dataset(
@@ -1396,9 +1423,20 @@ class CNMFViewerVerification:
         ).opts(style=dict(color="red"))
         cur_cv = hv.Curve([], kdims=["frame"], vdims=["Intensity (A.U.)"])
         if self.spikes:
-            curves = hv.Overlay([hv.Curve(spike) for spike in self.spikes])
+            signal = C.sel(unit_id=usub).values[0]
+            # Generate the spikes and peaks
+            gen_spikes = []
+            gen_peaks = []
+            for i in range(len(self.spikes)):
+                spike = np.empty(signal.shape)
+                spike.fill(np.nan)
+                spike[self.spikes[i][0]:self.spikes[i][1]] = signal[self.spikes[i][0]:self.spikes[i][1]]
+                gen_spikes.append(spike)
+                gen_peaks.append([self.peaks[i][0], signal[self.peaks[i][0]]])
+
+            curves = hv.Overlay([hv.Curve(spike) for spike in gen_spikes])
             curves = curves.options({'Curve': {'color': 'red'}})
-            points = hv.Points(self.peaks).opts(color='k', marker='x', size=10)
+            points = hv.Points(gen_peaks).opts(color='k', marker='x', size=10)
             cur_cv = cur_cv * curves * points
 
         self.strm_f.source = cur_cv
@@ -1462,7 +1500,7 @@ class CNMFViewerVerification:
         self.current_cell = def_idxs[0]
 
         wgt_norm = pnwgt.Checkbox(
-            name="Normalize", value=self._normalize, width=120, height=10
+            name="Normalize Local", value=self._normalize, width=120, height=10
         )
         wgt_norm.param.watch(self.update_norm, "value")
         wgt_showC = pnwgt.Checkbox(
@@ -1687,6 +1725,79 @@ class CNMFViewerVerification:
 
     def update_spatial_all(self):
         self.spatial_all.objects = self._spatial_all().objects
+
+
+    def process_signal(self, C_signal, S_signal, distance, auc, min_height):
+        peaks, _ = find_peaks(C_signal)
+        events = []
+        # We must now determine when the beginning of the spiking occurs. It must satisfy the following conditions:
+        # 1.) Use the C signal to detect all potential peaks.
+        # 2.) Going from left to right start evaluating the distance between peaks. If the next peak is close enough and greater than the current, delete the current peak and allocate the S values to the next peak.
+        # 3.) Check the AUC of all allocated S values of the observed peak. If its less than a threshold then delete it.
+        # 4.) Exclude all peaks whose C value (amplitude) is smaller than a threshold) - I decided to do this last in case we want to allocate the S value to another peak.
+        culminated_s_indices = set() # We make use of a set to avoid duplicates
+        for i, current_peak in enumerate(peaks):
+            # Look at the next peak and see if it is close enough to the current peak
+            peak_height = C_signal[current_peak]
+            # Allocate the overlapping S values to the next peak
+            if S_signal[current_peak] == 0:
+                continue # This indicates no corresponding S signal
+            culminated_s_indices.add(self.get_S_dimensions(S_signal, current_peak))
+            if i < len(peaks) - 1 and peaks[i+1] - current_peak <= distance and C_signal[peaks[i+1]] > peak_height:
+                continue
+
+            # Now check the AUC of the current peak we will use the accumulated S values and also keep track of the earliest
+            # index.
+            beg, end = len(S_signal), 0
+            for beg_temp, end_temp in culminated_s_indices:
+                beg = beg_temp if beg_temp < beg else beg
+                end = end_temp if end_temp > end else end
+            
+            culminated_s_indices = set()
+
+            if np.sum(S_signal[beg:end]) < auc:
+                continue
+
+            if C_signal[beg:current_peak+1].max() - C_signal[beg:current_peak+1].min() < min_height:
+                continue
+
+
+            events.append([beg, current_peak+1])
+        
+        event_signal = np.zeros(S_signal.shape)
+        for i in range(len(events)):
+            event_signal[events[i][0]:events[i][1]] = i + 1
+            
+        return event_signal
+
+    def return_events(self):
+        # This function returns the neural events from the specified parameters from all cells
+        min_height = self.min_height_input.value
+        distance = self.dist_input.value if self.dist_input.value != 0 else 10
+        auc = self.auc.value
+
+        E = []
+        # We will use the dask delayed function to parallelize the processing of the signals
+        for i in tqdm(range(len(self.unit_labels))):
+            cell = self.unit_labels[i]
+            if self._normalize:
+                C_signal = self._C_norm.sel(unit_id=cell).values
+                S_signal = self._S_norm.sel(unit_id=cell).values
+            else:
+                C_signal = self._C_norm_global.sel(unit_id=cell).values
+                S_signal = self._S_norm_global.sel(unit_id=cell).values
+            event_signal = self.process_signal(C_signal, S_signal, distance, auc, min_height)
+            E.append(event_signal)
+        E = np.array(E).astype(int)
+        E = xr.DataArray(
+            E, dims=["unit_id", "frame"], coords={"unit_id": self._C_norm.coords["unit_id"], "frame": self._C_norm.coords["frame"]}
+        )
+        E = E.assign_coords(good_cells=("unit_id", self._C.good_cells))
+
+        return E
+
+
+
 
 
 class AlignViewer:
@@ -2204,6 +2315,25 @@ def normalize(a: np.ndarray) -> np.ndarray:
         Normalized array.
     """
     return np.interp(a, (np.nanmin(a), np.nanmax(a)), (0, +1))
+
+def normalize_global(a: np.ndarray, b: int) -> np.ndarray:
+    """
+    Normalize an input array to range (0, 1) using :func:`numpy.interp`.
+    But using a predefined max value
+
+    Parameters
+    ----------
+    a : np.ndarray
+        Input array.
+    b: int
+        Max value.
+
+    Returns
+    -------
+    a_norm : np.ndarray
+        Normalized array.
+    """
+    return np.interp(a, (np.nanmin(a), b), (0, +1))
 
 
 def norm(a: np.ndarray) -> np.ndarray:
