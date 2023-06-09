@@ -1052,6 +1052,7 @@ class CNMFViewerVerification:
         org: Optional[xr.DataArray] = None,
         processed: Optional[xr.Dataset] = None,
         framerate: Optional[int] = None,
+        timestamps: Optional[np.ndarray] = None,
     ):
         """
         Parameters
@@ -1078,6 +1079,7 @@ class CNMFViewerVerification:
         self._C = C if C is not None else minian["C"]
         self.spikes = []
         self.peaks = []
+        self.timestamps = timestamps
         # We'll add a coordinate to C to exclude bad cells
         if "good_cells" not in self._C:
             self._C = self._C.assign_coords(good_cells=("unit_id", np.full(len(self._C.unit_id), True)))
@@ -1275,8 +1277,10 @@ class CNMFViewerVerification:
             if S_signal[current_peak] == 0:
                 continue # This indicates no corresponding S signal
             culminated_s_indices.add(self.get_S_dimensions(S_signal, current_peak))
-            if i < len(peaks) - 1 and peaks[i+1] - current_peak <= distance and C_signal[peaks[i+1]] > peak_height:
-                continue
+            if i < len(peaks) - 1 and C_signal[peaks[i+1]] > peak_height:
+                diff = peaks[i+1] - current_peak if self.timestamps is None else self.timestamps[peaks[i+1]] - self.timestamps[current_peak]
+                if diff <= distance:
+                    continue
 
             # Now check the AUC of the current peak we will use the accumulated S values and also keep track of the earliest
             # index.
@@ -1403,6 +1407,11 @@ class CNMFViewerVerification:
             C, S = self.C_norm_sub, self.S_norm_sub
         else:
             C, S = self.C_norm_global_sub, self.S_norm_global_sub
+        
+        x_axis_name = "Time (ms)" if self.timestamps is not None else "frame"
+        if self.timestamps is not None:
+            C = C.assign_coords(frame=self.timestamps)
+            S = S.assign_coords(frame=self.timestamps)
         cur_temp = dict()
         if self._showC:
             cur_temp["C"] = hv.Dataset(
@@ -1421,7 +1430,7 @@ class CNMFViewerVerification:
         cur_vl = hv.DynamicMap(
             lambda f, y: hv.VLine(f) if f else hv.VLine(0), streams=[self.strm_f]
         ).opts(style=dict(color="red"))
-        cur_cv = hv.Curve([], kdims=["frame"], vdims=["Intensity (A.U.)"])
+        cur_cv = hv.Curve([], kdims=[x_axis_name], vdims=["Intensity (A.U.)"])
         if self.spikes:
             signal = C.sel(unit_id=usub).values[0]
             # Generate the spikes and peaks
@@ -1432,9 +1441,15 @@ class CNMFViewerVerification:
                 spike.fill(np.nan)
                 spike[self.spikes[i][0]:self.spikes[i][1]] = signal[self.spikes[i][0]:self.spikes[i][1]]
                 gen_spikes.append(spike)
-                gen_peaks.append([self.peaks[i][0], signal[self.peaks[i][0]]])
+                if self.timestamps is not None:
+                    gen_peaks.append([self.timestamps[self.peaks[i][0]], signal[self.peaks[i][0]]])
+                else:
+                    gen_peaks.append([self.peaks[i][0], signal[self.peaks[i][0]]])
 
-            curves = hv.Overlay([hv.Curve(spike) for spike in gen_spikes])
+            if self.timestamps is not None:
+                curves = hv.Overlay([hv.Curve(np.vstack((self.timestamps, spike)).T) for spike in gen_spikes])
+            else:
+                curves = hv.Overlay([hv.Curve(spike) for spike in gen_spikes])
             curves = curves.options({'Curve': {'color': 'red'}})
             points = hv.Points(gen_peaks).opts(color='k', marker='x', size=10)
             cur_cv = cur_cv * curves * points
@@ -1537,7 +1552,8 @@ class CNMFViewerVerification:
         # Height
         self.min_height_input = pn.widgets.FloatSlider(name='Height Slider', start=0, end=1, step=0.005, value=0.)
         # Distance between two peaks
-        self.dist_input = pn.widgets.IntSlider(name='Distance Slider', start=1, end=500, step=1, value=10)
+        end = 600 if self.timestamps is None else 6000
+        self.dist_input = pn.widgets.IntSlider(name='Distance Slider', start=1, end=end, step=1, value=10)
         # Prominence of peaks
         self.auc = pn.widgets.FloatSlider(name='AUC Slider', start=0, end=10, step=0.005, value=0.)
 
@@ -1743,8 +1759,10 @@ class CNMFViewerVerification:
             if S_signal[current_peak] == 0:
                 continue # This indicates no corresponding S signal
             culminated_s_indices.add(self.get_S_dimensions(S_signal, current_peak))
-            if i < len(peaks) - 1 and peaks[i+1] - current_peak <= distance and C_signal[peaks[i+1]] > peak_height:
-                continue
+            if i < len(peaks) - 1 and C_signal[peaks[i+1]] > peak_height:
+                diff = peaks[i+1] - current_peak if self.timestamps is None else self.timestamps[peaks[i+1]] - self.timestamps[current_peak]
+                if diff <= distance:
+                    continue
 
             # Now check the AUC of the current peak we will use the accumulated S values and also keep track of the earliest
             # index.
