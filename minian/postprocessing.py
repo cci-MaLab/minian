@@ -152,9 +152,11 @@ class FeatureExploration:
     """
     def __init__(
         self,
+        dpath: str,
         minian_path: str,
         event_path: str
     ):
+        minian_path = os.path.join(dpath, "minian")
         data = open_minian(minian_path)
         if 'C' in data:
             self.C = data['C']
@@ -178,5 +180,9 @@ class FeatureExploration:
             self.E = None
 
         # Read in non-cell events
-        self.ALP = 
-        self.ILP = 
+        mouseID, day, session = match_information(minian_path)
+        mouse_path, video_path = match_path(minian_path)
+        behavior_data = pd.read_csv(os.path.join(mouse_path, mouseID+"_"+day+"_"+"behavior_ms.csv"),sep=',')
+        self.ALP = behavior_data['ALP']
+        self.IALP = behavior_data["IALP"]
+        self.RNFS = behavior_data["RNFS"]
