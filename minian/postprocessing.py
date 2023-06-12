@@ -176,9 +176,19 @@ class FeatureExploration:
         mouseID, day, session = match_information(dpath)
         mouse_path, video_path = match_path(dpath)
         behavior_data = pd.read_csv(os.path.join(mouse_path, mouseID+"_"+day+"_"+"behavior_ms.csv"),sep=',')
+        # Behavior data should base on time so I think keep the dataframe would be better. 
+        # Previous version
+        """
         self.ALP = behavior_data['ALP']
         self.IALP = behavior_data["IALP"]
         self.RNFS = behavior_data["RNFS"]
+        self.frame = behavior_data['Frame Number']
+        self.time = behavior_data['Time Stamp (ms)']
+        """
+        # New version
+        self.behavior_data = behavior_data
+
+        # New idea 2:OR should we keep the format like A, C, S, E,add 'time','frame', 'ALP','IALP','RNFS'
 
     def total_calcium_events(self, unit: int):
         """
@@ -193,14 +203,21 @@ class FeatureExploration:
         """
 
         # TODO
+        df = self.behavior_data.loc[self.behavior_data['ALP']>0]
+        res = df['Frame Number'].tolist()
+        return res
     
     def get_timestep_IALP(self, unit: int):
+        
         """
         Return a list that contains contains the a list of the frames where
         the IALP occurs
         """
 
         # TODO
+        df = self.behavior_data.loc[self.behavior_data['IALP']>0]
+        res = df['Frame Number'].tolist()
+        return res
     
     def get_timestep_RNFS(self, unit: int):
         """
@@ -209,5 +226,8 @@ class FeatureExploration:
         """
 
         # TODO
+        df = self.behavior_data.loc[self.behavior_data['RNFS']>0]
+        res = df['Frame Number'].tolist()
+        return res
     
 
