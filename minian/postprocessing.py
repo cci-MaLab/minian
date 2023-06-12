@@ -1,5 +1,6 @@
 from typing import Optional, Union, List
 import xarray as xr
+import pandas as pd
 import numpy as np
 from numpy.fft import fft, fftfreq
 from scipy.signal import welch
@@ -13,7 +14,13 @@ from scipy.ndimage import gaussian_filter1d
 from holoviews.streams import Stream
 import param
 from scipy.signal import find_peaks
-from minian.utilities import open_minian
+import os
+
+from minian.utilities import (
+    open_minian,
+    match_information,
+    match_path
+)
 
 
 
@@ -153,36 +160,54 @@ class FeatureExploration:
     def __init__(
         self,
         dpath: str,
-        minian_path: str,
-        event_path: str
     ):
         minian_path = os.path.join(dpath, "minian")
         data = open_minian(minian_path)
-        if 'C' in data:
-            self.C = data['C']
-        else:
-            print("No C data found in minian file")
-            self.C = None
-        if 'A' in data:
-            self.A = data['A']
-        else:
-            print("No A data found in minian file")
-            self.A = None
-        if 'S' in data:
-            self.S = data['S']
-        else:
-            print("No S data found in minian file")
-            self.S = None
-        if 'E' in data:
-            self.E = data['E']
-        else:
-            print("No E data found in minian file")
-            self.E = None
-
+        data_types = ['A', 'C', 'S', 'E']
+        self.data = {}
+        for dt in data_types:            
+            if dt in data:
+                self.data[dt] = data[dt]
+            else:
+                print("No %s data found in minian file" % (dt))
+                self.data[dt] = None
+ 
         # Read in non-cell events
-        mouseID, day, session = match_information(minian_path)
-        mouse_path, video_path = match_path(minian_path)
+        mouseID, day, session = match_information(dpath)
+        mouse_path, video_path = match_path(dpath)
         behavior_data = pd.read_csv(os.path.join(mouse_path, mouseID+"_"+day+"_"+"behavior_ms.csv"),sep=',')
         self.ALP = behavior_data['ALP']
         self.IALP = behavior_data["IALP"]
         self.RNFS = behavior_data["RNFS"]
+
+    def total_calcium_events(self, unit: int):
+        """
+        Calculate the total number of calcium events for a given unit.
+        """
+        return self.data['E'].sel(unit_id=unit).max()
+
+    def get_timestep_ALP(self, unit: int):
+        """
+        Return a list that contains contains the a list of the frames where
+        the ALP occurs
+        """
+
+        # TODO
+    
+    def get_timestep_IALP(self, unit: int):
+        """
+        Return a list that contains contains the a list of the frames where
+        the IALP occurs
+        """
+
+        # TODO
+    
+    def get_timestep_RNFS(self, unit: int):
+        """
+        Return a list that contains contains the a list of the frames where
+        the RNFS occurs
+        """
+
+        # TODO
+    
+
