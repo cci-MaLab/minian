@@ -13,6 +13,7 @@ from scipy.ndimage import gaussian_filter1d
 from holoviews.streams import Stream
 import param
 from scipy.signal import find_peaks
+from minian.utilities import open_minian
 
 
 
@@ -142,3 +143,40 @@ def peak_detection(C: xr.Dataset, **kwargs):
     plt.plot(peaks, C[peaks], "x")
 
     return plt.show()
+
+
+class FeatureExploration:
+    """
+    The purpose of this class is to explore potential features that can be used
+    for the clustering of cells.
+    """
+    def __init__(
+        self,
+        minian_path: str,
+        event_path: str
+    ):
+        data = open_minian(minian_path)
+        if 'C' in data:
+            self.C = data['C']
+        else:
+            print("No C data found in minian file")
+            self.C = None
+        if 'A' in data:
+            self.A = data['A']
+        else:
+            print("No A data found in minian file")
+            self.A = None
+        if 'S' in data:
+            self.S = data['S']
+        else:
+            print("No S data found in minian file")
+            self.S = None
+        if 'E' in data:
+            self.E = data['E']
+        else:
+            print("No E data found in minian file")
+            self.E = None
+
+        # Read in non-cell events
+        self.ALP = 
+        self.ILP = 
