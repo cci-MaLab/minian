@@ -161,6 +161,13 @@ class FeatureExploration:
         self,
         dpath: str,
     ):
+        
+        mouseID, day, session = match_information(dpath)
+        mouse_path, video_path = match_path(dpath)
+        behavior_data = pd.read_csv(os.path.join(mouse_path, mouseID + "_" + day + "_" + session + "_" + "behavior_ms.csv"),sep=',')
+        self.time = behavior_data['Time Stamp (ms)']
+        self.behavior_data = behavior_data.to_xarray()
+
         minian_path = os.path.join(dpath, "minian")
         data = open_minian(minian_path)
         data_types = ['A', 'C', 'S', 'E']
@@ -171,26 +178,8 @@ class FeatureExploration:
             else:
                 print("No %s data found in minian file" % (dt))
                 self.data[dt] = None
- 
-        # Read in non-cell events
-        mouseID, day, session = match_information(dpath)
-        mouse_path, video_path = match_path(dpath)
-        behavior_data = pd.read_csv(os.path.join(mouse_path, mouseID + "_" + day + "_" + session + "_" + "behavior_ms.csv"),sep=',')
-        # Behavior data should base on time so I think keep the dataframe would be better. 
-        # Previous version 
-        """
-        self.ALP = behavior_data['ALP']
-        self.IALP = behavior_data["IALP"]
-        self.RNFS = behavior_data["RNFS"]
-        self.frame = behavior_data['Frame Number']
-        self.time = behavior_data['Time Stamp (ms)']
-        """
-        # New version
-        self.behavior_data = behavior_data
-
-        # New idea 2:OR should we keep the format like A, C, S, E,add 'time','frame', 'ALP','IALP','RNFS'
-        # If we use this same format with xarray, we may need to save 2 frame numbers. The first one I call it local, for each session start from 0. 
-        # Second I call it real frame number, the same with the one hour session timeStamp.
+        
+        self.data['unit_ids'] = self.data['C'].coords['unit_id'].values
 
     def total_calcium_events(self, unit: int):
         """
@@ -203,8 +192,6 @@ class FeatureExploration:
         Return a list that contains contains the a list of the frames where
         the ALP occurs
         """
-
-        # TODO
         df = self.behavior_data.loc[self.behavior_data['ALP']>0]
         res = df['Frame Number'].tolist()
         return res
@@ -215,8 +202,6 @@ class FeatureExploration:
         Return a list that contains contains the a list of the frames where
         the IALP occurs
         """
-
-        # TODO
         df = self.behavior_data.loc[self.behavior_data['IALP']>0]
         res = df['Frame Number'].tolist()
         return res
@@ -226,10 +211,98 @@ class FeatureExploration:
         Return a list that contains contains the a list of the frames where
         the RNFS occurs
         """
-
-        # TODO
         df = self.behavior_data.loc[self.behavior_data['RNFS']>0]
         res = df['Frame Number'].tolist()
         return res
+
+    def get_section(self, starting_frame: int, duration: float, type: str = "C") -> xr.Dataset:
+        """
+        Return the selection of the data that is within the given time frame.
+        duration indicates the number of frames.
+        """
+        # duration is in seconds convert to ms
+        duration = duration * 1000
+        start = self.time[starting_frame]
+        end = start + duration
+        frame_gap = 1
+        while self.time[starting_frame + frame_gap] - self.time[starting_frame] < duration:
+            frame_gap += 1
+
+
+        if type in self.data:
+            return self.data[type].sel(frame=slice(starting_frame, starting_frame+frame_gap))
+        else:
+            print("No %s data found in minian file" % (type))
+            return None
+    
+    def get_AUC(self, section: xr.Dataset):
+        """
+        Calculate the area under the curve for a given section. Across all cells
+        """
+        if section.name is not "S":
+            print("Invalid section type. Please use S not %s" % (section.name))
+            return None
+
+        return xr.apply_ufunc(
+            np.sum,
+            section.chunk(dict(frame=-1, unit_id="auto")),
+            input_core_dims=[["frame"]],
+            output_core_dims=[["frame"]],
+            vectorize=True,
+            dask="parallelized",
+            output_dtypes=[section.dtype],
+        )
+    
+    def get_amplitude(self, section_signal: xr.Dataset, section_event: xr.Dataset):
+        """
+        Calculate the amplitude of the calcium event for a given section. Across all cells
+        """
+        if section_signal.name is not "S":
+            print("Invalid section type. Please use S not %s" % (section_signal.name))
+            return None
+        if section_event.name is not "E":
+            print("Invalid section type. Please use S not %s" % (section_event.name))
+            return None
+
+        all_cell_amplitudes = {}
+
+        for unit_id in self.data['unit_ids']:
+            cell_amplitudes = {}
+            signal = section_signal.sel(unit_id=unit_id)
+            event = section_event.sel(unit_id=unit_id)
+            unique_events = np.unique(event)
+            for event_id in unique_events:
+                if event_id == 0:
+                    continue
+                cell_amplitudes[event_id] = np.sum(signal.where(event == event_id))
+            all_cell_amplitudes[unit_id] = cell_amplitudes
+        
+        return all_cell_amplitudes
+    
+    def get_frequency(self, section: xr.Dataset):
+        """
+        Calculate the frequency of the calcium events for a given section. Across all cells
+        """
+        if section.name is not "E":
+            print("Invalid section type. Please use S not %s" % (section.name))
+            return None
+
+        return xr.apply_ufunc(
+            self.count_events,
+            section.chunk(dict(frame=-1, unit_id="auto")),
+            input_core_dims=[["frame"]],
+            output_core_dims=[["frame"]],
+            vectorize=True,
+            dask="parallelized",
+            output_dtypes=[section.dtype],
+        )
+
+    
+    def count_events(self, a: np.ndarray) -> np.ndarray:
+        """
+        count the number of events in a given array.
+        We do -1 to compensate for the 0 in the array
+        """
+        return np.unique(a).size - 1
     
 
