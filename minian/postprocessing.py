@@ -175,9 +175,9 @@ class FeatureExploration:
         # Read in non-cell events
         mouseID, day, session = match_information(dpath)
         mouse_path, video_path = match_path(dpath)
-        behavior_data = pd.read_csv(os.path.join(mouse_path, mouseID+"_"+day+"_"+"behavior_ms.csv"),sep=',')
+        behavior_data = pd.read_csv(os.path.join(mouse_path, mouseID + "_" + day + "_" + session + "_" + "behavior_ms.csv"),sep=',')
         # Behavior data should base on time so I think keep the dataframe would be better. 
-        # Previous version
+        # Previous version 
         """
         self.ALP = behavior_data['ALP']
         self.IALP = behavior_data["IALP"]
