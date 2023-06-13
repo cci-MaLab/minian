@@ -189,6 +189,8 @@ class FeatureExploration:
         self.behavior_data = behavior_data
 
         # New idea 2:OR should we keep the format like A, C, S, E,add 'time','frame', 'ALP','IALP','RNFS'
+        # If we use this same format with xarray, we may need to save 2 frame numbers. The first one I call it local, for each session start from 0. 
+        # Second I call it real frame number, the same with the one hour session timeStamp.
 
     def total_calcium_events(self, unit: int):
         """
