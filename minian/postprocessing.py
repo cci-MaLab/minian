@@ -192,8 +192,8 @@ class FeatureExploration:
         Return a list that contains contains the a list of the frames where
         the ALP occurs
         """
-        df = self.behavior_data.loc[self.behavior_data['ALP']>0]
-        res = df['Frame Number'].tolist()
+        res = self.data['Frame Number'].sel(ALP > 0)
+        res = res.tolist()
         return res
     
     def get_timestep_IALP(self, unit: int):
@@ -202,8 +202,8 @@ class FeatureExploration:
         Return a list that contains contains the a list of the frames where
         the IALP occurs
         """
-        df = self.behavior_data.loc[self.behavior_data['IALP']>0]
-        res = df['Frame Number'].tolist()
+        res = self.data['Frame Number'].sel(IALP > 0)
+        res = res.tolist()
         return res
     
     def get_timestep_RNFS(self, unit: int):
@@ -211,8 +211,8 @@ class FeatureExploration:
         Return a list that contains contains the a list of the frames where
         the RNFS occurs
         """
-        df = self.behavior_data.loc[self.behavior_data['RNFS']>0]
-        res = df['Frame Number'].tolist()
+        res = self.data['Frame Number'].sel(RNFS > 0)
+        res = res.tolist()
         return res
 
     def get_section(self, starting_frame: int, duration: float, type: str = "C") -> xr.Dataset:
