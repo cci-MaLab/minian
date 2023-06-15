@@ -165,13 +165,18 @@ class FeatureExploration:
         mouseID, day, session = match_information(dpath)
         mouse_path, video_path = match_path(dpath)
         behavior_data = pd.read_csv(os.path.join(mouse_path, mouseID + "_" + day + "_" + session + "_" + "behavior_ms.csv"),sep=',')
-        self.time = behavior_data['Time Stamp (ms)']
-        self.behavior_data = behavior_data.to_xarray()
+        data_types = ['RNFS', 'ALP', 'IALP', 'Time Stamp (ms)']
+        self.data = {}
+        for dt in data_types:            
+            if dt in behavior_data:
+                self.data[dt] = behavior_data[dt]
+            else:
+                print("No %s data found in minian file" % (dt))
+                self.data[dt] = None
 
         minian_path = os.path.join(dpath, "minian")
         data = open_minian(minian_path)
         data_types = ['A', 'C', 'S', 'E']
-        self.data = {}
         for dt in data_types:            
             if dt in data:
                 self.data[dt] = data[dt]
@@ -181,39 +186,24 @@ class FeatureExploration:
         
         self.data['unit_ids'] = self.data['C'].coords['unit_id'].values
 
+        output_dpath = "/N/project/Cortical_Calcium_Image/analysis"
+        self.output_path = os.path.join(output_dpath, mouseID,day,session)
+
+        if(os.path.exists(self.output_path) == False):
+            os.makedirs(self.output_path)
+
     def total_calcium_events(self, unit: int):
         """
         Calculate the total number of calcium events for a given unit.
         """
-        return self.data['E'].sel(unit_id=unit).max()
+        return self.data['E'].sel(unit_id=unit).max().values.item()
 
-    def get_timestep_ALP(self, unit: int):
+    def get_timestep(self, type: str):
         """
         Return a list that contains contains the a list of the frames where
         the ALP occurs
         """
-        res = self.data['Frame Number'].sel(ALP > 0)
-        res = res.tolist()
-        return res
-    
-    def get_timestep_IALP(self, unit: int):
-        
-        """
-        Return a list that contains contains the a list of the frames where
-        the IALP occurs
-        """
-        res = self.data['Frame Number'].sel(IALP > 0)
-        res = res.tolist()
-        return res
-    
-    def get_timestep_RNFS(self, unit: int):
-        """
-        Return a list that contains contains the a list of the frames where
-        the RNFS occurs
-        """
-        res = self.data['Frame Number'].sel(RNFS > 0)
-        res = res.tolist()
-        return res
+        return np.flatnonzero(self.data[type])
 
     def get_section(self, starting_frame: int, duration: float, type: str = "C") -> xr.Dataset:
         """
@@ -222,10 +212,9 @@ class FeatureExploration:
         """
         # duration is in seconds convert to ms
         duration = duration * 1000
-        start = self.time[starting_frame]
-        end = start + duration
+        start = self.data['Time Stamp (ms)'][starting_frame]
         frame_gap = 1
-        while self.time[starting_frame + frame_gap] - self.time[starting_frame] < duration:
+        while self.data['Time Stamp (ms)'][starting_frame + frame_gap] - self.data['Time Stamp (ms)'][starting_frame] < duration:
             frame_gap += 1
 
 
@@ -239,28 +228,20 @@ class FeatureExploration:
         """
         Calculate the area under the curve for a given section. Across all cells
         """
-        if section.name is not "S":
+        if section.name != "S":
             print("Invalid section type. Please use S not %s" % (section.name))
             return None
 
-        return xr.apply_ufunc(
-            np.sum,
-            section.chunk(dict(frame=-1, unit_id="auto")),
-            input_core_dims=[["frame"]],
-            output_core_dims=[["frame"]],
-            vectorize=True,
-            dask="parallelized",
-            output_dtypes=[section.dtype],
-        )
+        return section.sum(dim="frame")
     
     def get_amplitude(self, section_signal: xr.Dataset, section_event: xr.Dataset):
         """
         Calculate the amplitude of the calcium event for a given section. Across all cells
         """
-        if section_signal.name is not "S":
+        if section_signal.name != "S":
             print("Invalid section type. Please use S not %s" % (section_signal.name))
             return None
-        if section_event.name is not "E":
+        if section_event.name != "E":
             print("Invalid section type. Please use S not %s" % (section_event.name))
             return None
 
@@ -268,13 +249,13 @@ class FeatureExploration:
 
         for unit_id in self.data['unit_ids']:
             cell_amplitudes = {}
-            signal = section_signal.sel(unit_id=unit_id)
-            event = section_event.sel(unit_id=unit_id)
+            signal = section_signal.sel(unit_id=unit_id).values
+            event = section_event.sel(unit_id=unit_id).values
             unique_events = np.unique(event)
             for event_id in unique_events:
                 if event_id == 0:
                     continue
-                cell_amplitudes[event_id] = np.sum(signal.where(event == event_id))
+                cell_amplitudes[event_id] = np.sum(signal[event == event_id])
             all_cell_amplitudes[unit_id] = cell_amplitudes
         
         return all_cell_amplitudes
@@ -283,16 +264,14 @@ class FeatureExploration:
         """
         Calculate the frequency of the calcium events for a given section. Across all cells
         """
-        if section.name is not "E":
+        if section.name != "E":
             print("Invalid section type. Please use S not %s" % (section.name))
             return None
 
         return xr.apply_ufunc(
-            self.count_events,
+            np.mean,
             section.chunk(dict(frame=-1, unit_id="auto")),
             input_core_dims=[["frame"]],
-            output_core_dims=[["frame"]],
-            vectorize=True,
             dask="parallelized",
             output_dtypes=[section.dtype],
         )
