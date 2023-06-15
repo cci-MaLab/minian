@@ -1427,9 +1427,14 @@ class CNMFViewerVerification:
                 .rename("Intensity (A. U.)")
                 .dropna("frame", how="all")
             ).to(hv.Curve, "frame")
-        cur_vl = hv.DynamicMap(
-            lambda f, y: hv.VLine(f) if f else hv.VLine(0), streams=[self.strm_f]
-        ).opts(style=dict(color="red"))
+        if self.timestamps is None:
+            cur_vl = hv.DynamicMap(
+                lambda f, y: hv.VLine(f) if f else hv.VLine(0), streams=[self.strm_f]
+            ).opts(style=dict(color="red"))
+        else:
+            cur_vl = hv.DynamicMap(
+                lambda f, y: hv.VLine(self.timestamps[f]) if f else hv.VLine(0), streams=[self.strm_f]
+            ).opts(style=dict(color="red"))
         cur_cv = hv.Curve([], kdims=[x_axis_name], vdims=["Intensity (A.U.)"])
         if self.spikes:
             signal = C.sel(unit_id=usub).values[0]
