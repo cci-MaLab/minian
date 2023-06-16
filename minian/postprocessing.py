@@ -15,6 +15,9 @@ from holoviews.streams import Stream
 import param
 from scipy.signal import find_peaks
 import os
+from scipy.ndimage.measurements import center_of_mass
+import dask.array as da
+from dask.diagnostics import ProgressBar
 
 from minian.utilities import (
     open_minian,
@@ -32,14 +35,13 @@ class CellClustering:
 
     def __init__(
         self,
-        minian: Optional[xr.Dataset] = None,
-        signals: Optional[xr.Dataset] = None,
+        section: Optional[xr.Dataset] = None,
         A: Optional[xr.DataArray] = None,
         fft: bool = True
     ):
     
-        self.signals = signals if signals is not None else minian['C']
-        self.A = A if A is not None else minian['A']
+        self.signals = section
+        self.A = A
         self.units = self.signals['unit_id'].values
         self.psd_list = []
 
@@ -50,7 +52,7 @@ class CellClustering:
             self.psd_list = [self.signals.sel(unit_id=unit).values for unit in self.units]
         
         # Compute agglomerative clustering
-        self.linkage_data = linkage(self.psd_list, method='average', metric='cosine')
+        self.linkage_data = linkage(self.psd_list, method='average', metric='euclidean')
 
     def compute_psd(self, unit: int):
         val = self.signals.sel(unit_id=unit).values
@@ -274,7 +276,7 @@ class FeatureExploration:
             cell_frequency = {}
             event = section.sel(unit_id=unit_id).values
             unique_events = np.unique(event)
-            all_cell_frequency[unit_id] = len(unique_events)
+            all_cell_frequency[unit_id] = len(unique_events)-1
         # return xr.apply_ufunc(
         #     np.mean,
         #     section.chunk(dict(frame=-1, unit_id="auto")),
@@ -292,4 +294,62 @@ class FeatureExploration:
         """
         return np.unique(a).size - 1
     
+    def centroid(self, verbose=False) -> pd.DataFrame:
+        """
+        Compute centroids of spatial footprint of each cell.
+
+        Parameters
+        ----------
+        A : xr.DataArray
+            Input spatial footprints.
+        verbose : bool, optional
+            Whether to print message and progress bar. By default `False`.
+
+        Returns
+        -------
+        cents_df : pd.DataFrame
+            Centroid of spatial footprints for each cell. Has columns "unit_id",
+            "height", "width" and any other additional metadata dimension.
+        """
+        A = self.data['A']
+        def rel_cent(im):
+            im_nan = np.isnan(im)
+            if im_nan.all():
+                return np.array([np.nan, np.nan])
+            if im_nan.any():
+                im = np.nan_to_num(im)
+            cent = np.array(center_of_mass(im))
+            return cent / im.shape
+
+        gu_rel_cent = da.gufunc(
+            rel_cent,
+            signature="(h,w)->(d)",
+            output_dtypes=float,
+            output_sizes=dict(d=2),
+            vectorize=True,
+        )
+        cents = xr.apply_ufunc(
+            gu_rel_cent,
+            A.chunk(dict(height=-1, width=-1)),
+            input_core_dims=[["height", "width"]],
+            output_core_dims=[["dim"]],
+            dask="allowed",
+        ).assign_coords(dim=["height", "width"])
+        if verbose:
+            print("computing centroids")
+            with ProgressBar():
+                cents = cents.compute()
+        cents_df = (
+            cents.rename("cents")
+            .to_series()
+            .dropna()
+            .unstack("dim")
+            .rename_axis(None, axis="columns")
+            .reset_index()
+        )
+        h_rg = (A.coords["height"].min().values, A.coords["height"].max().values)
+        w_rg = (A.coords["width"].min().values, A.coords["width"].max().values)
+        cents_df["height"] = cents_df["height"] * (h_rg[1] - h_rg[0]) + h_rg[0]
+        cents_df["width"] = cents_df["width"] * (w_rg[1] - w_rg[0]) + w_rg[0]
+        return cents_df
 
