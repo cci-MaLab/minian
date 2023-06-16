@@ -268,13 +268,21 @@ class FeatureExploration:
             print("Invalid section type. Please use S not %s" % (section.name))
             return None
 
-        return xr.apply_ufunc(
-            np.mean,
-            section.chunk(dict(frame=-1, unit_id="auto")),
-            input_core_dims=[["frame"]],
-            dask="parallelized",
-            output_dtypes=[section.dtype],
-        )
+        all_cell_frequency = {}
+
+        for unit_id in self.data['unit_ids']:
+            cell_frequency = {}
+            event = section.sel(unit_id=unit_id).values
+            unique_events = np.unique(event)
+            all_cell_frequency[unit_id] = len(unique_events)
+        # return xr.apply_ufunc(
+        #     np.mean,
+        #     section.chunk(dict(frame=-1, unit_id="auto")),
+        #     input_core_dims=[["frame"]],
+        #     dask="parallelized",
+        #     output_dtypes=[section.dtype],
+        # )
+        return all_cell_frequency
 
     
     def count_events(self, a: np.ndarray) -> np.ndarray:
