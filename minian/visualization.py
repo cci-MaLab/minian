@@ -1347,10 +1347,6 @@ class CNMFViewerVerification:
 
             
 
-
-    def return_C(self):
-        return self._C
-
     def _meta_wgt(self):
         wgt_meta = {
             d: pnwgt.Select(name=d, options=v, height=45, width=120)
