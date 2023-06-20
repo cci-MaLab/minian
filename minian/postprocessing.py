@@ -207,14 +207,26 @@ class FeatureExploration:
         """
         return np.flatnonzero(self.data[type])
 
-    def get_section(self, starting_frame: int, duration: float, type: str = "C") -> xr.Dataset:
+    def get_section(self, starting_frame: int, duration: float, delay: float = 0.0, include_prior: bool = False, type: str = "C") -> xr.Dataset:
         """
         Return the selection of the data that is within the given time frame.
         duration indicates the number of frames.
         """
         # duration is in seconds convert to ms
-        duration = duration * 1000
+        duration *= 1000
+        delay *= 1000
         start = self.data['Time Stamp (ms)'][starting_frame]
+        if delay > 0:
+            frame_gap = 1
+            while self.data['Time Stamp (ms)'][starting_frame + frame_gap] - self.data['Time Stamp (ms)'][starting_frame] < delay:
+                frame_gap += 1
+            starting_frame += frame_gap
+        if include_prior:
+            frame_gap = -1
+            while self.data['Time Stamp (ms)'][starting_frame] - self.data['Time Stamp (ms)'][starting_frame + frame_gap] < duration and starting_frame + frame_gap > 0:
+                frame_gap -= 1
+            starting_frame += frame_gap
+            duration *= 2
         frame_gap = 1
         while self.data['Time Stamp (ms)'][starting_frame + frame_gap] - self.data['Time Stamp (ms)'][starting_frame] < duration:
             frame_gap += 1
@@ -226,7 +238,7 @@ class FeatureExploration:
             print("No %s data found in minian file" % (type))
             return None
     
-    def get_AUC(self, section: xr.Dataset):
+    def get_AUC(self, section: xr.Dataset, section_event: xr.Dataset):
         """
         Calculate the area under the curve for a given section. Across all cells
         """
@@ -234,7 +246,14 @@ class FeatureExploration:
             print("Invalid section type. Please use S not %s" % (section.name))
             return None
 
-        return section.sum(dim="frame")
+        amplitudes = self.get_amplitude(section, section_event)
+        total_auc = {}
+        for name, cell_events in amplitudes.items():
+            total_auc[name] = 0
+            for event_name, auc in cell_events.items():
+                total_auc[name] += auc
+
+        return total_auc
     
     def get_amplitude(self, section_signal: xr.Dataset, section_event: xr.Dataset):
         """
@@ -262,7 +281,7 @@ class FeatureExploration:
         
         return all_cell_amplitudes
     
-    def get_frequency(self, section: xr.Dataset):
+    def get_frequency(self, section: xr.Dataset, time: float):
         """
         Calculate the frequency of the calcium events for a given section. Across all cells
         """
@@ -276,7 +295,7 @@ class FeatureExploration:
             cell_frequency = {}
             event = section.sel(unit_id=unit_id).values
             unique_events = np.unique(event)
-            all_cell_frequency[unit_id] = len(unique_events)-1
+            all_cell_frequency[unit_id] = len(unique_events)-1 / time
         # return xr.apply_ufunc(
         #     np.mean,
         #     section.chunk(dict(frame=-1, unit_id="auto")),
