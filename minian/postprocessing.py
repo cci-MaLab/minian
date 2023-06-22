@@ -216,6 +216,7 @@ class FeatureExploration:
         duration *= 1000
         delay *= 1000
         start = self.data['Time Stamp (ms)'][starting_frame]
+        max_length = len(self.data['Time Stamp (ms)'])
         if delay > 0:
             frame_gap = 1
             while self.data['Time Stamp (ms)'][starting_frame + frame_gap] - self.data['Time Stamp (ms)'][starting_frame] < delay:
@@ -228,7 +229,7 @@ class FeatureExploration:
             starting_frame += frame_gap
             duration *= 2
         frame_gap = 1
-        while self.data['Time Stamp (ms)'][starting_frame + frame_gap] - self.data['Time Stamp (ms)'][starting_frame] < duration:
+        while self.data['Time Stamp (ms)'][starting_frame + frame_gap] - self.data['Time Stamp (ms)'][starting_frame] < duration and starting_frame + frame_gap < max_length:
             frame_gap += 1
 
 
@@ -372,3 +373,12 @@ class FeatureExploration:
         cents_df["width"] = cents_df["width"] * (w_rg[1] - w_rg[0]) + w_rg[0]
         return cents_df
 
+def plot_multiple_traces_segment(segment, neurons_to_plot, shift_amount=0.4):
+    shifts = [shift_amount * i for i in range(len(neurons_to_plot))]
+    fig, ax = plt.subplots(figsize=(15,5))
+    for shift, neuron in zip(shifts, neurons_to_plot):
+        trace = segment.sel(unit_id = neuron)
+        trace /= np.max(trace)
+#         ax.autoscale()
+        ax.plot(segment['frame'],trace + shift,alpha=0.5)
+    fig.savefig(os.path.join("/N/project/Cortical_Calcium_Image/analysis", mouseID+'_'+day+'_'+session+"_trace_test_ms.pdf"))
