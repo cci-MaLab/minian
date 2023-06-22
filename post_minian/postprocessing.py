@@ -187,6 +187,7 @@ class FeatureExploration:
                 self.data[dt] = None
         
         self.data['unit_ids'] = self.data['C'].coords['unit_id'].values
+        self.dpath = dpath
 
         output_dpath = "/N/project/Cortical_Calcium_Image/analysis"
         self.output_path = os.path.join(output_dpath, mouseID,day,session)
@@ -372,13 +373,3 @@ class FeatureExploration:
         cents_df["height"] = cents_df["height"] * (h_rg[1] - h_rg[0]) + h_rg[0]
         cents_df["width"] = cents_df["width"] * (w_rg[1] - w_rg[0]) + w_rg[0]
         return cents_df
-
-def plot_multiple_traces_segment(segment, neurons_to_plot, shift_amount=0.4):
-    shifts = [shift_amount * i for i in range(len(neurons_to_plot))]
-    fig, ax = plt.subplots(figsize=(15,5))
-    for shift, neuron in zip(shifts, neurons_to_plot):
-        trace = segment.sel(unit_id = neuron)
-        trace /= np.max(trace)
-#         ax.autoscale()
-        ax.plot(segment['frame'],trace + shift,alpha=0.5)
-    fig.savefig(os.path.join("/N/project/Cortical_Calcium_Image/analysis", mouseID+'_'+day+'_'+session+"_trace_test_ms.pdf"))
