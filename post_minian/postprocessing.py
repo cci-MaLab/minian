@@ -188,6 +188,7 @@ class FeatureExploration:
         
         self.data['unit_ids'] = self.data['C'].coords['unit_id'].values
         self.dpath = dpath
+        self.data['collapsed_E'] = None
 
         output_dpath = "/N/project/Cortical_Calcium_Image/analysis"
         self.output_path = os.path.join(output_dpath, mouseID,day,session)
@@ -314,6 +315,30 @@ class FeatureExploration:
         We do -1 to compensate for the 0 in the array
         """
         return np.unique(a).size - 1
+
+    def collapse_E_events(self) -> None:
+        """
+        Collapse the E values by summing up the values.
+        """
+        non_collapsed_E = xr.apply_ufunc(
+            self.normalize_events,
+            self.data['E'].chunk(dict(frame=-1, unit_id="auto")),
+            input_core_dims=[["frame"]],
+            output_core_dims=[["frame"]],
+            dask="parallelized",
+            output_dtypes=[self.data['E'].dtype],
+        )
+
+        self.data['collapsed_E'] = non_collapsed_E.sum(dim='unit_id')
+    
+    def normalize_events(self, a: np.ndarray) -> np.ndarray:
+        """
+        All positive values are converted to 1.
+        """
+        a = a.copy()
+        a[a > 0] = 1
+        return a
+
     
     def centroid(self, verbose=False) -> pd.DataFrame:
         """
