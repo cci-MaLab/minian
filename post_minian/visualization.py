@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 def plot_multiple_traces(explorer, neurons_to_plot=None, data_type='C', shift_amount=0.4):
     fig, ax = plt.subplots(figsize=(40,5))
     if data_type in ['C', 'S', 'E']:
-        if neurons_to_plot == None:
+        if neurons_to_plot is None:
             print("Please specify which, neurons to plot")
             return None
         shifts = [shift_amount * i for i in range(len(neurons_to_plot))]
@@ -14,9 +14,9 @@ def plot_multiple_traces(explorer, neurons_to_plot=None, data_type='C', shift_am
             trace /= np.max(trace)
     #         ax.autoscale()
             ax.plot(explorer.data['Time Stamp (ms)'],trace + shift,alpha=0.5)
-            ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('RNFS')],0,5,color="green")
-            ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('IALP')],0,5,color="blue")
-            ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('ALP')],0,5,color="red",alpha=0.75)
+        ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('RNFS')],0,shifts[-1]+1,color="green")
+        ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('IALP')],0,shifts[-1]+1,color="blue")
+        ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('ALP')],0,shifts[-1]+1,color="red",alpha=0.75)
     else:
         trace = explorer.data[data_type]
         max_trace = np.max(trace)
