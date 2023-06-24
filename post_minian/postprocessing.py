@@ -330,7 +330,43 @@ class FeatureExploration:
         )
 
         self.data['collapsed_E'] = non_collapsed_E.sum(dim='unit_id')
-    
+
+    def collapse_E_events_peak(self) -> None:
+        '''
+        Get the events' peak
+        '''
+        non_collapsed_E_peak = xr.apply_ufunc(
+            self.find_events_peak,
+            self.data['E'].chunk(dict(frame=-1, unit_id="auto")),
+            input_core_dims=[["frame"]],
+            output_core_dims=[["frame"]],
+            dask="parallelized",
+            output_dtypes=[self.data['E'].dtype],
+        )
+        non_collapsed_E_normalized_peak = xr.apply_ufunc(
+            self.normalize_events,
+            non_collapsed_E_peak.chunk(dict(frame=-1, unit_id="auto")),
+            input_core_dims=[["frame"]],
+            output_core_dims=[["frame"]],
+            dask="parallelized",
+            output_dtypes=[self.data['E'].dtype],
+        )
+        self.data['collapsed_E_peak'] = non_collapsed_E_normalized_peak.sum(dim='unit_id')
+
+
+    def find_events_peak(self, a: np.ndarray) -> np.ndarray:
+        a = a.copy()
+        # for unit_id in self.data['unit_ids']:
+            # for i,b in enumerate(a.sel(unit_id = unit_id)):
+                # if (i < len(a)-1) and (b != a[i+1]):
+                #     a[i] = b
+                # elif i == len(a)-1:
+                #     a[i]=b
+                # else:
+                #     a[i] = 0
+        return a
+
+
     def normalize_events(self, a: np.ndarray) -> np.ndarray:
         """
         All positive values are converted to 1.
