@@ -2,8 +2,11 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-def plot_multiple_traces(explorer, neurons_to_plot=None, data_type='C', shift_amount=0.4):
-    fig, ax = plt.subplots(figsize=(40,5))
+def plot_multiple_traces(explorer, neurons_to_plot=None, data_type='C', shift_amount=0.4, figure_ax = None):
+    if figure_ax == None:
+        fig, ax = plt.subplots(figsize=(40,5))
+    else:
+        ax = figure_ax
     if data_type in ['C', 'S', 'E']:
         if neurons_to_plot is None:
             print("Please specify which, neurons to plot")
@@ -14,17 +17,17 @@ def plot_multiple_traces(explorer, neurons_to_plot=None, data_type='C', shift_am
             trace /= np.max(trace)
     #         ax.autoscale()
             ax.plot(explorer.data['Time Stamp (ms)'],trace + shift,alpha=0.5)
-        ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('RNFS')],0,shifts[-1]+1,color="green")
-        ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('IALP')],0,shifts[-1]+1,color="blue")
-        ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('ALP')],0,shifts[-1]+1,color="red",alpha=0.75)
+        ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('RNFS')],0,shifts[-1] + 1,color="green")
+        ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('IALP')],0,shifts[-1] + 1,color="blue")
+        ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('ALP')],0,shifts[-1] + 1,color="red",alpha=0.75)
     else:
         trace = explorer.data[data_type]
         max_trace = np.max(trace)
         ax.scatter(explorer.data['Time Stamp (ms)'],trace,alpha=0.5)
-        ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('RNFS')],0,max_trace,color="green")
-        ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('IALP')],0,max_trace,color="blue")
-        ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('ALP')],0,max_trace,color="red",alpha=0.75)
-        return ax
+        ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('RNFS')],0,max_trace,color = "green")
+        ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('IALP')],0,max_trace,color = "blue")
+        ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('ALP')],0,max_trace,color = "red",alpha=0.75)
+    return ax
     #fig.savefig(os.path.join("/N/project/Cortical_Calcium_Image/analysis", mouseID+'_'+day+'_'+session+"_trace_test_ms.pdf"))
 
 
