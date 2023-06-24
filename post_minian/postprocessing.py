@@ -342,7 +342,7 @@ class FeatureExploration:
             output_core_dims=[["frame"]],
             dask="parallelized",
             output_dtypes=[self.data['E'].dtype],
-        )
+        ).compute()
         non_collapsed_E_normalized_peak = xr.apply_ufunc(
             self.normalize_events,
             non_collapsed_E_peak.chunk(dict(frame=-1, unit_id="auto")),
@@ -350,20 +350,19 @@ class FeatureExploration:
             output_core_dims=[["frame"]],
             dask="parallelized",
             output_dtypes=[self.data['E'].dtype],
-        )
+        ).compute()
         self.data['collapsed_E_peak'] = non_collapsed_E_normalized_peak.sum(dim='unit_id')
 
 
     def find_events_peak(self, a: np.ndarray) -> np.ndarray:
         a = a.copy()
-        # for unit_id in self.data['unit_ids']:
-            # for i,b in enumerate(a.sel(unit_id = unit_id)):
-                # if (i < len(a)-1) and (b != a[i+1]):
-                #     a[i] = b
-                # elif i == len(a)-1:
-                #     a[i]=b
-                # else:
-                #     a[i] = 0
+        for i, b in enumerate(a):
+            if (i < len(a)-1) and (b != a[i+1]):
+                a[i] = b
+            elif i == len(a)-1:
+                a[i]=b
+            else:
+                a[i] = 0
         return a
 
 
