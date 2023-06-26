@@ -336,26 +336,30 @@ class FeatureExploration:
         Get the events' peak
         '''
         non_collapsed_E_peak = xr.apply_ufunc(
-            self.find_events_peak,
+            self.derivative,
             self.data['E'].chunk(dict(frame=-1, unit_id="auto")),
             input_core_dims=[["frame"]],
             output_core_dims=[["frame"]],
             dask="parallelized",
             output_dtypes=[self.data['E'].dtype],
         ).compute()
-        non_collapsed_E_normalized_peak = xr.apply_ufunc(
-            self.normalize_events,
-            non_collapsed_E_peak.chunk(dict(frame=-1, unit_id="auto")),
-            input_core_dims=[["frame"]],
-            output_core_dims=[["frame"]],
-            dask="parallelized",
-            output_dtypes=[self.data['E'].dtype],
-        ).compute()
-        self.data['collapsed_E_peak'] = non_collapsed_E_normalized_peak.sum(dim='unit_id')
+        self.data['collapsed_E_peak'] = non_collapsed_E_peak.sum(dim='unit_id')
+
+    def derivative(self, a: np.ndarray) -> np.ndarray:
+        a = a.copy()
+        b = np.roll(a, 1, axis=1)
+        b[0] = 0
+        c = a - b
+        c[c > 0] = 0
+        c[c < 0] = 1
+        c = np.roll(c, -1, axis=1)
+        return c
+
 
 
     def find_events_peak(self, a: np.ndarray) -> np.ndarray:
         a = a.copy()
+        print(a.shape)
         res = np.zeros(np.shape(a))
         for row,b in enumerate(a):
             u,i,c=np.unique(b,return_index = True,return_counts = True)
