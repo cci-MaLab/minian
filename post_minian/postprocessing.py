@@ -358,16 +358,9 @@ class FeatureExploration:
         a = a.copy()
         res = np.zeros(np.shape(a))
         for row,b in enumerate(a):
-            u,i,c=np.unique(b,return_index=True,return_counts= True)
+            u,i,c=np.unique(b,return_index = True,return_counts = True)
             for m in range(1,len(u)):                
-                res[row,(i[m]+c[m-1])]=u[m]
-            # for i, c in enumerate(b):
-            #     if (i < len(b)-1) and (c != b[i+1]):
-            #         b[i] = c
-            #     elif i == len(b)-1:
-            #         b[i] = c
-            #     else:
-            #         b[i] = 0
+                res[row,(i[m]+c[m]-1)]=u[m]
         return res
 
 
