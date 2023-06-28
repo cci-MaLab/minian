@@ -316,7 +316,7 @@ class FeatureExploration:
         """
         return np.unique(a).size - 1
 
-    def collapse_E_events(self) -> None:
+    def collapse_E_events(self, smoothing="gauss", kwargs=None) -> None:
         """
         Collapse the E values by summing up the values.
         """
@@ -330,6 +330,47 @@ class FeatureExploration:
         )
 
         self.data['collapsed_E'] = non_collapsed_E.sum(dim='unit_id')
+
+        if smoothing == "gauss":
+            self.data['collapsed_E'] = xr.apply_ufunc(
+                gaussian_filter1d,
+                self.data['collapsed_E'],
+                input_core_dims=[["frame"]],
+                output_core_dims=[["frame"]],
+                dask="parallelized",
+                kwargs=kwargs,
+                output_dtypes=[self.data['E'].dtype]
+            )
+        elif smoothing == "mean":
+            self.data['collapsed_E'] = xr.apply_ufunc(
+                self.moving_average,
+                self.data['collapsed_E'],
+                input_core_dims=[["frame"]],
+                output_core_dims=[["frame"]],
+                dask="parallelized",
+                kwargs=kwargs,
+                output_dtypes=[self.data['E'].dtype]
+            ).compute()
+    
+    def collapse_E_events_AUC(self) -> None:
+        """
+        Collapse the E values by summing up the values.
+        """
+        non_collapsed_E = xr.apply_ufunc(
+            self.normalize_events,
+            self.data['E'].chunk(dict(frame=-1, unit_id="auto")),
+            input_core_dims=[["frame"]],
+            output_core_dims=[["frame"]],
+            dask="parallelized",
+            output_dtypes=[self.data['E'].dtype],
+        )
+
+        non_collapsed_E *= self.data['S']
+
+        self.data['collapsed_E_AUC'] = non_collapsed_E.sum(dim='unit_id')
+
+    def moving_average(self, x, w=100, type='constant'):
+        return np.convolve(x, np.ones(w), type) / w
 
     def collapse_E_events_peak(self) -> None:
         '''
@@ -348,7 +389,7 @@ class FeatureExploration:
     def derivative(self, a: np.ndarray) -> np.ndarray:
         a = a.copy()
         b = np.roll(a, 1, axis=1)
-        b[0] = 0
+        b[:, 0] = 0
         c = a - b
         c[c > 0] = 0
         c[c < 0] = 1

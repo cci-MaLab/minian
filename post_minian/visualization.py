@@ -23,7 +23,7 @@ def plot_multiple_traces(explorer, neurons_to_plot=None, data_type='C', shift_am
     else:
         trace = explorer.data[data_type]
         max_trace = np.max(trace)
-        ax.scatter(explorer.data['Time Stamp (ms)'],trace,alpha=0.5)
+        ax.plot(explorer.data['Time Stamp (ms)'],trace,alpha=0.5)
         ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('RNFS')],0,max_trace,color = "green")
         ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('IALP')],0,max_trace,color = "blue")
         ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('ALP')],0,max_trace,color = "red",alpha=0.75)
