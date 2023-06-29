@@ -162,6 +162,8 @@ class VArrayViewer:
         self._f = self.ds.coords["frame"].values
         self._h = self.ds.sizes["height"]
         self._w = self.ds.sizes["width"]
+        self._first = 500
+        self._last = 1200
         self.mask = dict()
         CStream = Stream.define(
             "CStream",
@@ -264,6 +266,11 @@ class VArrayViewer:
                 hvsum = hvsum.layout(list(self.meta_dicts.keys()))
             except:
                 pass
+            
+
+            hvsum *= hv.DynamicMap(self._return_hvArea,
+                kdims=["frame"]).opts(style=dict(alpha=0.1, color="red")
+            )
             vl = hv.DynamicMap(lambda f: hv.VLine(f), streams=[self.strm_f]).opts(
                 style=dict(color="red")
             )
@@ -274,6 +281,11 @@ class VArrayViewer:
         else:
             hvobj = ims
         return hvobj
+    
+    def _return_hvArea(self, _first, _last):
+        _max = list(self.sum_sub.max().values())[0].item() # I HATE XARRAYS
+        return hv.Area(np.arange(_first, _last), np.ones(_last-_first) * _max)
+
 
     def show(self) -> pn.layout.Column:
         """
@@ -291,14 +303,34 @@ class VArrayViewer:
             length=len(self._f), interval=int(1000 / self.framerate), value=0, width=650, height=90
         )
 
+        frame_value = pnwgt.StaticText(name="Current Frame", value="0")
+        frame_ranges = pnwgt.StaticText(name="Frame Ranges", value="0 - 0")
+
         def play(f):
             if not f.old == f.new:
-                self.strm_f.event(f=int(self._f[f.new]))
+                _f = int(self._f[f.new])
+                self.strm_f.event(f=_f)
+                frame_value.value = str(_f)
+        
+        def _update_first(click):
+            self._first = self._f[self.strm_f.f]
+            frame_ranges.value = f"{self._first} - {self._last}"
+        def _update_last(click):
+            self._last = self._f[self.strm_f.f]
+            frame_ranges.value = f"{self._first} - {self._last}"
 
         w_play.param.watch(play, "value")
         w_box = pnwgt.Button(
             name="Update Mask", button_type="primary", width=100, height=30
         )
+        w_first = pnwgt.Button(
+            name="First Good Frame", button_type="primary", width=100, height=30
+        )
+        w_first.param.watch(_update_first, "clicks")
+        w_last = pnwgt.Button(
+            name="Last Good Frame", button_type="primary", width=100, height=30
+        )
+        w_last.param.watch(_update_last, "clicks")
         w_box.param.watch(self._update_box, "clicks")
         if not self._layout:
             wgt_meta = {
@@ -316,9 +348,9 @@ class VArrayViewer:
             for d, wgt in wgt_meta.items():
                 cur_update = make_update_func(d)
                 wgt.param.watch(cur_update, "value")
-            wgts = pn.layout.WidgetBox(w_box, w_play, *list(wgt_meta.values()))
+            wgts = pn.layout.WidgetBox(pn.Row(w_box, w_first, w_last), w_play, frame_ranges, frame_value, *list(wgt_meta.values()))
         else:
-            wgts = pn.layout.WidgetBox(w_box, w_play)
+            wgts = pn.layout.WidgetBox(pn.Row(w_box, w_first, w_last), w_play, frame_ranges, frame_value)
         return wgts
 
     def _update_subs(self):
@@ -337,6 +369,7 @@ class VArrayViewer:
                 }
             }
         )
+
 
 
 class CNMFViewer:
