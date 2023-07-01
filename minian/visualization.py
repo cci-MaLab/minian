@@ -162,8 +162,8 @@ class VArrayViewer:
         self._f = self.ds.coords["frame"].values
         self._h = self.ds.sizes["height"]
         self._w = self.ds.sizes["width"]
-        self._first = 500
-        self._last = 1200
+        self._first = 0
+        self._last = 0
         self.mask = dict()
         CStream = Stream.define(
             "CStream",
@@ -171,9 +171,18 @@ class VArrayViewer:
                 default=int(self._f.min()), bounds=(self._f.min(), self._f.max())
             ),
         )
+        RStream = Stream.define(
+            "RStream",
+            r=param.Range(
+                default=(int(self._f.min()), int(self._f.min())),
+                bounds=(int(self._f.min()), int(self._f.max())),
+            ),
+        )
         self.strm_f = CStream()
+        self.strm_r = RStream()
         self.str_box = BoxEdit()
         self.widgets = self._widgets()
+        # CHECK THE self.ds STUFF!!!!
         if type(summary) is list:
             summ_all = {
                 "mean": self.ds.mean(["height", "width"]),
@@ -268,8 +277,8 @@ class VArrayViewer:
                 pass
             
 
-            hvsum *= hv.DynamicMap(self._return_hvArea,
-                kdims=["frame"]).opts(style=dict(alpha=0.1, color="red")
+            hvsum *= hv.DynamicMap(lambda r: self._return_hvArea(r[0], r[1]),
+                streams=[self.strm_r]).opts(style=dict(alpha=0.1, color="red")
             )
             vl = hv.DynamicMap(lambda f: hv.VLine(f), streams=[self.strm_f]).opts(
                 style=dict(color="red")
@@ -284,7 +293,10 @@ class VArrayViewer:
     
     def _return_hvArea(self, _first, _last):
         _max = list(self.sum_sub.max().values())[0].item() # I HATE XARRAYS
-        return hv.Area(np.arange(_first, _last), np.ones(_last-_first) * _max)
+        if _first >= _last:
+            _first, _last = 0, 0
+        return hv.Area((np.arange(_first, _last), np.ones(_last-_first) * _max),
+                kdims=["frame"])
 
 
     def show(self) -> pn.layout.Column:
@@ -313,16 +325,20 @@ class VArrayViewer:
                 frame_value.value = str(_f)
         
         def _update_first(click):
-            self._first = self._f[self.strm_f.f]
+            self._first = self.strm_f.f
             frame_ranges.value = f"{self._first} - {self._last}"
+            self.strm_r.event(r=(self._first, self._last))
+        
         def _update_last(click):
-            self._last = self._f[self.strm_f.f]
+            self._last = self.strm_f.f
             frame_ranges.value = f"{self._first} - {self._last}"
+            self.strm_r.event(r=(self._first, self._last))
 
         w_play.param.watch(play, "value")
         w_box = pnwgt.Button(
             name="Update Mask", button_type="primary", width=100, height=30
         )
+        w_box.param.watch(self._update_box, "clicks")
         w_first = pnwgt.Button(
             name="First Good Frame", button_type="primary", width=100, height=30
         )
@@ -331,7 +347,15 @@ class VArrayViewer:
             name="Last Good Frame", button_type="primary", width=100, height=30
         )
         w_last.param.watch(_update_last, "clicks")
-        w_box.param.watch(self._update_box, "clicks")
+        w_interpolate = pnwgt.Button(
+            name="Interpolate", button_type="primary", width=100, height=30
+        )
+        w_fill_left = pnwgt.Button(
+            name="Fill From Left", button_type="primary", width=100, height=30
+        )
+        w_fill_right = pnwgt.Button(
+            name="Fill From Right", button_type="primary", width=100, height=30
+        )
         if not self._layout:
             wgt_meta = {
                 d: pnwgt.Select(name=d, options=v, height=45, width=120)
@@ -348,9 +372,12 @@ class VArrayViewer:
             for d, wgt in wgt_meta.items():
                 cur_update = make_update_func(d)
                 wgt.param.watch(cur_update, "value")
-            wgts = pn.layout.WidgetBox(pn.Row(w_box, w_first, w_last), w_play, frame_ranges, frame_value, *list(wgt_meta.values()))
+            wgts = pn.layout.WidgetBox(pn.Row(w_box, w_first, w_last, frame_ranges, frame_value),
+                                       w_play, pn.Row(w_interpolate, w_fill_left, w_fill_right),
+                                       *list(wgt_meta.values()))
         else:
-            wgts = pn.layout.WidgetBox(pn.Row(w_box, w_first, w_last), w_play, frame_ranges, frame_value)
+            wgts = pn.layout.WidgetBox(pn.Row(w_box, w_first, w_last, frame_ranges, frame_value),
+                                       w_play, pn.Row(w_interpolate, w_fill_left, w_fill_right))
         return wgts
 
     def _update_subs(self):
@@ -369,6 +396,13 @@ class VArrayViewer:
                 }
             }
         )
+    
+    def _interpolate(self, click):
+        if self.last > self.first:
+            self.ds = self.ds.apply(self._blackout, keep_attrs=True, args=(self._first, self._last))
+    
+    def _blackout(self, x, first, last):
+        return x.interp(frame=np.arange(first, last))
 
 
 
