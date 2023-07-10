@@ -389,7 +389,7 @@ class FeatureExploration:
     def derivative(self, a: np.ndarray) -> np.ndarray:
         a = a.copy()
         b = np.roll(a, 1, axis=1)
-        b[:, 0] = 0
+        # b[:, 0] = 0
         c = a - b
         c[c > 0] = 0
         c[c < 0] = 1
