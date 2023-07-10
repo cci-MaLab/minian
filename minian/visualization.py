@@ -140,12 +140,17 @@ class VArrayViewer:
             meta_dims = ["data_var"]
         elif isinstance(varr, xr.DataArray):
             self.ds = varr.to_dataset()
+            self.varr_copy = varr.copy()
+            self.varr = varr
+            self.can_change = True
         elif isinstance(varr, xr.Dataset):
             self.ds = varr
         else:
             raise NotImplementedError(
                 "video array of type {} not supported".format(type(varr))
             )
+        if not self.can_change:
+            print("Warning: Frame fixing disabled. Make sure to load in varr as dataArray.")
         try:
             self.meta_dicts = OrderedDict(
                 [(d, list(self.ds.coords[d].values)) for d in meta_dims]
@@ -182,7 +187,7 @@ class VArrayViewer:
         self.strm_r = RStream()
         self.str_box = BoxEdit()
         self.widgets = self._widgets()
-        # CHECK THE self.ds STUFF!!!!
+        self._summary_types = summary.copy() if type(summary) is list else None
         if type(summary) is list:
             summ_all = {
                 "mean": self.ds.mean(["height", "width"]),
@@ -211,6 +216,38 @@ class VArrayViewer:
             except AttributeError:
                 self.sum_sub = self.summary
         self.pnplot = pn.panel(self.get_hvobj())
+
+    def update_ds(self):
+        if type(self._summary_types) is list:
+            # Rewrote this slightly for efficiency. We assume no key errors at this point.
+            summ = {}
+            if "mean" in self._summary_types:
+                summ["mean"] = self.ds.mean(["height", "width"])
+            if "max" in self._summary_types:
+                summ["max"] = self.ds.max(["height", "width"])
+            if "min" in self._summary_types:
+                summ["min"] = self.ds.min(["height", "width"])
+            if "diff" in self._summary_types:
+                summ["diff"] = self.ds.diff("frame").mean(["height", "width"])
+
+            if summ:
+                sum_list = []
+                for k, v in summ.items():
+                    sum_list.append(v.compute().assign_coords(sum_var=k))
+                summary = xr.concat(sum_list, dim="sum_var")
+        self.summary = summary
+        if self._layout:
+            self.ds_sub = self.ds
+            self.sum_sub = self.summary
+        else:
+            self.ds_sub = self.ds.sel(**self.cur_metas)
+            try:
+                self.sum_sub = self.summary.sel(**self.cur_metas)
+            except AttributeError:
+                self.sum_sub = self.summary
+
+        self.pnplot.object = self.get_hvobj()
+        self.update_status.value = "Updated Visualization (Done!)"
 
     def get_hvobj(self):
         def get_im_ovly(meta):
@@ -315,8 +352,10 @@ class VArrayViewer:
             length=len(self._f), interval=int(1000 / self.framerate), value=0, width=650, height=90
         )
 
-        frame_value = pnwgt.StaticText(name="Current Frame", value="0")
-        frame_ranges = pnwgt.StaticText(name="Frame Ranges", value="0 - 0")
+        if self.can_change:
+            frame_value = pnwgt.StaticText(name="Current Frame", value="0")
+            frame_ranges = pnwgt.StaticText(name="Frame Ranges", value="0 - 0")
+            self.update_status = pnwgt.StaticText(name="Frame Status", value="No Changes")
 
         def play(f):
             if not f.old == f.new:
@@ -339,23 +378,31 @@ class VArrayViewer:
             name="Update Mask", button_type="primary", width=100, height=30
         )
         w_box.param.watch(self._update_box, "clicks")
-        w_first = pnwgt.Button(
-            name="First Good Frame", button_type="primary", width=100, height=30
-        )
-        w_first.param.watch(_update_first, "clicks")
-        w_last = pnwgt.Button(
-            name="Last Good Frame", button_type="primary", width=100, height=30
-        )
-        w_last.param.watch(_update_last, "clicks")
-        w_interpolate = pnwgt.Button(
-            name="Interpolate", button_type="primary", width=100, height=30
-        )
-        w_fill_left = pnwgt.Button(
-            name="Fill From Left", button_type="primary", width=100, height=30
-        )
-        w_fill_right = pnwgt.Button(
-            name="Fill From Right", button_type="primary", width=100, height=30
-        )
+        if self.can_change:
+            w_first = pnwgt.Button(
+                name="First Good Frame", button_type="primary", width=100, height=30
+            )
+            w_first.param.watch(_update_first, "clicks")
+            w_last = pnwgt.Button(
+                name="Last Good Frame", button_type="primary", width=100, height=30
+            )
+            w_last.param.watch(_update_last, "clicks")
+            w_interpolate = pnwgt.Button(
+                name="Interpolate", button_type="primary", width=100, height=30
+            )
+            w_interpolate.param.watch(self._fill_interpolate, "clicks")
+            w_fill_left = pnwgt.Button(
+                name="Fill From Left", button_type="primary", width=100, height=30
+            )
+            w_fill_left.param.watch(self._fill_left, "clicks")
+            w_fill_right = pnwgt.Button(
+                name="Fill From Right", button_type="primary", width=100, height=30
+            )
+            w_fill_right.param.watch(self._fill_right, "clicks")
+            w_reset = pnwgt.Button(
+                name="Reset", button_type="primary", width=100, height=30
+            )
+            w_reset.param.watch(self._reset, "clicks")
         if not self._layout:
             wgt_meta = {
                 d: pnwgt.Select(name=d, options=v, height=45, width=120)
@@ -372,13 +419,27 @@ class VArrayViewer:
             for d, wgt in wgt_meta.items():
                 cur_update = make_update_func(d)
                 wgt.param.watch(cur_update, "value")
-            wgts = pn.layout.WidgetBox(pn.Row(w_box, w_first, w_last, frame_ranges, frame_value),
-                                       w_play, pn.Row(w_interpolate, w_fill_left, w_fill_right),
-                                       *list(wgt_meta.values()))
+            
+            if self.can_change:
+                wgts = pn.layout.WidgetBox(pn.Row(w_box, w_first, w_last, frame_ranges, frame_value),
+                                        w_play, pn.Row(w_interpolate, w_fill_left, w_fill_right, self.update_status),
+                                        w_reset, *list(wgt_meta.values()))
+            else:
+                wgts = pn.layout.WidgetBox(w_box,
+                                        w_play, *list(wgt_meta.values()))
+                
         else:
-            wgts = pn.layout.WidgetBox(pn.Row(w_box, w_first, w_last, frame_ranges, frame_value),
-                                       w_play, pn.Row(w_interpolate, w_fill_left, w_fill_right))
+            if self.can_change:
+                wgts = pn.layout.WidgetBox(pn.Row(w_box, w_first, w_last, frame_ranges, frame_value),
+                                       w_play, pn.Row(w_interpolate, w_fill_left, w_fill_right, self.update_status),
+                                       w_reset)
+            else:
+                wgts = pn.layout.WidgetBox(w_box, w_play)
         return wgts
+    def _reset(self, click):
+        self.varr_copy = self.varr.copy()
+        self.ds = self.varr_copy.to_dataset()
+        self.update_ds()
 
     def _update_subs(self):
         self.ds_sub = self.ds.sel(**self.cur_metas)
@@ -397,13 +458,78 @@ class VArrayViewer:
             }
         )
     
-    def _interpolate(self, click):
-        if self.last > self.first:
-            self.ds = self.ds.apply(self._blackout, keep_attrs=True, args=(self._first, self._last))
-    
-    def _blackout(self, x, first, last):
-        return x.interp(frame=np.arange(first, last))
+    def _fill_left(self, click):
+        if self._last > self._first:
+            self.update_status.value = "Started Filling"
+            fill = xr.apply_ufunc(
+                _fill,
+                self.varr_copy.chunk(dict(frame=-1)),
+                input_core_dims=[["frame", "height", "width"]],
+                output_core_dims=[["frame", "height", "width"]],
+                dask="parallelized",
+                kwargs=dict(direction="left", first=self._first, last=self._last),
+                output_dtypes=[self.varr_copy.dtype],
+            ).compute()
+            # Convert to dataset and update self.ds
+            self.varr_copy = fill
+            self.ds = fill.to_dataset().compute()
+            self.update_status.value = "Applied fill function (Still Loading...)"
+            self.update_ds()
 
+
+    def _fill_right(self, click):
+        if self._last > self._first:
+            self.update_status.value = "Started Filling"
+            fill = xr.apply_ufunc(
+                _fill,
+                self.varr_copy.chunk(dict(frame=-1)),
+                input_core_dims=[["frame", "height", "width"]],
+                output_core_dims=[["frame", "height", "width"]],
+                dask="parallelized",
+                kwargs=dict(direction="right", first=self._first, last=self._last),
+                output_dtypes=[self.varr_copy.dtype],
+            ).compute()
+            # Convert to dataset and update self.ds
+            self.varr_copy = fill
+            self.ds = fill.to_dataset().compute()
+            self.update_ds()
+
+    def _fill_interpolate(self, click):
+        if self._last > self._first:
+            self.update_status.value = "Started Filling"
+            fill = xr.apply_ufunc(
+                _fill,
+                self.varr_copy.chunk(dict(frame=-1)),
+                input_core_dims=[["frame", "height", "width"]],
+                output_core_dims=[["frame", "height", "width"]],
+                dask="parallelized",
+                kwargs=dict(direction="interpolate", first=self._first, last=self._last),
+                output_dtypes=[self.varr_copy.dtype],
+            ).compute()
+            # Convert to dataset and update self.ds
+            self.varr_copy = fill
+            self.ds = fill.to_dataset().compute()
+            self.update_ds()
+
+    def return_updated_varr(self):
+        return self.varr_copy
+
+def _fill(x: np.ndarray, first: int, last: int, direction: str = 'left') -> np.ndarray:
+    x = x.copy()
+    if x.any():
+        if direction == "left":
+            x[first:last] = x[first]
+        elif direction == "right":
+            x[first+1:last] = x[last]
+        elif direction == "interpolate":
+            frames = last-first-1
+            first_frame = x[first].astype("float")
+            last_frame = x[last].astype("float")
+            coefficients = (np.arange(1, frames+1)) / (frames + 2)
+            # Due to memory issues, we need to do this per frame
+            for i, coef in enumerate(coefficients):
+                x[first+i+1] = np.rint(first_frame - (first_frame - last_frame) * coef).astype(x.dtype)
+    return x
 
 
 class CNMFViewer:
