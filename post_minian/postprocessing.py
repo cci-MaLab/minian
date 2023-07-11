@@ -476,3 +476,40 @@ class FeatureExploration:
         cents_df["height"] = cents_df["height"] * (h_rg[1] - h_rg[0]) + h_rg[0]
         cents_df["width"] = cents_df["width"] * (w_rg[1] - w_rg[0]) + w_rg[0]
         return cents_df
+
+class Feature:
+    '''
+        Parameters
+        ----------
+        timeframevalue : tuple 
+        values : numpy array 
+        description : str
+        dist_met : str, optional
+            Distance metrics is method of finding distance. By default its Euclidean
+        event :  str, optional
+            event can be ALP/IALP/RNFS
+    '''
+
+    def __init__(self, 
+                timeframevalue, 
+                values,  
+                description,
+                dist_met="Euclidean", 
+                event="",
+        ):
+        if not type(timeframevalue) is tuple:
+            raise TypeError("timeframevalue must be a tuple")
+        if not type(values) is np.ndarray:
+            raise TypeError("values must be a NumPy array")
+        if not type(dist_met) is str:
+            raise TypeError("dist_met must be a string")
+        if not type(description) is str:
+            raise TypeError("description must be a string")
+        if not type(event) is str:
+            raise TypeError("event must be a string")
+
+        self.timeframevalue = timeframevalue
+        self.values = np.array(values)
+        self.dist_met = dist_met
+        self.description = description
+        self.event = event
