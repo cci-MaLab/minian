@@ -4,6 +4,7 @@ import pandas as pd
 import numpy as np
 from numpy.fft import fft, fftfreq
 from scipy.signal import welch
+from scipy.signal import savgol_filter
 from scipy.cluster.hierarchy import dendrogram, linkage, fcluster
 from matplotlib import cm
 import matplotlib.pyplot as plt
@@ -476,6 +477,33 @@ class FeatureExploration:
         cents_df["height"] = cents_df["height"] * (h_rg[1] - h_rg[0]) + h_rg[0]
         cents_df["width"] = cents_df["width"] * (w_rg[1] - w_rg[0]) + w_rg[0]
         return cents_df
+
+    def get_filted_C(self) -> None:
+        non_collapsed_E = xr.apply_ufunc(
+            self.normalize_events,
+            self.data['E'].chunk(dict(frame=-1, unit_id="auto")),
+            input_core_dims=[["frame"]],
+            output_core_dims=[["frame"]],
+            dask="parallelized",
+            output_dtypes=[self.data['E'].dtype],
+        )
+        filted_C = self.data['C'] * non_collapsed_E
+        self.data['filted_C'] = filted_C
+
+    def smoothed_C(self,window_length = 6) -> None:
+        kwargs = {"window_length":window_length, "polyorder" : 3, "mode" :"nearest"}
+        smoothed_C = xr.apply_ufunc(
+            savgol_filter,
+            self.data['C'].chunk(dict(frame=-1, unit_id="auto")),
+            10,
+            3,
+            input_core_dims=[["frame"],[],[]],
+            output_core_dims=[["frame"],[],[]],
+            dask="parallelized",
+            output_dtypes=[self.data['C'].dtype],
+        )
+        # signal.savgol_filter(self.data['C'], window_length=window_length, polyorder=3, mode="nearest")
+        self.data['smoothed_C'] = smoothed_C
 
 class Feature:
     '''
