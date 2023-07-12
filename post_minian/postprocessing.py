@@ -525,7 +525,7 @@ class Feature:
                 dist_met: Optional[str], 
                 event: Union[str, List[str], None]
         ):
-
+        self.name = name
         self.timeframevalue = timeframevalue
         self.values = np.array(values)
         self.dist_met = dist_met
