@@ -2,6 +2,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 from typing import Callable, List, Optional, Tuple, Union
+from post_minian.postprocessing import Feature
 from panel.widgets import MultiSelect
 
 def plot_multiple_traces(explorer, neurons_to_plot=None, data_type='C', shift_amount=0.4, figure_ax = None):
@@ -53,7 +54,7 @@ class ClusteringExplorer:
 
     def __init__(
         self,
-        features: Union[xr.DataArray, List[xr.DataArray]]
+        features: Union[Feature, List[Feature]]
     ):
         self.features = features
         self.widgets = self._create_widgets()

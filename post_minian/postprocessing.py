@@ -507,6 +507,7 @@ class Feature:
     '''
         Parameters
         ----------
+        name : str
         timeframevalue : tuple 
         values : numpy array 
         description : str
@@ -516,23 +517,14 @@ class Feature:
             event can be ALP/IALP/RNFS
     '''
 
-    def __init__(self, 
-                timeframevalue, 
-                values,  
-                description,
-                dist_met="Euclidean", 
-                event="",
+    def __init__(self,
+                name: str, 
+                timeframevalue: tuple, 
+                values: Union[xr.DataArray, List[xr.DataArray], xr.Dataset],  
+                description: str,
+                dist_met: Optional[str], 
+                event: Union[str, List[str], None]
         ):
-        if not type(timeframevalue) is tuple:
-            raise TypeError("timeframevalue must be a tuple")
-        if not type(values) is np.ndarray:
-            raise TypeError("values must be a NumPy array")
-        if not type(dist_met) is str:
-            raise TypeError("dist_met must be a string")
-        if not type(description) is str:
-            raise TypeError("description must be a string")
-        if not type(event) is str:
-            raise TypeError("event must be a string")
 
         self.timeframevalue = timeframevalue
         self.values = np.array(values)
