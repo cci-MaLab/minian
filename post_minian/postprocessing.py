@@ -491,18 +491,16 @@ class FeatureExploration:
         self.data['filted_C'] = filted_C
 
     def smoothed_C(self,window_length = 6) -> None:
-        kwargs = {"window_length":window_length, "polyorder" : 3, "mode" :"nearest"}
         smoothed_C = xr.apply_ufunc(
             savgol_filter,
             self.data['C'].chunk(dict(frame=-1, unit_id="auto")),
-            10,
+            window_length,
             3,
             input_core_dims=[["frame"],[],[]],
-            output_core_dims=[["frame"],[],[]],
+            output_core_dims=[["frame"]],
             dask="parallelized",
             output_dtypes=[self.data['C'].dtype],
         )
-        # signal.savgol_filter(self.data['C'], window_length=window_length, polyorder=3, mode="nearest")
         self.data['smoothed_C'] = smoothed_C
 
 class Feature:
