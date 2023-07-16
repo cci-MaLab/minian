@@ -13,7 +13,7 @@ def plot_multiple_traces(explorer, neurons_to_plot=None, data_type='C', shift_am
         fig, ax = plt.subplots(figsize=(40,5))
     else:
         ax = figure_ax
-    if data_type in ['C', 'S', 'E']:
+    if data_type in ['C', 'S', 'E', 'smoothed_C','filted_C']:
         if neurons_to_plot is None:
             print("Please specify which, neurons to plot")
             return None
