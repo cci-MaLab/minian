@@ -63,7 +63,7 @@ class ClusteringExplorer:
         self.features = features
         self.widgets = self._create_widgets()
     
-    def _widgets(self):
+    def _create_widgets(self):
         # Implement multiselect for features, this will occupy the left side of the panel
         w_feature_select = MultiSelect(name='Feature Selection',
                 options=[feature.name for feature in self.features])
@@ -76,8 +76,20 @@ class ClusteringExplorer:
         w_events = StaticText(name="Events", value="")
         w_distance_metric = Select(name='Select', options=['Euclidean', 'Cosine', 'Manhattan'])
 
-        left_panel = w_feature_select
-        right_panel_description = Row(w_description, w_ranges, w_events, w_distance_metric)
-        wgt = Column(left_panel, right_panel_description)
+        self.left_panel = w_feature_select
+        self.right_panel_description = Column(w_description, w_ranges, w_events, w_distance_metric)
 
-        return wgt
+    def show(self) -> Row:
+        """
+        Return visualizations that can be directly displayed.
+
+        Returns
+        -------
+        pn.layout.Column
+            Resulting visualizations containing both plots and toolboxes.
+        """
+        return Row(
+            self.left_panel,
+            self.right_panel_description
+            
+        )
