@@ -133,6 +133,7 @@ class VArrayViewer:
         NotImplementedError
             if `varr` is not a `xr.DataArray`, a `xr.Dataset` or a list of `xr.DataArray`
         """
+        self.can_change = False
         if isinstance(varr, list):
             for iv, v in enumerate(varr):
                 varr[iv] = v.assign_coords(data_var=v.name)
