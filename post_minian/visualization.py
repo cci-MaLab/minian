@@ -89,7 +89,6 @@ class ClusteringExplorer:
                     (feature for feature in self.features if feature.name == selected_feature_name),
                     None
                 ) 
-                print(selected_feature_name)
                 selected_feature = next(
                     (feature for feature in self.features if feature.name == selected_feature_name),
                     None
@@ -102,8 +101,6 @@ class ClusteringExplorer:
         
         self.left_panel = w_feature_select
         self.right_panel_description = Column(w_description, w_ranges, w_events, w_distance_metric)
-        layout = self.show()
-        layout.show()
         
         w_feature_select.param.watch(update_feature_info, 'value')
         
