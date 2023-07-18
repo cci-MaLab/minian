@@ -62,6 +62,7 @@ class ClusteringExplorer:
     ):
         self.features = features
         self.widgets = self._create_widgets()
+        #self._update_feature_info(None)
     
     def _create_widgets(self):
         # Implement multiselect for features, this will occupy the left side of the panel
@@ -76,9 +77,35 @@ class ClusteringExplorer:
         w_events = StaticText(name="Events", value="")
         w_distance_metric = Select(name='Select', options=['Euclidean', 'Cosine', 'Manhattan'])
 
+        
+        def update_feature_info(event):
+            selected_features = event.new
+
+            if selected_features:
+                selected_feature_name = selected_features[0]
+                selected_feature = next(
+                    (feature for feature in self.features if feature.name == selected_feature_name),
+                    None
+                ) 
+                print(selected_feature_name)
+                selected_feature = next(
+                    (feature for feature in self.features if feature.name == selected_feature_name),
+                    None
+                )
+                w_description.value = selected_feature.description
+                w_ranges.value = selected_feature.timeframevalue
+                w_events.value = selected_feature.event
+        
+        # Register the callback with the value attribute of the feature selection widget
+        
         self.left_panel = w_feature_select
         self.right_panel_description = Column(w_description, w_ranges, w_events, w_distance_metric)
-
+        layout = self.show()
+        layout.show()
+        
+        w_feature_select.param.watch(update_feature_info, 'value')
+        
+        
     def show(self) -> Row:
         """
         Return visualizations that can be directly displayed.
