@@ -1,0 +1,4353 @@
+[33mcommit 016bbfb90fb4779ce5eb898e6b9669b4b5c848bd[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m)[m
+Author: Fagun raythatha <fagun.ray@gmail.com>
+Date:   Tue Jul 18 13:41:52 2023 -0400
+
+    changes made in clusteringExplorerTest
+
+[33mcommit 2252c7663233e0b0203c4f82ea8efcf7b34b6dfa[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Mon Jul 17 20:40:22 2023 +0100
+
+    Fixed varr wiping issue
+
+[33mcommit c1626372f6d8ac7e9fdb9dac10cec57b4b0035dd[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Mon Jul 17 20:06:02 2023 +0100
+
+    Fixed can_change bug
+
+[33mcommit cc57d4c98539a943ffeb7faa384770be45db2d30[m
+Merge: e09de026 049ce525
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Mon Jul 17 15:59:52 2023 +0100
+
+    Merge branch 'master' of https://github.com/cci-MaLab/minian
+
+[33mcommit e09de026c4ca5692d899f9ae59660686ccc06e46[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Mon Jul 17 15:59:48 2023 +0100
+
+    Added instantiation to the Clustering GUI
+
+[33mcommit 049ce52513a8c9af65b754fa2704a4a6073b0637[m
+Author: Haoying Fu <rainbow_pet@163.com>
+Date:   Sat Jul 15 20:50:45 2023 -0400
+
+    fixed
+
+[33mcommit fc35449f16bc87ea25fbef28a3da2e8875d96e94[m
+Author: Fagun raythatha <fagun.ray@gmail.com>
+Date:   Wed Jul 12 18:17:31 2023 -0400
+
+    Added a file for testing clusterExplorer
+
+[33mcommit 95c2ce0399252118a555ea3b74c2cb128302a3f2[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Wed Jul 12 17:35:00 2023 +0200
+
+    Added widget section to the clustering explorer
+
+[33mcommit e5a8a35157cee401b27c0d3c8b591a819f9e7cb5[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Wed Jul 12 13:22:54 2023 +0200
+
+    added self.name to feature
+
+[33mcommit 56d28d71fb0c68289bb506e0eaaf0c90c6fcdcfc[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Wed Jul 12 13:21:35 2023 +0200
+
+    Set type setting for feature class
+
+[33mcommit 062e87a1d64548a9a6673f8aa40a325b5d8999f3[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Wed Jul 12 12:35:58 2023 +0200
+
+    Started work on clustering GUI
+
+[33mcommit b5cbf70e402d99d19ade1bbad068084753864383[m
+Author: Haoying Fu <rainbow_pet@163.com>
+Date:   Tue Jul 11 20:10:36 2023 -0400
+
+    fix smooth_C
+
+[33mcommit ea83e3dec187b31159b327a840ace9ac51707c7b[m
+Author: Haoying Fu <rainbow_pet@163.com>
+Date:   Tue Jul 11 19:23:48 2023 -0400
+
+    update process C function
+
+[33mcommit 9342279e912b186f0ce0202098f6afddb60bbf17[m
+Merge: 625c2eb1 7b6c1646
+Author: Fagun raythatha <fagun.ray@gmail.com>
+Date:   Tue Jul 11 11:09:34 2023 -0400
+
+    Merge branch 'master' of https://github.com/cci-MaLab/minian
+
+[33mcommit 625c2eb188b4f29d5e9a271ccddeb47d664b7a63[m
+Author: Fagun raythatha <fagun.ray@gmail.com>
+Date:   Tue Jul 11 11:07:56 2023 -0400
+
+    Added Data Structure Class : Feature
+
+[33mcommit 7b6c16469c255544b982643266a7b219ae43f067[m
+Merge: ec126a57 0b1ebbcd
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Mon Jul 10 13:36:55 2023 +0200
+
+    Merge branch 'master' of https://github.com/cci-MaLab/minian
+
+[33mcommit ec126a575d1145a602db49fb3302bb8dc20801a1[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Mon Jul 10 13:36:50 2023 +0200
+
+    Completed frame fix utility
+
+[33mcommit 0b1ebbcd5478a0dc43858bd5ea06f687590d3693[m
+Author: Haoying Fu <rainbow_pet@163.com>
+Date:   Tue Jul 4 01:54:16 2023 -0400
+
+    update time block
+
+[33mcommit f270b2d833354dc1c86a2871c1df131e5bff36b7[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Sat Jul 1 15:11:11 2023 +0200
+
+    Continued work on integrating frame fixing
+
+[33mcommit 8ff26a34c6f97ddee6ea8b783615942fda1e3835[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Thu Jun 29 17:20:53 2023 +0200
+
+    Started on integrating framefixing into minian
+
+[33mcommit 467bc6263d71bab40304fc267640ea5ca02255d7[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Wed Jun 28 11:06:20 2023 -0400
+
+    Added collapsed AUC vector
+
+[33mcommit 160a1d4b6c65a8d0544a43b839280a2c447c6c0a[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Mon Jun 26 11:13:21 2023 -0400
+
+    Updated peak finder
+
+[33mcommit 9e62ede4ad8dc27af1870612a5e01ebb511eec6e[m
+Author: Haoying Fu <rainbow_pet@163.com>
+Date:   Mon Jun 26 02:47:41 2023 -0400
+
+    update peak visualization
+
+[33mcommit 86073b4e7231fdefac0d8571522d27b99dc74cb8[m
+Author: Haoying Fu <rainbow_pet@163.com>
+Date:   Mon Jun 26 01:37:21 2023 -0400
+
+    update peak visualization
+
+[33mcommit b469c1e3a6f57e7c895dbca769d8a36a69ef452d[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Sat Jun 24 06:03:22 2023 -0400
+
+    Implemented a few changes to the peak finder.
+
+[33mcommit b2c8bb967be7c89ae679b2352df9881e1cf20bbe[m
+Author: Haoying Fu <rainbow_pet@163.com>
+Date:   Sat Jun 24 00:09:47 2023 -0400
+
+    update visualization
+
+[33mcommit 7a82e36b200334660b7d507442cad34701ab9deb[m
+Author: Haoying Fu <rainbow_pet@163.com>
+Date:   Fri Jun 23 22:34:39 2023 -0400
+
+    update plot
+
+[33mcommit b4a796e6f15180ff8a2e0e3de06d91c7b20f364b[m
+Author: Haoying Fu <rainbow_pet@163.com>
+Date:   Fri Jun 23 20:44:41 2023 -0400
+
+    update plot
+
+[33mcommit a9ff1d391f6759141c1f1b0ec5632ce4588a44d8[m
+Author: Haoying Fu <rainbow_pet@163.com>
+Date:   Fri Jun 23 11:52:23 2023 -0400
+
+    update
+
+[33mcommit 0f43f44135b468192933337dc7da558e92063232[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Fri Jun 23 08:02:10 2023 -0400
+
+    Code cleanup and feature vector collapse.
+
+[33mcommit 51ecda6e6af8d97f803fadeac986dc758a268b06[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Thu Jun 22 07:14:03 2023 -0400
+
+    Code cleanup
+
+[33mcommit cf77ddd8a3d89b7b92943cca45b30d2093e7a08e[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Thu Jun 22 07:08:15 2023 -0400
+
+    Removed redundant testing parts
+
+[33mcommit 3e7725d0b48566eb7213924ab875e496ef78fc61[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Thu Jun 22 07:02:49 2023 -0400
+
+    Did some folder refactoring
+
+[33mcommit 33a6c85e4929d67917d81352fbca3ede33af82f5[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Thu Jun 22 06:54:17 2023 -0400
+
+    Added some extra visualisation
+
+[33mcommit 893a580f1cc65a8f11293490d36f4008e5d84240[m
+Author: Haoying Fu <rainbow_pet@163.com>
+Date:   Tue Jun 20 23:56:44 2023 -0400
+
+    update
+
+[33mcommit b294e4e19ac99e22d67938566ef348a3a3674f20[m
+Author: Haoying Fu <rainbow_pet@163.com>
+Date:   Tue Jun 20 16:40:54 2023 -0400
+
+    update
+
+[33mcommit 060d85eb521b0872a8c77aebbb7c9f8659a08d8c[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Tue Jun 20 13:09:30 2023 -0400
+
+    Implemented Parameter Exploration
+
+[33mcommit 429d82b4e285db604f60338fadf889faa9366a0f[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Mon Jun 19 08:36:05 2023 -0400
+
+    Removed return_C due to bug
+
+[33mcommit 95a0569d03ce72c5f9bcb8ad7156cabb34ec18c0[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Fri Jun 16 10:00:23 2023 -0400
+
+    Updated TODO
+
+[33mcommit 387cbdb596eecf6fa71e6b57833764aff9b8e7ed[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Fri Jun 16 07:10:50 2023 -0400
+
+    Integrated Clustering
+
+[33mcommit 90ad0817471e0bb10193ed19f6c7907a8fcb0d21[m
+Author: Haoying Fu <rainbow_pet@163.com>
+Date:   Fri Jun 16 01:42:17 2023 -0400
+
+    update
+
+[33mcommit c2817265d0ff87818913e8df19afbd48f87b52f1[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Thu Jun 15 15:45:11 2023 -0400
+
+    Fixed bugs with feature extraction.
+
+[33mcommit 75ecff571206668cc5fa7072e0440998a6c8e1df[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Thu Jun 15 13:11:55 2023 +0200
+
+    Fixed issue with vertical line not moving.
+
+[33mcommit c55071f1aff6ef4375299ee3cdf65e3288a45237[m
+Author: Haoying Fu <rainbow_pet@163.com>
+Date:   Tue Jun 13 20:48:52 2023 -0400
+
+    update get_timestep
+
+[33mcommit 9e8eee1f999b5c93688542c366c0f03283f2088c[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Tue Jun 13 16:43:00 2023 +0100
+
+    added functionality to the feature exploration
+
+[33mcommit 134314a95ef7eabf6cee0d56f722a27d76d9d0b7[m
+Author: Haoying Fu <rainbow_pet@163.com>
+Date:   Tue Jun 13 00:30:40 2023 -0400
+
+    see the comments
+
+[33mcommit 058af1f85cfcbdc34d2e63d0362512adc101bffa[m
+Author: Haoying Fu <rainbow_pet@163.com>
+Date:   Tue Jun 13 00:27:21 2023 -0400
+
+    update save file
+
+[33mcommit 99aa74f9c5c81a258244f2f595ef3c8167c100b4[m
+Author: Haoying Fu <rainbow_pet@163.com>
+Date:   Mon Jun 12 18:44:24 2023 -0400
+
+    update
+
+[33mcommit 12d5a39ad402337c1c2ea070468ecaa31f08fa44[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Mon Jun 12 18:07:18 2023 +0100
+
+    Finished init for the feature exploration
+
+[33mcommit 88221903eec141510c0f2a162b5924f914f2ff9e[m
+Author: Haoying Fu <rainbow_pet@163.com>
+Date:   Mon Jun 12 12:30:31 2023 -0400
+
+    update
+
+[33mcommit c624aaaa3dc4920b01669d3bf9e000769de70b11[m
+Merge: a70ec431 683b6cdd
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Mon Jun 12 16:44:37 2023 +0100
+
+    Merge branch 'master' of https://github.com/cci-MaLab/minian
+
+[33mcommit a70ec431de7c92ffdd48c6c7060a999ce55d1513[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Mon Jun 12 16:44:31 2023 +0100
+
+    Started feature exploration class
+
+[33mcommit 683b6cddfa5258a61579c5bee66e35e4f79eeecb[m
+Author: Haoying Fu <rainbow_pet@163.com>
+Date:   Mon Jun 12 11:28:54 2023 -0400
+
+    update
+
+[33mcommit 9d3105f9629334cff0101b2687ee251cdb6d07a0[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Fri Jun 9 13:55:35 2023 +0100
+
+    Implemented ms distance threshold
+
+[33mcommit a2fc7e4a8b988b24e89afe4daa9ceb1d854ba12a[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Fri Jun 2 15:49:11 2023 +0200
+
+    Updated event extraction and global normalizer
+
+[33mcommit 9f071dfc2099af58d314d3ff58020bc3d713334b[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Fri May 19 18:33:52 2023 +0200
+
+    Updated event extraction
+
+[33mcommit 565aa88af4692f3ccf33a8094876152e2eb669c1[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Wed Apr 19 22:03:58 2023 -0400
+
+    Implemented cell flagging
+
+[33mcommit 3c1c5b140a8f6dab35a36fcfa94c64328f5e0ef4[m
+Author: Letmetry <42372887+LetmeTryagain@users.noreply.github.com>
+Date:   Mon Apr 10 10:49:10 2023 -0400
+
+    Delete Untitled.ipynb
+
+[33mcommit c65021620ccee5943aa17a745b360b62fc390a18[m
+Author: Haoying Fu <rainbow_pet@163.com>
+Date:   Sat Apr 8 16:16:14 2023 -0400
+
+    update data_analysis.ipynb
+
+[33mcommit 202ba4d76f2b65bc73a76890e897eacfded1cbcd[m
+Author: Haoying Fu <rainbow_pet@163.com>
+Date:   Thu Apr 6 18:36:48 2023 -0400
+
+    create
+
+[33mcommit 0cd6ff896405ab2af72d3c70cad7aa4c3dd4f8e7[m
+Author: Haoying Fu <rainbow_pet@163.com>
+Date:   Thu Apr 6 16:47:06 2023 -0400
+
+    create checkVideoFrames.ipynb
+
+[33mcommit d1cfeaa55c71afbd02a842c31b9d07990ff08a16[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Wed Apr 5 13:44:07 2023 -0400
+
+    Added single cell analysis
+
+[33mcommit dcd7ad7ab261995d990554ce09b8d3e580a62345[m
+Merge: 10d85f6c 32f43faf
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Wed Apr 5 12:43:42 2023 -0400
+
+    Merge branch 'master' of https://github.com/cci-MaLab/minian
+
+[33mcommit 10d85f6ca503fde0e5299a528758ae718fcf72b1[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Wed Apr 5 12:43:33 2023 -0400
+
+    Changed clustering options
+
+[33mcommit 32f43faf1d52b249e0f265305592453ceef805f7[m
+Author: Letmetry <rainbow_pet@163.com>
+Date:   Sun Apr 2 16:20:35 2023 -0400
+
+    Create behavior_ms.ipynb
+    
+    Match behavior .txt file and timeStamp.csv file
+
+[33mcommit beef5756ed6866688cf4c286177ee5037eeaddd3[m
+Author: Letmetry <rainbow_pet@163.com>
+Date:   Sat Apr 1 21:33:54 2023 -0400
+
+    Update utilities.py
+    
+    Get mouse information by path
+
+[33mcommit dc8eef031ca60143414f00d780e8dccc54513b5d[m
+Author: Haoying <rainbow_pet@163.com>
+Date:   Tue Mar 21 16:27:45 2023 -0400
+
+    Update data_analysis.ipynb
+
+[33mcommit ae5a87e9d628529ce60b029c613da597a61a2320[m
+Author: Haoying <rainbow_pet@163.com>
+Date:   Tue Mar 21 16:20:57 2023 -0400
+
+    Create data_analysis.ipynb
+
+[33mcommit c96002eea24775daf2fca5c3ba43da460d07b9c7[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Mon Mar 20 14:05:52 2023 -0400
+
+    Previous commit
+
+[33mcommit cfa78b582421306ddf32c6f8f822a0ef161eb6b3[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Mon Mar 20 13:59:29 2023 -0400
+
+    Finished verification and started clustering
+
+[33mcommit 8e01bbf55f3cf84f33e30061464ef75cfb0a3f74[m
+Merge: deac2448 1168b554
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Mon Mar 6 18:35:18 2023 -0500
+
+    Merge branch 'master' of https://github.com/cci-MaLab/minian
+
+[33mcommit deac24489d22d62067200c5dc9d20f3709e872a2[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Mon Mar 6 18:34:08 2023 -0500
+
+    Added single cell visualization/verification
+
+[33mcommit 1168b55445ea07afd7b91fda1bdcc810339a55a5[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Sat Jan 14 17:38:43 2023 -0500
+
+    Added change monitoring
+
+[33mcommit 0c08e522db3a481617a514f6a21577aee848010e[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Mon Dec 12 13:35:19 2022 -0500
+
+    First workable version of GUI
+
+[33mcommit 45f967fd01871cb729caf1e0b6f38f4fa81b2da2[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Mon Nov 14 12:24:46 2022 -0500
+
+    Reimplemented video writing
+
+[33mcommit 514fcaa17474d6cd1bc59bed13012c53804bd27f[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Sun Nov 13 15:39:48 2022 -0500
+
+    Created hack to bypass notebook error.
+
+[33mcommit 7540e8ee7eb3ca0ecc05423d846f51eaacfe1b43[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Fri Nov 11 14:20:29 2022 -0500
+
+    Fixed indexing and brightness bug,
+
+[33mcommit 70e3e23d6a80bbff701f29878f247d0d7453a67e[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Thu Nov 10 01:46:27 2022 -0500
+
+    Included and fixed glitching effect
+
+[33mcommit 2822117101902ac27ab4fdff686b65c70e056514[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Wed Nov 9 23:06:53 2022 -0500
+
+    fixed get_indices
+
+[33mcommit 38cd338b2d04f3416ba685a21862c82045d8dc8c[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Wed Nov 9 23:06:11 2022 -0500
+
+    Last fix
+
+[33mcommit 1a21d0af6431aeace28c82a55405de9712bd6111[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Wed Nov 9 22:31:56 2022 -0500
+
+    Made fill_gaps more robust.
+
+[33mcommit 69e8fbf34cb362cde0d27f23d74aa0559466e895[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Wed Nov 9 22:12:51 2022 -0500
+
+    Bug fix no. 3 with fill_gaps
+
+[33mcommit 818470421703cce2c60669df95b057a729ab117f[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Wed Nov 9 22:11:31 2022 -0500
+
+    Fixed all no candidates video.
+
+[33mcommit 461b4ba9e4a5554b1e5d3cde42ccc6242957ed15[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Wed Nov 9 21:53:14 2022 -0500
+
+    bug fix to remove forced black frames.
+
+[33mcommit 17ae40d970379fe65ed4d9646c42df9442bebb5e[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Wed Nov 9 14:47:50 2022 -0500
+
+    Optimized fill_gaps.py for space efficiency.
+
+[33mcommit 94dc09b959a648751a2ac346cad9e6dfef09c3f7[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Tue Nov 8 16:33:57 2022 -0500
+
+    Reverted pipeline to original
+
+[33mcommit 148e0dca3b6ab908f403ffcb14348b60273b54a4[m
+Author: GrowlingM1ke <michallange1995@gmail.com>
+Date:   Tue Nov 8 16:32:25 2022 -0500
+
+    Implemented video filling/interpolation
+
+[33mcommit f64c456ca027200e19cf40a80f0596106918fd09[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Wed Jul 20 09:42:54 2022 -0400
+
+    build: use mamba to install minian
+    
+    * use mamba to setup environments during testing
+    * suggest using mamba to install minian in documentation.
+
+[33mcommit 8de2503550c9cbe31dc3beae7212cc1d8898a692[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Mon Jul 18 22:23:25 2022 -0400
+
+    build: fix markupsafe import error in doc build
+
+[33mcommit f2da3f9187dff9825f9ddeee6479306aeae5823e[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Fri Jun 17 21:38:21 2022 -0400
+
+    fix: dependencies for minian and CI
+    
+    * pin click version for CI
+    * pin jinja version to 2.11.3
+    * pin pytest version for CI
+    * pin coverage version for CI
+    
+    fix #208 #206
+
+[33mcommit a6d3339932df3c63aa46811fc70fc00aca09218d[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Thu Feb 10 15:04:27 2022 -0500
+
+    bump: version 1.2.0 → 1.2.1
+
+[33mcommit b0dcac109f9db2cda585eb0745fb12e8382207bb[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Thu Feb 10 14:37:47 2022 -0500
+
+    fix: avoid syntax error in `update_spatial` returns
+
+[33mcommit 713ccecdc9c3f766c5645c30637a29a57b72c1dd[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Wed Feb 9 18:19:45 2022 -0500
+
+    bump: version 1.1.0 → 1.2.0
+
+[33mcommit 837a14c2745851c8e3439e50298f451de68c7031[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Tue Feb 8 22:57:25 2022 -0500
+
+    ci: enable rerun on all platform
+
+[33mcommit be0e458e65a6b30abdcb0d6d3a5694bc60787511[m
+Author: Stephen Larson <stephen.larson@gmail.com>
+Date:   Mon Feb 7 16:19:05 2022 -0500
+
+    build: pinning FFTW version
+    
+    Experienced a setup issue when 0.13.0 of pyFFTW was released. If we pin to 0.12.0 this seems like it won't happen
+
+[33mcommit ac3149f68b745493fd687fbd0e6bd2bca9c3f55d[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Sat Feb 5 12:07:30 2022 -0500
+
+    feat: use least square to produce proper scaling in temporal components and background terms
+    
+    * use least square to estimate initial temporal components
+    * implement independent background update function
+    * normalize to max value in spatial update and return normalizing factor
+    * disable normalization when generating video
+
+[33mcommit 776b29232ef784734862307b8f719e76abed8767[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Mon Jan 3 15:30:10 2022 -0500
+
+    fix: rescale with normalizing factor when using `normalize` parameter
+    
+    * rescale with normalizing factor when using `normalize` in temporal update
+    * turn off post-hoc scaling by default
+    * update test
+
+[33mcommit d758de4fe28dee43fc20d6b75c7c16f0c07e8cf5[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Thu Nov 25 14:01:04 2021 -0500
+
+    fix: fix unit id mismatch in spatial parameter exploration
+
+[33mcommit 71dadffd93f79b188dab29e7c3110bf7061e6ccc[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Fri Sep 10 22:25:20 2021 -0400
+
+    bump: version 1.0.1 → 1.1.0
+
+[33mcommit a5cadbc1dc3163964d5cc99ce5c732d065e3a611[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Fri Sep 10 20:39:16 2021 -0400
+
+    fix: pin jinja2 version to avoid doc build fail
+
+[33mcommit ea76f3a3d816cc2dce52ffe6eae4316a0e8fc8ff[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Fri Sep 10 16:51:11 2021 -0400
+
+    feat: detrend with median filter
+    
+    Implement correction of baseline fluctuation in temporal update.
+    
+    Fix #69
+
+[33mcommit 20da1b5cffabbb4948c21ef665d4de272079fafc[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Fri Sep 10 14:37:05 2021 -0400
+
+    fix: use fft filter for pnr computation
+    
+    * use fft filter for pnr computation
+    * update optimal parameters and results
+
+[33mcommit e4ac7f1482ef53a6d554974723c16c9acc7c89a8[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Thu Sep 2 15:27:44 2021 -0400
+
+    fix: avoid conversion in `xrconcat_recursive`
+    
+    When constructing series holding xarray datasets the internal conversion of numpy would result in error.
+    This PR fix it.
+
+[33mcommit 69b6f58a93b8e39ca7de6a5f70de55a0535ad7d1[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Wed May 5 22:40:11 2021 -0400
+
+    bump: version 1.0.0 → 1.0.1
+
+[33mcommit d17a3acd462f55aa0aa0310b93c5baa20a1954dc[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Wed May 5 22:37:34 2021 -0400
+
+    build: pin param to 1.9 to avoid warnings
+
+[33mcommit aba1d00b8c5a5282dff24e47e6c8b505b8dd75cf[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Wed May 5 19:57:24 2021 -0400
+
+    fix: fix various typo and improve instructions in notebook
+    
+    * capture warnings during import
+    * fix typos
+    * add faq about monitoring progress
+    * add link to all api reference
+
+[33mcommit e723038a8b2c37314573266dc34d901fea1e2944[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Wed May 5 16:13:33 2021 -0400
+
+    docs: add more faq
+
+[33mcommit c0404219a477d8ca4f0a088c61c7779cfc52baff[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon May 3 16:57:11 2021 -0400
+
+    bump: version 1.0.0rc1 → 1.0.0
+
+[33mcommit 256d56fc1fcbf4aa5b92acb4172ea32ce9986031[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Mon May 3 16:49:34 2021 -0400
+
+    docs: update toctree configs
+    
+    * update toctree level of start guide
+    * turn on numbered toc for notebooks
+
+[33mcommit 122f433034844d5bff5be361a39f01418a301211[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Mon May 3 16:37:02 2021 -0400
+
+    chore: add gitattribute file to ignore stuff on archving
+
+[33mcommit 87122a5fd2d6a70aa8ba16dd67ff019b983e326f[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Sun May 2 16:01:35 2021 -0400
+
+    docs: add FAQ, changelog, and tip&tricks
+
+[33mcommit ba8f7c0bdddca9f66ca5f53e6f9e606f524f9af8[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Sat May 1 00:21:16 2021 -0400
+
+    chore: update readme
+
+[33mcommit 57d0ccd165d18d0ff00c3f1cf8eb16cff059b2fd[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Apr 30 17:10:49 2021 -0400
+
+    bump: version 1.0.0rc0 → 1.0.0rc1
+
+[33mcommit c6aa91abe859dff58f19e6a03d27fc63902bdd26[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Fri Apr 30 14:35:58 2021 -0400
+
+    docs: update readme and install instructions
+    
+    remove instruction about pip installation
+
+[33mcommit ae44837af971c13f1a8b26b6fe9b32d44f12d6bb[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Thu Apr 29 20:53:43 2021 -0400
+
+    feat: graph based resolving of mappings
+    
+    * use a graph based approach for resolve_mappings, which results in less false-negative.
+    * move doctest before unit test
+
+[33mcommit 29bde750064bb190a9d921123eb5e418da480eb9[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Wed Apr 28 21:54:30 2021 -0400
+
+    build: pin matplotlib to version 3.2 to avoid warning
+
+[33mcommit 4776b3bc0942e833152fae681f4d7bd6fa5b193d[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Wed Apr 28 19:50:27 2021 -0400
+
+    fix: fix pipeline when `subset` is used
+    
+    fix various bug when subsetting along the spatial dimensions using `subset`.
+    
+    Fix #119
+
+[33mcommit dbba9fade4da2aaaca0a8401060da7dc7e8f0989[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Wed Apr 28 11:20:23 2021 -0400
+
+    build: relax dependencies pinning
+    
+    ref: #123
+
+[33mcommit 24fc72d5e766a410a559c03629b4113f7fe5f8cb[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Tue Apr 27 11:20:07 2021 -0400
+
+    build: use simpleitk from conda-forge
+    
+    * use conda-forge for simpleitk and relax some dep versions
+    
+    * update pip requirements
+
+[33mcommit ef517a77371332ee8a806822d2035f00aca0bc91[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Sun Apr 11 20:00:31 2021 -0400
+
+    chore: relax codecov checks
+    
+    * turn on informational mode for codecov
+    * change range
+
+[33mcommit f41a3389e76e7eb91e0d5bbfe04d0462bbc574b5[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Sun Apr 11 18:07:29 2021 -0400
+
+    bump: version 0.1.1 → 1.0.0rc0
+
+[33mcommit 57f9576a677aaf0ff516a7f90ee2fe27a83a70c4[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Sun Apr 11 16:26:52 2021 -0400
+
+    fix: fix install script
+    
+    Update install script to properly handle versions and directories.
+
+[33mcommit f0b65e6463e4d898e390a44566a454d9d3769a6c[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Sun Apr 11 15:46:55 2021 -0400
+
+    ci: update rtds-actions version
+
+[33mcommit f41457b31cb5ffa5688923bbf4473e55b9d25304[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Sun Apr 11 14:25:39 2021 -0400
+
+    build: update dependency versions
+    
+    * numpy: 1.18.1 -> 1.20.2
+    * pandas: 1.0.1 -> 1.2.3
+
+[33mcommit 27425bf6f753b276cd13328982b5fdaf5d7acc4b[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Sun Apr 11 13:42:15 2021 -0400
+
+    chore: update pip configuration and install scripts
+    
+    * update commitizen cofig to always do incremental changelog
+    * update rtd link in readme
+    * update contribute page
+    * update setup.py metadata
+    * remove pip from requirements
+    * update install script
+    
+    Refs #114
+
+[33mcommit 08a7663b6f359520516112fc1a58ee6980778a53[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Sun Apr 11 08:42:53 2021 -0400
+
+    build: use bioconda to install medpy
+    
+    Refs #113
+
+[33mcommit c3eb047aad65b21397f55aa49d05f456981d5621[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Sun Apr 11 00:01:46 2021 -0400
+
+    chore: repo clean up and preparation for release
+    
+    * update version specification
+    * add pyproject.toml file
+    * config version files for commitizen
+    * update contribute page
+    * remove scripts
+    * add conventional commit badge
+    * update commitizen config
+    * remove requirements.txt
+    * update MANIFEST
+    * regrid all images to reduce notebook size
+    
+    Refs #112
+
+[33mcommit 574fb9d19b2f63f8da9b7242d3d6114603d966f9[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Sat Apr 10 15:05:56 2021 -0400
+
+    ci: improve github action and rtd build stability
+    
+    * Improve github action stability by allowing test re-run on windows.
+    * Reduce output notebook size.
+    * Handle zero-division error in `idx_corr`.
+
+[33mcommit e383068752caadaee2a4f3cceb5da24a9f5055ba[m
+Merge: 9568a5c8 29c8a047
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Fri Apr 9 19:48:57 2021 -0400
+
+    Merge pull request #110 from DeniseCaiLab/dev
+    
+    Merging dev branch
+
+[33mcommit 29c8a0471cd428298a2917a9e5a9e5695ca1d2b2[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Fri Apr 9 18:33:49 2021 -0400
+
+    Cleanup (#109)
+    
+    various misc cleanup of repo
+
+[33mcommit 82f074ad49db32c58009d23fcd30722da024266b[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Fri Apr 9 13:53:20 2021 -0400
+
+    add installation guide (#108)
+
+[33mcommit ac49c3856680e404396904adfc9b9fb5f3c45e97[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Fri Apr 9 13:52:46 2021 -0400
+
+    Cross reg (#107)
+    
+    add test and doc entry for cross-registration notebook
+    
+    full commit history:
+    
+    * add demo data
+    
+    * allow `open_minian` to directly open nc files
+    
+    * update cross-registration notebook
+    
+    * add test for cross registration
+    
+    * add doc entry for cross-registration notebook
+    
+    * correct default kernel for cross-registration.ipynb
+    
+    * make pytest exit on first fail
+    
+    * suppress large slice warnings
+    
+    * update install scripts
+
+[33mcommit 2fd03ba4e90d126f79b1d4cf418a8844a2bbea3f[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Fri Apr 9 07:11:53 2021 -0400
+
+    Fix tests (#106)
+    
+    ensure tests pass on all platform.
+
+[33mcommit 03fb2b1032c35bb595dc209f18eb5de08ed7cf85[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Thu Apr 8 14:41:32 2021 -0400
+
+    Better notebook doc (#105)
+    
+    clean up noted pipeline to reflect latest changes, and set up readthedoc integration with github actions.
+    also unify the notebooks into one `pipeline.ipynb`
+    
+    full commit history:
+    
+    * add an extension to split and parse notebook
+    
+    * migrate to using nbsphinx and custom extension to parse notebook
+    
+    * remove jupytext metadata
+    
+    * parse notebook without output for now
+    
+    * WIP update notebook
+    
+    * WIP update noted pipeline
+    
+    * WIP update noted pipeline
+    
+    * update pipeline
+    
+    * update noted pipeline
+    
+    * set up rtd-action integration
+    
+    * disable nbval
+    
+    * update workflow to use setup miniconda
+    
+    * make notebook build optional
+    
+    * copy notebookt images
+    
+    * update requirement for doc
+    
+    * delay the execution of custom notebook parse extension
+    
+    * handle commit hash for PR
+    
+    * add tutorial tags and update some plot size
+    
+    * ignore doc build files
+    
+    * enable multiple platform testing
+    
+    * merge pipeline and pipeline_noted and track only one notebook
+
+[33mcommit d5a74c2e1c20add0959516706ca4032c2b28e555[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Mon Apr 5 22:46:02 2021 -0400
+
+    add intersphinx entry for `natsort` and `rechunker`
+
+[33mcommit ede8326c35cb3b94a6128656d4cec9267e544bd2[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Mon Apr 5 22:14:08 2021 -0400
+
+    better memory warning in `update_temporal`
+
+[33mcommit 2ccb32cdeec047a574fc7110f5a03f15dd4e505e[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Apr 5 18:25:43 2021 -0400
+
+    convert post-processing of html ids into a sphinx extension
+
+[33mcommit 2fdcc7f49a79d3665a18b0a67ac324e56bb87566[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Apr 5 16:38:08 2021 -0400
+
+    pin requirements-doc versions
+
+[33mcommit 4d7415c61413a0e084df7660b96a21365eaf211a[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Apr 5 16:19:47 2021 -0400
+
+    update requirements-base
+
+[33mcommit 5f3b8c309a958885517f4656069e477ad8bf8013[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Apr 5 16:16:59 2021 -0400
+
+    remove dependency on pyav
+
+[33mcommit de48369581b0e4973108ab3b84e453122a9fb843[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Apr 5 13:36:36 2021 -0400
+
+    update requirements
+
+[33mcommit e05095ca9269b2c5c37e288f00982527c4e5bbf8[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Apr 5 13:36:29 2021 -0400
+
+    add a simple script to convert environment.yml to requirements.txt
+
+[33mcommit bbdc8beeb16ed92c54665dcc7d5f257de4464570[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Apr 5 13:36:03 2021 -0400
+
+    update environment yml
+
+[33mcommit f882f12a4a34f25d0ad7ea51e6e38bfbc4eefad0[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Apr 5 13:15:20 2021 -0400
+
+    add version to rtd config
+
+[33mcommit 511ccc941f71575c568505f0c9b927909b18f624[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Apr 5 13:06:20 2021 -0400
+
+    add config for readthedoc
+
+[33mcommit 712ae1242a7edff3c319bab6b33cb079083f653f[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Mon Apr 5 12:37:17 2021 -0400
+
+    Annotation throttling (#103)
+    
+    use dask annotation throttling and graph optimization to regulate memory usage
+    
+    full commits history:
+    
+    * bump dask version to 2021.2.0
+    
+    * inline the from_zarr operations when opening array
+    
+    * initial implementation of task annotation plugin
+    
+    * reimplement recursive motion correction to be more friendly to dask graph optimizations
+    
+    * add global config for dask
+    
+    * update some package versions
+    
+    * add requirement for pymetis
+    
+    * avoid copying input array and return max proj in `est_sh_chunk`
+    
+    * use `npart` resulting in two layers by default
+    
+    * use delayed operation in `est_sh_part`
+    
+    * rename imports and avoid saving intermediate for `initbf`
+    
+    * use graph based optimization for all correlations during merging
+    
+    * update custom optimization functions
+    
+    * add `compute` argument to allow for delayed execution for `save_minian`
+    
+    * formatting change
+    
+    * rework computation flow for spatial update
+    
+    * rework computation flow for `compute_trace`
+    
+    * reworkd computation flow for `update_temporal`
+    
+    * use max value of `C` to normalize resulting video to avoid dependency on `AtC`
+    
+    * formatting changes
+    
+    * update notebooks
+    
+    * Automated changes, black formatter
+    
+    * disable customization of worker memory rule
+    
+    * update function to get optimal chunk
+    
+    * clean up import
+    
+    * increase memory restirction for rechunker
+    
+    * implement flexible fast functions and task key rewriting
+    
+    * implement function to optimize rechunking of larger storage chunk
+    
+    * update CI black version to 20.8b1
+    
+    * allow for more memory usage before intervention
+    
+    * remove unnecessary sorting of seeds
+    
+    * decrease default memory limit for rechunking to 500MB
+    
+    * optimize performance of get noise functions
+    
+    * formatting changes
+    
+    * change the way `sub` is rechunked in `update_spatial` to avoid "set size change" deadlock
+    
+    * handle cases where number of nodes is smaller than chunksize
+    
+    * implement gain and least-square normalization for generated video
+    
+    * formatting changes
+    
+    * update notebook to use automatic chunking
+    
+    * change default parameter to avoid over-merging of seeds
+    
+    * update tests
+    
+    * Nonrigid mc (#104)
+    
+    motion correction fixes and experimental support for non-rigid motion correction
+    
+    full history:
+    
+    * add simpleitk as dependency
+    
+    * initial implementation of bspline motion correction
+    
+    * refactoring bug fix
+    
+    * avoid summing shift for `est_sh_chunk`
+    
+    * avoid summing transform for `est_trans_chunk`
+    
+    * bug fix
+    
+    * implement estimation of translation using simpleitk
+    
+    * implement generalized local extrema
+    
+    * pad destimation frame in `match_temp`
+    
+    * implement function to do adaptive thresholding of frame
+    
+    * implement generalized apply transform function
+    
+    * implement function to check quality of templates
+    
+    * implement generalized estimation of motion, with support of template checking and different aggregation methods
+    
+    * deprecate optimization of composite bspline transforms
+    
+    * implement generalized visualization of motion
+    
+    * update function names in annotation dict
+    
+    * avoid fusing `load_avi_ffmpeg`
+    
+    * update notebook
+    
+    * update cross registration notebook
+    
+    * update skimage version
+    
+    * Automated changes, black formatter
+    
+    * implement recursive mc within chunk as well as `alt_error` to guard against cases where the aggregated fail to be a good template
+    
+    * update test
+    
+    * deprecate `max_sh` parameter
+    
+    Co-authored-by: DeniseCaiLab <denisecailab@gmail.com>
+    
+    * restrict aggregations in `write_video`
+    
+    * update test
+    
+    * limit threads per worker to 2
+    
+    * add cells to close the cluster
+    
+    * update test to properly report coverage from notebook
+    
+    * omit test scripts coverage
+    
+    * omit test scripts properly
+    
+    * update rechunker and install from conda-forge
+    
+    * use separate paramter for unit merge
+    
+    * optimize default parameter
+    
+    * update docstring for cnmf module
+    
+    * add custom autodoc extension to handle numba.jit decorated functions
+    
+    * add autodoc extension to handle type hints
+    
+    * update sphinx config and change theme to pydata
+    
+    * migrate to autoapi
+    
+    * clean up notebook docs
+    
+    * add custom autoapi template
+    
+    * sort entries by group
+    
+    * remove indicies and tables
+    
+    * update docstring for initialization module
+    
+    * add reference to scipy butterworth filter
+    
+    * add intersphinx mappings
+    
+    * rename `_noise_fft` to `noise_fft`
+    
+    * update Makefile
+    
+    * switch to a hacky two-stage build using autoapi
+    
+    This is the only way to get contents to display on both left and right sidebar in pydata theme
+    
+    * add an extension to generate toc entries for all py objects
+    
+    extracted from the autoapi extension
+    
+    * add a post-processing script to take out all periods in html id
+    
+    necessary for the toc highlighting to work
+    
+    * Revert "switch to a hacky two-stage build using autoapi"
+    
+    This reverts commit e76b157fcb058b18b851eec2ddfd0b44ca06a2bf.
+    
+    * migrate to using autodoc
+    
+    * add an extension to map resolve arbitrary alias for intersphinx
+    
+    * update sphinx config
+    
+    * update docstring for initialization
+    
+    * add monkey-patching of dask decorator to preserve docstring
+    
+    * update docstring for initialization
+    
+    * WIP docstring for utilities module
+    
+    * fix various refactoring error on pipeline_noted
+    
+    * WIP docstring for utilities module
+    
+    * update docstring for utilities module
+    
+    * add custom styling
+    
+    * constrain max width of the central content
+    
+    * avoid putting in empty div for VArrayViewer
+    
+    * deprecate `rerange` argument for `VArrayViewer`
+    
+    * update width of some tool so that they don't get cut off
+    
+    * WIP docstring for visualization module
+    
+    * suppress undoc members
+    
+    * handle single frame case for `est_motion_chunk`
+    
+    avoid error in cross registration
+    
+    * bug fix for `est_motion_chunk`
+    
+    * properly handle cases where no meta dimensions are present and update RGB construction for AlignViewer
+    
+    * fix refactoring error in cross registration notebook
+    
+    * update docstring for visualization
+    
+    * update docstring for cross_registration module
+    
+    * enable doctest
+    
+    * update docstring for visualization module
+    
+    * disable notebook in documentation for now
+    
+    * directly invoke sphinx-build in github actions
+    
+    * fix bug in `graph_optimize_corr` that cause memory issue
+    
+    fix a bug where number of nodes smaller than 2*`chunk` resulting in no splitting of the graph and significantly exceeding `chunk`
+    
+    * update docstring for motion correction module
+    
+    * add skimage and simpleitk intersphinx mapping
+    
+    * update docstring for preprocessing
+    
+    * fix a bug in `graph_optimize_corr` where not all correlations are computed
+    
+    * update test
+    
+    * fix an error that can potentially lead to dead kernel in cross_registration
+    
+    handle a weird interaction between `xr.broadcast` and holoviews
+    
+    * use metadata columns instead of hard-code "animal" for `calculate_mapping` and `resolve_mapping`
+    
+    * update docstrings to be more consistent
+    
+    * remove doc index for the install module
+    
+    * update requirements
+    
+    Co-authored-by: DeniseCaiLab <denisecailab@gmail.com>
+
+[33mcommit aedac06e28513d8db2a83611e466725ce4b3f7b8[m
+Author: Will Mau <wmau@bu.edu>
+Date:   Tue Feb 9 10:23:04 2021 -0500
+
+    Made aspect ratio more general to accommodate V4-acquired data
+
+[33mcommit a30060744987043e1c96aaaea8b278134af4554e[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Sun Feb 7 11:15:30 2021 -0500
+
+    Clean test (#101)
+    
+    cleaning up test routines; test pipeline notebook instead of an independent testing script; update ci and badges
+    
+    * remove travis stuff
+    
+    * disable test_pipelin.py
+    
+    * add testing of the pipeline notebook
+    
+    * move and update the readme for testing
+    
+    * remove the old testing of pipeline
+    
+    * remove binary test fixtures
+    
+    * add assertions for generated videos
+    
+    * remove unit testing of motion correction
+    
+    * update unit testing of preprocessing
+    
+    * update github action name and badge
+    
+    * update workflow to upload code coverage
+    
+    * remove assertion about size of video
+    
+    * output xml format for codecov
+    
+    * use fetch-depth of 2 to avoid error in codecov upload
+    
+    * use fetch depth 0 to fetch all
+
+[33mcommit 57b7b95f8feaf6b26be3e5d4fe1cbdb3b0833f2e[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Sat Feb 6 16:44:39 2021 -0500
+
+    Better mc (#100)
+    
+    implement minimum number of frames to aggregate as templates in motion correction.
+    
+    * implement minimum frame number for template
+    
+    * Automated changes, black formatter
+    
+    Co-authored-by: DeniseCaiLab <denisecailab@gmail.com>
+
+[33mcommit c942a0e88810270fd066a1de636e6b5d701fb1fa[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Sat Feb 6 16:44:00 2021 -0500
+
+    Write vid perf (#99)
+    
+    improve performance by writing video in single thread and avoid concatenation
+    
+    * switch to sequential writing of video instead of parallel
+    
+    * use sequential writing in generation of video
+    
+    * switch to python-ffmpeg to write video in chunks instead of frames
+
+[33mcommit e0a3b6d75ee0209aa95a8c5233d402bc89d91679[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Sat Feb 6 16:43:13 2021 -0500
+
+    Load vid perf (#98)
+    
+    improve performance by loading videos in video-wise instead of frame wise. good for compressed videos
+    
+    * implement video-wise reading of raw data using python-ffmpeg
+    
+    * put saving of the raw data before vaviewer
+    
+    * update dask to latest
+    
+    * update downsampling implementation to avoid creating large chunks
+    
+    * deprecate `in_memory` parameter for `load_videos`
+    
+    * sync change to pipeline_noted
+    
+    * update requirements
+
+[33mcommit 8facf3f0a40aeef067004633105ccf4397db3afd[m
+Author: Will Mau <wmau@bu.edu>
+Date:   Mon Jan 11 10:49:02 2021 -0500
+
+    Second temporal update now uses corrected parameters (pipeline_noted)
+
+[33mcommit da88146ad84ecfb426881b4466ca0f4a7d10135f[m
+Author: Will Mau <wmau@bu.edu>
+Date:   Mon Jan 11 10:45:32 2021 -0500
+
+    Fixed second temporal update cell that was using first temporal update parameters
+
+[33mcommit 407a1f2dc4a97cbfa24319ea01579e5abc5cd352[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Mon Dec 7 14:55:15 2020 -0500
+
+    Perf (#92)
+    
+    Co-authored-by: phildong <35715936+phildong@users.noreply.github.com>
+    Co-authored-by: paolo <paolo.bazzigaluppi@gmail.com>
+    Co-authored-by: phild <zhe.dong@icahn.mssm.edu>
+    Co-authored-by: Denise Cai Laboratory <47047748+DeniseCaiLab@users.noreply.github.com>
+    Co-authored-by: William Mau <wmau@bu.edu>
+    Co-authored-by: Matthias Klumpp <matthias@tenstral.net>
+    Co-authored-by: Cloud User <ec2-user@ip-172-31-27-133.us-west-2.compute.internal>
+    Co-authored-by: Jesus M <yeshuarmartinez@gmail.com>
+    Co-authored-by: Zoran Sinnema <zsinnema@gmail.com>
+
+[33mcommit 9aad363003acd9e5c68965915ac7e64b7eb097d9[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Mon Dec 7 10:59:02 2020 -0500
+
+    Revert "Perf" (#91)
+    
+    This reverts commit 0c6c16132c866f842b4baa9558a89dfcc2522afe.
+
+[33mcommit 0c6c16132c866f842b4baa9558a89dfcc2522afe[m
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Thu Dec 3 15:19:56 2020 -0500
+
+    Perf (#88)
+    
+    Co-authored-by: phildong <35715936+phildong@users.noreply.github.com>
+    Co-authored-by: paolo <paolo.bazzigaluppi@gmail.com>
+    Co-authored-by: phild <zhe.dong@icahn.mssm.edu>
+    Co-authored-by: Denise Cai Laboratory <47047748+DeniseCaiLab@users.noreply.github.com>
+    Co-authored-by: William Mau <wmau@bu.edu>
+    Co-authored-by: Matthias Klumpp <matthias@tenstral.net>
+    Co-authored-by: Cloud User <ec2-user@ip-172-31-27-133.us-west-2.compute.internal>
+    Co-authored-by: Jesus M <yeshuarmartinez@gmail.com>
+    Co-authored-by: Zoran Sinnema <zsinnema@gmail.com>
+    
+    performance improvements, docstring and continuous integration.
+
+[33mcommit c63ec3e1c98a98c46644c826fecd8f12319ae266[m
+Author: bendog <zhe.dong@icahn.mssm.edu>
+Date:   Thu Sep 24 19:26:31 2020 -0400
+
+    fix `fill` argument bug
+
+[33mcommit 7a2a0a44520a124be45369e7cbab57ea60b73615[m
+Author: bendog <zhe.dong@icahn.mssm.edu>
+Date:   Thu Sep 24 17:55:35 2020 -0400
+
+    add AlignViewer
+
+[33mcommit 0a63b53846e5d839c48ae4e7f904e2f7dd9070a6[m
+Author: bendog <zhe.dong@icahn.mssm.edu>
+Date:   Thu Sep 24 17:54:31 2020 -0400
+
+    add alternative norm function
+
+[33mcommit e1c97f63eb23c7619db8c501ea261db85ef455f6[m
+Author: bendog <zhe.dong@icahn.mssm.edu>
+Date:   Thu Sep 24 17:54:07 2020 -0400
+
+    formatting change
+
+[33mcommit 4a61dfa077fad6dc12a9f6b3365cb4b4913f95d1[m
+Author: bendog <zhe.dong@icahn.mssm.edu>
+Date:   Thu Sep 24 17:53:02 2020 -0400
+
+    allow custom fill value in `apply_shifts`, better handling of Nan inputs
+
+[33mcommit 7bc28b3f3431e527b82ad932709b8da3ab260d9f[m
+Author: bendog <zhe.dong@icahn.mssm.edu>
+Date:   Thu Sep 24 17:52:17 2020 -0400
+
+    bug fix for cross registration
+
+[33mcommit 4a55b468b4051def9a2b8c7533f85d8812dc72a1[m
+Author: bendog <zhe.dong@icahn.mssm.edu>
+Date:   Thu Sep 24 17:51:22 2020 -0400
+
+    a few bug fix in the cross registration notebook
+
+[33mcommit 5dbcf7d93e1104938b93608c351d58f516253b69[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Sep 3 17:09:03 2020 -0400
+
+    fix a bug that would drop mappings unexpectedly
+    
+    fix a bug where only the first animal/session combination will be kept
+
+[33mcommit 6de689c362e4f7c682a2fbd7fc7128593469ad7d[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Sep 3 17:02:10 2020 -0400
+
+    fix int bug for cross registration and new version of numpy
+
+[33mcommit 77b37542e7d14fbe9c4d98cebe17b1bc205ac87d[m
+Author: bendog <zhe.dong@icahn.mssm.edu>
+Date:   Sun Aug 9 16:29:49 2020 -0400
+
+    update toy dataset
+
+[33mcommit 036df6fac664d4da925fa5f022c7ba411ba3231c[m
+Author: bendog <zhe.dong@icahn.mssm.edu>
+Date:   Sun Aug 9 16:24:53 2020 -0400
+
+    update toy_data.py
+    
+    change the way C is generated from S to avoid generating large G matrix;
+    cut A size
+    add parameters in dict format
+    change saving routine
+
+[33mcommit 1d705887bb8b40e15754c4de04ee5aeb2e115533[m
+Author: bendog <zhe.dong@icahn.mssm.edu>
+Date:   Sun Aug 9 15:32:22 2020 -0400
+
+    update normalization and cvx expression in `temporal_update`
+    
+    update default routines for normalization; fix wrong cvxpy expression that would cause unbalanced sparse penalty in cvxpy.
+
+[33mcommit 903e201bd3f13d19bf48c939dde6f73234981167[m
+Author: wmau <wmau@bu.edu>
+Date:   Fri Jul 31 13:06:31 2020 -0400
+
+    smooth_sig import needed
+
+[33mcommit bb3df0313020c0d4da0e1597aa08bd85ea7c0997[m
+Author: bendog <zhe.dong@icahn.mssm.edu>
+Date:   Mon Jul 20 18:58:41 2020 -0400
+
+    add toy data
+
+[33mcommit 3849812d16c4b53100f4ea15a3b7f8aca466d40d[m
+Author: bendog <zhe.dong@icahn.mssm.edu>
+Date:   Mon Jul 20 18:54:26 2020 -0400
+
+    fix broadcasting issue of `b`
+
+[33mcommit 56dacc333037f54e2ade03c93f0e360e8fa39d10[m
+Author: bendog <zhe.dong@icahn.mssm.edu>
+Date:   Wed Jul 8 18:38:38 2020 -0400
+
+    cleaning up code base
+    
+    cleaning up code base based on linting, with autoflake then isort. UNTESTED
+
+[33mcommit 8b44a3abf57c9b628eb4d6e9c1010740a51b6eb6[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Jul 8 16:57:01 2020 -0400
+
+    add feature to specify different baseline in update_temporal
+    
+    allow users to specify a 1d  `bseg` variable along time, with values corresponding to label of different periods, where a different baseline will be estimated.
+
+[33mcommit 7ea1c94cfeaea128d8988e54c06c781458d1b0df[m
+Author: Zoran Sinnema <zsinnema@gmail.com>
+Date:   Wed Jul 8 22:34:41 2020 +0200
+
+    Several fixes (#63)
+    
+    Co-authored-by: phildong <35715936+phildong@users.noreply.github.com>
+
+[33mcommit 086ed66993b5b34c18d7efc046296a2a25454cbb[m
+Author: Zoran Sinnema <zsinnema@gmail.com>
+Date:   Fri Jun 12 15:57:15 2020 +0200
+
+    Optimalisations, unit testing, travis (#60)
+
+[33mcommit f3501c8bd6dbd48c7cb74430d980e6a00b0efa8f[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Sun Apr 26 00:08:37 2020 -0400
+
+    implement variable num of parts; expose options
+    
+    number of parts can be flexibly set now.
+    the option of using local instead of global max is exposed and default to `False` now
+
+[33mcommit 27d6f9a0cbd4335eaa89d73e9ab0e25d24abc096[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Sun Apr 26 00:06:21 2020 -0400
+
+    use euclidean norm as metric of locality
+
+[33mcommit b3c70098c2d514cc9a2d0a1f9b2b10f55b321580[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Sun Apr 26 00:05:38 2020 -0400
+
+    change default range of local max for corr
+
+[33mcommit bda84f87cc6f2ab9584d5f31f44ca1b59431cb54[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Thu Apr 9 12:03:16 2020 -0400
+
+    take local peak in mc
+    
+    re-implement the option (hidden for now) to take the local max of corr that's closest to zero shift.
+
+[33mcommit 741bcae758bbeaa8a8d10e8849ccc99e66007107[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Wed Apr 8 23:57:15 2020 -0400
+
+    add additional motion correction visualization
+    
+    add code to generate video and plot max projection to visualize quality of mc.
+
+[33mcommit 031a8a893563d7f05f5b805dc5819959f0763563[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Wed Apr 8 23:55:59 2020 -0400
+
+    add thresholding function using mser
+    
+    for potential use in filtering out noises during motion correction.
+
+[33mcommit f2014ef25e8d05ab026523136e04b2db0dead3fd[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Wed Apr 8 23:55:09 2020 -0400
+
+    allow auto chunking of pixels in `seeds_merge`
+
+[33mcommit 4b1becbe5b589f002af3b27c471f6c8ec5394006[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Wed Apr 8 23:53:39 2020 -0400
+
+    rework motion correction
+    
+    implemented a 3-way partition strategy using dask.
+    implemented sub-pixel registration using polynomial fit (hidden for now).
+    use opencv match template function and clear all unnecessary hyper-parameters.
+
+[33mcommit 1395f897106d3acd6651aa6af7aa18839efee79e[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Wed Apr 8 23:39:16 2020 -0400
+
+    proper type casting in preprocessing
+
+[33mcommit 70f904569621439d6b955110337bf399abd68e27[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Wed Apr 8 23:35:11 2020 -0400
+
+    allow tuning quality of `write_video`
+    
+    expose options to pass in arbitrary arguments to underlying fft.
+    use processes scheduler by default to avoid some hanging cases.
+
+[33mcommit 6d11ca4e19cb7e8d7daa17f44c0dd94d484549f9[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Sat Apr 4 00:08:44 2020 -0400
+
+    use single-threaded scheduler for spatial update
+
+[33mcommit 3f830e1d59894b8f59d0f3708cda65acd5920d48[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Fri Apr 3 23:21:28 2020 -0400
+
+    cast to float for hamming
+    
+    cast to float type for tensordot during calculation of hamming distance
+
+[33mcommit 9f9e51253100e15003b13032c0e29c3b8e080c5f[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Fri Apr 3 23:19:51 2020 -0400
+
+    add argument to change scheduler
+    
+    add optional arguments for user to change scheduler for spatial and temporal update.
+
+[33mcommit e0fda1170d3a83cd4c78fb95bccf98dd32c640fd[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Fri Apr 3 23:15:49 2020 -0400
+
+    revert back to xarray vectorize call
+    
+    revert back to using xarray to call `update_spatial_perpx` in parallel
+
+[33mcommit 8ee5e2f7c3a3d2fb54846b414072ab625919df1f[m
+Author: phildong <zhe.dong@icahn.mssm.edu>
+Date:   Fri Apr 3 23:11:30 2020 -0400
+
+    limit number of threads
+    
+    limit number of threads for various libraries. Avoid over-scheduling issues.
+
+[33mcommit d390b017ec3d612e4a3f6817b96fe8c4133235a1[m
+Merge: f043b622 12a86f6f
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Wed Mar 25 12:06:07 2020 -0400
+
+    Merge pull request #42 from DeniseCaiLab/ResolveBSavingConflict
+    
+    Save B_mrg_it2 as bl and update reference in fx generate_videos
+
+[33mcommit 12a86f6fba8795c78dbeca0e1059b27466a4a3e9[m
+Merge: e54fad22 f043b622
+Author: bendog <zhe.dong@icahn.mssm.edu>
+Date:   Wed Mar 25 11:50:11 2020 -0400
+
+    Merge branch 'dev' into ResolveBSavingConflict
+
+[33mcommit f043b622031841e0762d0d738ea9a51924adfda2[m
+Merge: 12dae244 af4c1224
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Fri Feb 28 22:28:29 2020 -0500
+
+    Merge pull request #47 from ximion/master
+    
+    Permit loading mkv videos as well
+
+[33mcommit 12dae24463ea593bd8db3ff816b55eb183912dd4[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Feb 28 21:54:41 2020 -0500
+
+    pin version of major dependencies
+    
+    pinned the version of all major dependencies. update python to 3.8
+
+[33mcommit 79e3959f2107a26b653ede5e9026b9ed83811bf6[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Feb 28 21:45:52 2020 -0500
+
+    clean up environment file
+    
+    clean up environment.yml. removed all commented dependencies to include only the major ones.
+
+[33mcommit 987ed209f035e989d9963f8bbf4a7664a38611cb[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Feb 28 21:38:12 2020 -0500
+
+    fill Nan with 0 after motion correction
+    
+    change the default filling strategy for Nan values to filling with 0.
+    this helps avoiding memory issues.
+
+[33mcommit 42aa9893a5584684e91bb6feae64c6bd2de50f2c[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Feb 28 21:36:31 2020 -0500
+
+    clean up unnecessary steps
+
+[33mcommit a3e1d7efb70cca14cea45195408f150316995199[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Feb 28 21:35:21 2020 -0500
+
+    return data on disk after saving
+    
+    return the saved zarr array on disk after `save_minian`
+
+[33mcommit 0f6c9a14fc67fc36ac00dd771d6d47bb926a146b[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Feb 28 21:31:34 2020 -0500
+
+    implement new strategy for optimal chunks
+    
+    take into account of intermediate variables in memory during cnmf.
+    should work better for small RAM
+
+[33mcommit 8ddd15816166b24a282990599fad50a0d4436d14[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Feb 28 21:13:10 2020 -0500
+
+    change `is` to `==` to suppress syntax warnings
+
+[33mcommit 910e1fdf52cd23727434585bb26ce7c77eb1e8e0[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Feb 28 21:12:14 2020 -0500
+
+    minor change in compute graph
+
+[33mcommit 71fb6bdf53a258e1f88a8627bac3b1dd5cb74fad[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Feb 28 21:11:06 2020 -0500
+
+    support distributed scheduler for spatial update
+    
+    experimental support of dask distributed scheduler for spatial update
+
+[33mcommit 5711380a06a539b561a0790d7779b7b5b78c6f0f[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Feb 28 21:08:14 2020 -0500
+
+    use opencv morphology for cnmf
+    
+    use cv2 dilation and erosion instead of skimage for spatial update
+
+[33mcommit 9d2fb3d55860f8ab9e907d32b493c50f38f7bcea[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Feb 28 11:48:16 2020 -0500
+
+    use numpy inverse and optimize dask
+    
+    use np.linalg.inv instead of scipy one. minor optimization of chunking and compute.
+
+[33mcommit 38b8e187b5c051b7ba172379ff0a39f58eebb4b9[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Feb 28 10:58:10 2020 -0500
+
+    add exclusion of .history
+
+[33mcommit 55091be6dc0328d0f998344e936739dcbf498e3e[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Feb 28 10:57:32 2020 -0500
+
+    explicitly cast to int
+    
+    explicitly cast `nstp` to int to account for newer version of numpy
+
+[33mcommit af4c12240b7427a94662ab3e9c917e20fd2b97f9[m
+Author: Matthias Klumpp <matthias@tenstral.net>
+Date:   Tue Jan 28 12:12:48 2020 +0100
+
+    Permit loading mkv videos as well
+
+[33mcommit 1d9f704c7566935b8172389f665d6f84e684adfa[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Dec 2 17:10:14 2019 -0500
+
+    fix a bug in cross registration
+    
+    fix the bug in calculate_centroid_distance where only the first pair of sessions are returned
+
+[33mcommit 77b84e5dc53f35bec9105697a0e31535db8d3a3b[m
+Merge: c33a4277 cf16ee7d
+Author: wmau <wmau@bu.edu>
+Date:   Wed Nov 27 12:22:20 2019 -0500
+
+    Merge pull request #46 from DeniseCaiLab/wmau_tiffs
+    
+    Significant speed improvement during initial movie load
+
+[33mcommit cf16ee7d546e402465c74670e2631b650e611480[m
+Author: William Mau <wmau@bu.edu>
+Date:   Wed Nov 27 11:38:04 2019 -0500
+
+    Significant speed improvement during initial movie load
+
+[33mcommit c33a427783b41cc3e1a5304d2eaab4ee6f1b8058[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Nov 13 15:22:26 2019 -0500
+
+    initial attempt to implement bisect algorithm for estimating shifts
+
+[33mcommit 31d3d704bc0f7a75f9ec615b54f96e9634e6d08a[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Nov 13 15:21:24 2019 -0500
+
+    preserve chunk size of shifts to align with movie
+
+[33mcommit 2a176fcb3f42817c6c4ab0c554594b25f1f1d8c1[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Nov 13 15:20:09 2019 -0500
+
+    implement additional parameters to handle multiple peaks in correlation in estimate_shift_fft
+    
+    implement `mode` and `max_wnd` to add option to use local max to select shifts.
+
+[33mcommit 2a81d44df3a8ed3122a991e5c77dbdd63c869533[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Nov 13 15:03:13 2019 -0500
+
+    implement 'perframe' option for estimate_shift_fft
+
+[33mcommit e40604096607052c1de7eae43c1be3c3ebea5a97[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Nov 13 14:55:13 2019 -0500
+
+    overwrite output video in write_video
+
+[33mcommit d4530106ee45ff604a6d7e60c50e0ace1bb71713[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Nov 13 14:54:46 2019 -0500
+
+    fix a bug in vaviewer where the first frame is not 0
+
+[33mcommit 9568a5c8d14f3a947ba197cffbb5e65b937afe98[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sun Oct 20 22:14:49 2019 -0500
+
+    update default parameters for new demo movies
+
+[33mcommit b79365f4a16573f3e950afa9c7a99a55a8b9ac90[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sun Oct 20 22:13:48 2019 -0500
+
+    use chunked raw data as demo movies
+
+[33mcommit 0fef76fbb347983320f657bb0e08946fd3ee1885[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sun Oct 20 22:12:22 2019 -0500
+
+    drop rejected units in g to avoid Nan after aligning coordinates
+
+[33mcommit 9f3993358974cf023d3e6e1319d4dd6a83849c22[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sun Oct 20 22:10:57 2019 -0500
+
+    fix hanging during visualization of initialization
+
+[33mcommit 2ad0c8212c5830149e347ba4dfd540f9c6156263[m
+Merge: 27fd2634 8df96bcc
+Author: Denise Cai Laboratory <47047748+DeniseCaiLab@users.noreply.github.com>
+Date:   Fri Oct 18 22:28:24 2019 -0500
+
+    Merge pull request #44 from DeniseCaiLab/dev
+    
+    merging dev to prepare v0.1.0 release
+
+[33mcommit 8df96bcc592464fc64b1f3fba31d43a19130089b[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Oct 18 22:08:39 2019 -0500
+
+    add license
+
+[33mcommit 156eb73322508526ba8372359cc28299a4ec0a23[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Oct 18 21:52:33 2019 -0500
+
+    synchronize pipeline and pipeline_noted; updated notes
+
+[33mcommit 3ae1e68535460c271a498595cc93c3cf8983ab55[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Oct 18 21:51:12 2019 -0500
+
+    update default parameters
+
+[33mcommit d83b7f2c98e0d5a3b7b4b8059cf31fcd842e1f0a[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Oct 18 11:53:28 2019 -0500
+
+    synchronize pipeline and pipeline_noted: merge old notes with new pipeline
+
+[33mcommit 25a80f965c8ce948882c6a12a2952e91fdf407a6[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Oct 18 11:18:18 2019 -0500
+
+    change default parameters for pipeline.ipynb
+
+[33mcommit 4aaa418341f94ffb211509e033594d669f27441d[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Oct 16 18:51:45 2019 -0400
+
+    implment normalization of pulse response in visualize_temporal_update
+
+[33mcommit 881575fbb5c73f1c888caf78d35baa7db94d7257[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Oct 16 18:51:10 2019 -0400
+
+    properly handle empty result in visualize_temporal_update
+
+[33mcommit c812e5ebf5cb9dfd4d4932a995285a8332ed3b3d[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Oct 15 17:55:52 2019 -0400
+
+    amend update_temporal: implement check before rechunking
+
+[33mcommit cd0575074e37e4775da1327f332dfcd385cb108a[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sun Oct 13 19:03:20 2019 -0400
+
+    amend CNMFViewer
+    
+    clear selection when switching groups
+
+[33mcommit 8be5ee30491e475c792c83fecce7b8be00c390ac[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sun Oct 13 16:12:19 2019 -0400
+
+    amend update_spatial and update_temporal
+    
+    implement check for post-processing steps
+
+[33mcommit 4fd54eb9e0311a75ef7f8c9758c6ace8ecb9d6de[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sun Oct 13 15:52:06 2019 -0400
+
+    take out 'mask_gmm'
+
+[33mcommit 34d90ba566bf561f44e90dcdafaf538b5babbbb0[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 17:44:06 2019 -0400
+
+    update pipeline notebook
+    
+    update chunk size calculation; implement new `seeds_init`; take out `gmm_refine` and `intensity_refine` steps; take out final merging step; misc plotting fixes
+
+[33mcommit cbcb7b7e67885d4fb18aed77fa5e2655ab9816c1[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 17:29:29 2019 -0400
+
+    output of generate_video overwrites
+
+[33mcommit ba5ae089e18324589323c773dc78c194109d0611[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 17:28:52 2019 -0400
+
+    amend update_temporal: YrA correction
+    
+    use un-normalized YrA for post-hoc scaling and return normalized YrA
+
+[33mcommit 325043dcbb194ccb72a44ab8a71071dc8317feaa[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 15:02:35 2019 -0400
+
+    reworked cross-registration notebook
+    
+    various changes accomodating new api; streamlined and simplified; support only single animal.
+
+[33mcommit 69361feeb65357ff5289419f26f1327485020c14[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 14:48:59 2019 -0400
+
+    add pyav as dependency
+
+[33mcommit 47f72e96b32806232d52ddd9eefad5e30acf14f7[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 14:48:07 2019 -0400
+
+    use pyav as backend for generating videos
+
+[33mcommit 83cb63bda0cd5f276132f62947f17ae8efa1efc2[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 14:44:55 2019 -0400
+
+    clean up
+
+[33mcommit fba950711ec689e960d195b46b828ade80f7e118[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 14:44:28 2019 -0400
+
+    clean up old code
+
+[33mcommit 62ce284b572adad594fb1ea91eef4062c3d82ecd[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 14:42:17 2019 -0400
+
+    formatting changes
+
+[33mcommit bf40f434adb2c27bd85037e41c8997d8c36da3c3[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 14:40:49 2019 -0400
+
+    formatting changes
+
+[33mcommit 0fb5b90e23e08bf53ba160187f9306fee901eace[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 14:40:25 2019 -0400
+
+    import median_filter
+    
+    for usage in pnr_refine
+
+[33mcommit 4d64158e324f28e8c0164e693f08c42e930f679d[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 14:39:22 2019 -0400
+
+    amend initialize: simpler background
+    
+    use a movie masked by units to generate initial background term
+
+[33mcommit d2ce1074ac5e25477aaaa9a1bda70eaecde40f4b[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 14:37:55 2019 -0400
+
+    amend initialize
+    
+    directly use Pearson correlation as initial spatial footprint
+
+[33mcommit e817f61036ed1d25e9e1a006a7d79fde05444717[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 14:36:26 2019 -0400
+
+    amend initialize
+    
+    implement `noise_freq` when calculating local correlations
+
+[33mcommit c829d1a97af84fdcadfd9adb57416264b71de3fa[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 14:32:36 2019 -0400
+
+    amend seeds_init
+    
+    use a rolling max filter and implement `diff_thres` to pick out small cells and limit low-fluctuation noise at the same time.
+
+[33mcommit 20f73007a6f8ddecb302277761943786427657bc[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 14:25:02 2019 -0400
+
+    amend cross-registration to handle cases for single animal
+
+[33mcommit 3345ae48ff45c17987d8036c07eb783528799e39[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 14:23:26 2019 -0400
+
+    amend estimate_shifts
+    
+    deprecate pct_thres
+
+[33mcommit 58500a4b06de31508c005de5ba778bdac19fdc7c[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 14:11:23 2019 -0400
+
+    update gitignore
+
+[33mcommit 4ec847de9e43c58d8263d5782c956054c2c988ce[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 14:07:38 2019 -0400
+
+    hacky correction for sparse penalty when updating multiple units together
+
+[33mcommit 77d8a46713b64250b91f0be30085aeaaff65b694[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 14:07:06 2019 -0400
+
+    linting: remove unused variables
+
+[33mcommit 45db0b084b69a235819a7fa6326f5905ae783a36[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 13:57:53 2019 -0400
+
+    take out message in smooth_sig
+
+[33mcommit 8790b537cce370d51bca1d4deaaea17d2f39ccdd[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 13:55:26 2019 -0400
+
+    amend update_temporal
+    
+    modify results handling to directly use `sig_new` in post-hoc scaling.
+
+[33mcommit e5168fbc0348b9a5960fd484cdcef8b5353d19bb[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 13:54:02 2019 -0400
+
+    amend update_temporal
+    
+    add "sum" as noise estimation method and use it during estimation of noise of YrA; implement unit-norm normalization of YrA; properly handle the case when no cell is overlapping.
+
+[33mcommit bb8d18e32b9f98a9635261a212c948301bd5e5f9[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 13:39:33 2019 -0400
+
+    handle nans in  background term during compute_trace
+
+[33mcommit 9f203b692082c25d868a6202bc6db61bd9458807[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Oct 12 13:38:14 2019 -0400
+
+    amend update spatial
+    
+    amend update_background to use proper `sub` matrix and turn it on by default. turn off post_scal and implement unit-norm normalization by default.
+
+[33mcommit 240aa1225165e89a9dcd6791fcf58a72251d080d[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Sep 7 13:50:46 2019 -0400
+
+    do not datashade pulse response in temporal update
+
+[33mcommit ded7a73cccd5595db8fb9c27e4ca231e509db89f[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Sep 2 14:46:27 2019 -0400
+
+    improvement on update_temporal
+    
+    switch to dask vectorize instead of xarray apply_ufunc; force processes
+    scheduler; misc improvements.
+
+[33mcommit dbffd96b16b90cba6dd0f0e24221034a8e08b083[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Sep 2 14:45:01 2019 -0400
+
+    potential improvement in memory consumption of compute_trace
+    
+    misc fix to potentially reduce the memory consumption of compute_trace
+
+[33mcommit 95442408d45a23c2b23f11bf6985b8f6747a4085[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Sep 2 14:43:18 2019 -0400
+
+    use dask vectorize for spatial update
+    
+    switch to dask gufunc instead of xarray apply_ufunc for spatial update
+
+[33mcommit bdb8380d73ba5763c4d6b42ee043be8dda129d7f[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Sep 2 14:38:47 2019 -0400
+
+    more flexible meta-dimensions handling in cross-registration
+    
+    support the case where no meta dimensions are presented. (e.g. single animal)
+
+[33mcommit 31c42d7a05119f4badc81ae4a74c3b40537f4c75[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Sep 2 14:34:41 2019 -0400
+
+    adjust chunksize based on memory
+    
+    add ncores and mem_limit to get_optimal_chk to estimate the best chunksize for
+    performance within memory limit.
+
+[33mcommit 300f0e8a3269fab0fe98a847ac6cd4f5600825a3[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Sep 2 14:32:53 2019 -0400
+
+    add template for motion correction
+    
+    add 'first' 'last' and selection of individual frame for estimate_shift_fft
+
+[33mcommit daf1e5a4c3c3804de53646a2ecff388be68ac31c[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Sep 2 14:31:56 2019 -0400
+
+    change normalization for initialization
+    
+    change the way initial A and C are normalized
+
+[33mcommit 7abb665419cb80c1a8198b08335e3e1e39246cc3[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Aug 28 13:38:01 2019 -0400
+
+    update background term f in update_spatial
+
+[33mcommit f9a6749499ece756d6cec2ed87d2216c089c010c[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Aug 28 13:36:11 2019 -0400
+
+    normalize spatial post-hoc scaling
+    
+    normalize the post-hoc scaling factor by the mean of temporal component
+
+[33mcommit 69e6160bce7124b51ff19fed3974271bd3e6897c[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Aug 28 13:33:27 2019 -0400
+
+    update get_noise_fft to avoid storing intermediate fft results
+
+[33mcommit 62c001e421084e2485b296a47b83cb36c462e478[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Aug 27 13:13:51 2019 -0400
+
+    takeout pre-computing of the fft results to avoid memory issue
+
+[33mcommit 50a6848af493053c453e980c1004b14e819fabca[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Aug 16 17:42:35 2019 -0400
+
+    update generate_videos
+    
+    update the way generate_videos are called to accommodate changes in pipeline.
+
+[33mcommit f35762467b3a092fa13dd32c0ae75766c2e04e2b[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Aug 16 17:42:17 2019 -0400
+
+    misc cleaning up
+
+[33mcommit a7d70156ddfd3e703c78b3c9d212b7523878b14f[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Aug 16 17:40:34 2019 -0400
+
+    default parameter update
+    
+    parameter update after normalizing steps are taken out.
+
+[33mcommit 63aecdfbfa7768a6a904b078e0d74cc915ebdb44[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Aug 16 17:38:52 2019 -0400
+
+    normalize visualization scaling
+    
+    making the sizing of plots consistent. other misc visualization fix and updates.
+
+[33mcommit bc15dc7744a70f9a924933e9eabde8853ca251a4[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Aug 16 17:28:12 2019 -0400
+
+    streamline pre-processing
+    
+    simplify pre-processing to 3 steps; put motion correction after pre-processing;
+    take out scaling steps and enable storing the movie in np.uint8.
+
+[33mcommit 2be0c2c1c4078a3ceb754578681b7d74354dfb6e[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Aug 16 17:21:09 2019 -0400
+
+    take out %qtconsole
+
+[33mcommit f3774b7c06e779ecea6d0d569b9c7e76b19f8235[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Aug 16 17:19:09 2019 -0400
+
+    update video intensity scaling
+    
+    update the way generate_videos behave in terms of scaling the data to accommodate
+    the new pipeline
+
+[33mcommit 7f2cc887107cd18f489c95e5221de4ca1b81baeb[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Aug 16 17:17:56 2019 -0400
+
+    visualization scaling and datashading updates
+    
+    update visulization functions using holoviews' new layout framework, and make
+    the sizing more consistent; take out unnecessary datashading and other misc changes.
+
+[33mcommit d1cef857af277fb398e2c86ccb3886992cd03b8e[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Aug 16 16:48:55 2019 -0400
+
+    change the default name of varr
+
+[33mcommit c53f834ca1ddd6e9b0c950bcc18b13ab1ef32d2d[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Aug 16 16:32:45 2019 -0400
+
+    update motion correction
+    
+    introduce a new parameter max_shift to determine how much the template should be
+    truncated to get rid of border effects; get rid of pad_f and zero-padding the
+    fft result all the time; get rid of pct_thres and just use the maximum.
+
+[33mcommit fb617f8192ca5c44415079af0f3eaafcf337795a[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Aug 12 14:59:37 2019 -0400
+
+    add instructions for using docker
+
+[33mcommit 9670d6bff7ea8bf7ea5ea9493187fdae25407c3f[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Aug 12 12:25:50 2019 -0400
+
+    add Dockerfile
+
+[33mcommit 5782167e558cc7802ac2d4ce49cd36a8f4272de8[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Aug 7 13:11:15 2019 -0400
+
+    pin dask to <2.0.0 to avoid compute_meta/vectorize error
+
+[33mcommit 04f44ce69f7611c8ac5b15b41fd2dce3e0a76375[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Aug 7 13:10:07 2019 -0400
+
+    remove unnecessary channels and pinning
+
+[33mcommit 756e4025a5177a0ac26c36afcb9a0c68c88371f1[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Aug 6 14:20:44 2019 -0400
+
+    fix a vectorize bug from new dask/numpy version
+    
+    the vectorize signature seems not correctly generated when directly calling
+    vectorize=True and dask='parallelized' from xr.apply_ufunc. manually generating
+    the gufunc from dask seem to fix this.
+
+[33mcommit ea82175c2682e272d7e7ddc8448971bc127c48e4[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Aug 5 12:21:13 2019 -0400
+
+    better memory management for generate_videos.
+
+[33mcommit 111f2de1f49bd0f91891e1e9a9b79878162c8913[m
+Merge: d03f49da e40df634
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Sat Jul 6 13:26:51 2019 -0700
+
+    Merge pull request #41 from DeniseCaiLab/crossreg_update
+    
+    Crossreg update
+
+[33mcommit d03f49da52db2043b0047b601a5b0de730f5a8e2[m
+Merge: 6bc53434 28bdebdc
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Fri Jul 5 11:53:02 2019 -0700
+
+    Merge pull request #31 from DeniseCaiLab/zdev
+    
+    great job! Thank you @ZachPenn
+
+[33mcommit 28bdebdccf70ba0b8e0000967089f3a11f023f0b[m
+Merge: 826c2c56 6bc53434
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Fri Jul 5 11:52:20 2019 -0700
+
+    Merge branch 'dev' into zdev
+
+[33mcommit e54fad22f25d82c0456fe2a16f37a7c7ee7701cd[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Thu Jul 4 14:49:47 2019 +0200
+
+    Save B_mrg_it2 as bl and update reference in fx generate_videos
+
+[33mcommit e40df634b6496357d1baa7d881569131af0cbe0c[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jul 2 15:54:33 2019 +0200
+
+    update crossreg notes
+
+[33mcommit d63d6cef9fc7ee41e2a01a8036eecd96a14db9b0[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jul 2 15:40:33 2019 +0200
+
+    Update cross-registration notes
+
+[33mcommit f724fdb9ebab00e15069a3c870037946a853714d[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jul 2 10:20:33 2019 +0200
+
+    Make f_pattern and id_dims variables in cross-registration and add instructions for users
+
+[33mcommit 826c2c56f415a2e3ca3751122e1394f29869d6f7[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Mon Jul 1 12:32:11 2019 +0200
+
+    Fix paramater typos
+
+[33mcommit 4b9997b2406691556d0b5da6e09c6e3e5a58e915[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Mon Jul 1 12:09:04 2019 +0200
+
+    remove in_memory requirement for visualization of shifts
+
+[33mcommit a6727bacd1e63cd5d5580e8f65cff787b6296266[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Mon Jul 1 11:59:36 2019 +0200
+
+    Update initial paramaters for merge with dev
+
+[33mcommit 170ee87b9670ba9749ed5a53c5a58d1a6267d1ca[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Mon Jul 1 11:50:29 2019 +0200
+
+    remove redundant setting of subset_mc variable
+
+[33mcommit 6bc53434af3090a0c341a7e8ee1bfa2559e9c24d[m
+Merge: a86b7a85 5617339e
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Sun Jun 30 14:54:27 2019 -0700
+
+    Merge pull request #40 from DeniseCaiLab/wmau_tiffs
+    
+    Adds functions for reading multi-page tiffs into minian
+
+[33mcommit e441c40de48f41016c80a974bb3d43bc957d755c[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Jun 29 13:13:43 2019 -0700
+
+    update cvxpy and numpy version, this makes additional steps for installing cvxpy on windows obsolete
+
+[33mcommit 4b4fa1b32999e7a444fcf7239a8ee46cc984a4d8[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sun Jun 30 08:53:26 2019 -0700
+
+    fix slicing coordinates beyond bounds in initialize
+
+[33mcommit a86b7a859ef0d7053a893898ceecd4578d382c82[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sun Jun 30 08:53:26 2019 -0700
+
+    fix slicing coordinates beyond bounds in initialize
+
+[33mcommit 5617339e82f376377f3f22f165fc397439b57b4b[m
+Merge: caaffbca 3983d09d
+Author: eichlab <eichlab@bu.edu>
+Date:   Sun Jun 30 08:57:19 2019 -0400
+
+    Merge branch 'dev' into wmau_tiffs
+
+[33mcommit caaffbca300975c581db430c33c3ec61e5a69b9e[m
+Author: William Mau <wmau@bu.edu>
+Date:   Sat Jun 29 21:43:44 2019 -0400
+
+    Add functions for reading tiffs
+
+[33mcommit db76c13bdff6b9163dafd95d6e84995c59da0900[m
+Author: William Mau <wmau@bu.edu>
+Date:   Sat Jun 29 21:39:27 2019 -0400
+
+    Revert "Add tiff reader"
+    
+    This reverts commit 2be72b8e0eeea5fb6539bcc90ecd7326a300d940.
+
+[33mcommit 3983d09d5401f5593591ecae42fce5547d0a92d0[m
+Merge: db44bbec 27fd2634
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Jun 29 13:32:17 2019 -0700
+
+    Merge branch 'master' into dev
+
+[33mcommit 27fd26347d761c17140bc9f3f95abd805397a64d[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Jun 29 13:13:43 2019 -0700
+
+    update cvxpy and numpy version, this makes additional steps for installing cvxpy on windows obsolete
+
+[33mcommit 2be72b8e0eeea5fb6539bcc90ecd7326a300d940[m
+Author: William Mau <wmau@bu.edu>
+Date:   Sat Jun 29 14:21:28 2019 -0400
+
+    Add tiff reader
+
+[33mcommit 8eee00e0da306d0da3f82d70f6c7186030443259[m
+Author: Zach Pennington <38541976+ZachPenn@users.noreply.github.com>
+Date:   Sat Jun 29 00:06:31 2019 +0200
+
+    Update README.md
+
+[33mcommit 224659718e61203f2edaa059c61479bc128c8b78[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Sat Jun 29 00:01:25 2019 +0200
+
+    Set cvxpy version to 1.0.1 in yml to avoid compatability issue
+
+[33mcommit bc0354adc1d564c585d381977e334f87e6cf308d[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Fri Jun 28 20:40:10 2019 +0200
+
+    remove matplotlib version requirement
+
+[33mcommit 32f55c101fe75a940bf22233fcc16c0cf61b9eae[m
+Author: Zach Pennington <38541976+ZachPenn@users.noreply.github.com>
+Date:   Thu Jun 27 18:39:13 2019 +0200
+
+    Update README.md
+
+[33mcommit cf71388fc7c70f5c671f493534990f443452db6d[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Mon Jun 24 15:42:04 2019 -0400
+
+    Remove demo output
+
+[33mcommit d1bcdaf041564c360d864e6977d64334d308a259[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Mon Jun 24 13:05:18 2019 -0400
+
+    Fix display of image after second temporal update
+
+[33mcommit c5794ec22c50faadecbb65d5906905aa9d7c24cb[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Sun Jun 23 06:12:26 2019 -0400
+
+    Address comment on fix for fix of visual of bad units when len(badunits)=0
+
+[33mcommit 97eb598378ae9981576b8de8b406b2d124405b8f[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Thu Jun 20 11:36:28 2019 -0400
+
+    Cross-Registration Add Headings
+
+[33mcommit dbd62c3c5c560cc9cb85891c85a73cb1fae8c22c[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Wed Jun 19 14:54:18 2019 -0400
+
+    Update Noted fix error on bad unit vis when no bad units
+
+[33mcommit a6e37fcc71f5f0841395129f671c39869389153f[m
+Merge: 166c8e26 16293d13
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Wed Jun 19 14:37:08 2019 -0400
+
+    Merge branch 'edit_noted' into zdev
+
+[33mcommit 16293d131fd32152c139aae4f1ac86f1d0772583[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Wed Jun 19 12:56:31 2019 -0400
+
+    Update Noted edit code sections to make consistent with Master
+
+[33mcommit fae6b68015742c9270a9dcbb9fa02174ca2a8b87[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Wed Jun 19 11:17:00 2019 -0400
+
+    Update Noted Make Key Module Headings Stand Out More
+
+[33mcommit d5cfe26f3f826c7b99542c944d5484e3f533ddca[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Wed Jun 19 10:57:33 2019 -0400
+
+    Update Noted Fix Temporal Image Path
+
+[33mcommit c10e1e11df04e0c31653e87a6192ca18e762d035[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Wed Jun 19 10:54:57 2019 -0400
+
+    Update Noted Spatial Update Intro
+
+[33mcommit c1b3ce160af744c7ca217f37d769190b938a5c61[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Wed Jun 19 09:56:24 2019 -0400
+
+    Update Noted Explore First Spatial Paramaters
+
+[33mcommit 9c78694071965d890ccc570a720c88762b6f09de[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Wed Jun 19 09:45:47 2019 -0400
+
+    Update Noted Estimate Spatial Noise
+
+[33mcommit 2e856fccdc24b2bc4d99f45c92b467035b6a5485[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 21:13:19 2019 -0400
+
+    Update Noted CNMF intro
+
+[33mcommit 6c32c47b43dfd021e84b28275900cebdabe32913[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 20:41:26 2019 -0400
+
+    Update Noted Init A and C
+
+[33mcommit 0bfa37b7848991c44bd9117cc64c53046b257bcb[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 20:10:13 2019 -0400
+
+    Update Noted Init Seeds Merge
+
+[33mcommit eee294393eb5e31e7624370aca2e401233aa1059[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 18:47:00 2019 -0400
+
+    Update Noted KS Refine
+
+[33mcommit adf218e382a8529c0d4781109e876a067329023e[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 18:26:17 2019 -0400
+
+    Update Noted Intensity Refine
+
+[33mcommit d1f6b02d0f337a3e9de053f862d63efb4594c043[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 17:05:38 2019 -0400
+
+    Update Noted PNR
+
+[33mcommit b693022b6ff983452cd1fc94a120b884e5328057[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 16:24:38 2019 -0400
+
+    Update Noted GMM
+
+[33mcommit 8acedbec74ed0068ed55db5f08bb72a5d76cd4e8[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 15:42:58 2019 -0400
+
+    Update Noted Initialize Overcomplete
+
+[33mcommit 860cd4bb3e22cdce5f75e62420e3bea13938b091[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 15:26:20 2019 -0400
+
+    Update Noted Bckgrnd Subtraction
+
+[33mcommit 8c8cc09c1de3bd90ca89feee7d60440de3aeee2f[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 15:15:57 2019 -0400
+
+    Update Noted Apply Shifts and Save
+
+[33mcommit c184349c45d93d303d8764eee4cf20fdda836639[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 14:58:40 2019 -0400
+
+    Update Noted Interpolation
+
+[33mcommit 60c03686a174b21e4025a544eba2d4fbab56b7d4[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 14:30:58 2019 -0400
+
+    Update Noted Est Shifts
+
+[33mcommit 2ca1451501460e1903c470bd7edb95322854120d[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 14:19:37 2019 -0400
+
+    Update Noted Mt Correct Statement
+
+[33mcommit cab346e7970f96a7c072bd7999489cec0a3a2e23[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 14:17:32 2019 -0400
+
+    Update Noted Subset_mc
+
+[33mcommit bc67bb4f9d56ee09f14e23e3152b6ab37634a7e8[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 14:02:46 2019 -0400
+
+    Update Noted Denoise
+
+[33mcommit 07126f21dcdaa542187aba1b04362bb394f6139d[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 13:12:00 2019 -0400
+
+    Update Noted Bright Spots
+
+[33mcommit e422a398358edcb558721ee554f97afc2ce837f5[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 13:01:48 2019 -0400
+
+    Update Noted Glow Remov
+
+[33mcommit b873e2a258caa413816a888b8d254e3e796796be[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 13:01:36 2019 -0400
+
+    Update Noted Glow Remov
+
+[33mcommit fd2d76595c4a703283d5590ed203719f4ca0c8d0[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 12:53:00 2019 -0400
+
+    Update Noted Stripe Correction
+
+[33mcommit e984878dda416134bef09e3dbc45697476cbd506[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 12:44:47 2019 -0400
+
+    Update Noted Subsetting
+
+[33mcommit 1fa37f5efa2e5d1cd48cbf6410e0e9a25ee09ca9[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 12:44:13 2019 -0400
+
+    Update Noted Subsetting
+
+[33mcommit 7aa982c4c6ca748d057571e06f23b247c2b23d55[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 12:24:06 2019 -0400
+
+    Update Noted Loading Videos
+
+[33mcommit eab0a10bc05b21668a6a911c75c5ea0f460a06b4[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 11:22:00 2019 -0400
+
+    Update Noted Setting Up
+
+[33mcommit ab05797c9d8f71908368637c5cc93dbb3374ad25[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 10:44:17 2019 -0400
+
+    Update Noted Workflow
+
+[33mcommit 66516f4d05f5718a7845f0181a31add8cd8472b7[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Tue Jun 18 10:24:39 2019 -0400
+
+    Update Noted About this doc
+
+[33mcommit 6fa3c941c96e05e3c363cb010326e9c412c48397[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Mon Jun 17 21:23:56 2019 -0400
+
+    Update Noted Final Viewer
+
+[33mcommit 71ed036fd60bc379a9783ba16bdf2e5667609351[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Mon Jun 17 20:48:44 2019 -0400
+
+    Update Noted Save Results
+
+[33mcommit d6a0befa2310753ed46b4337c297aa4f971cda86[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Mon Jun 17 20:43:32 2019 -0400
+
+    Update Noted Second Merge
+
+[33mcommit 6c288c308c130bb913f757907d9ea538f76005d9[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Mon Jun 17 20:41:44 2019 -0400
+
+    Update Noted Second Temporal
+
+[33mcommit 32be8667aa05e70721cfe38ec9aa24948aab3ecd[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Mon Jun 17 20:38:00 2019 -0400
+
+    Update Noted Second Spatial
+
+[33mcommit 9144e95667c59b6bded7ad38c3011f539d26d514[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Mon Jun 17 20:10:54 2019 -0400
+
+    Update Noted First Temporal Merge
+
+[33mcommit d9b5aff7d4413170fb3638f795a75da385202a2c[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Mon Jun 17 20:03:09 2019 -0400
+
+    Update Noted First Temporal Visualize
+
+[33mcommit c77d941259672706449ef88a876e3cb91a59aceb[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Mon Jun 17 19:51:55 2019 -0400
+
+    Update Noted First Temporal GreenTip
+
+[33mcommit 99ece49e8002e670cae15cf8f0898ea361c36e07[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Mon Jun 17 18:41:07 2019 -0400
+
+    Update Noted First Temporal P4
+
+[33mcommit 3b7cdf67213c388ea495b8abfed23fba56921bca[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Mon Jun 17 18:30:33 2019 -0400
+
+    Update Noted First Temporal P3
+
+[33mcommit 309a79f1051dbf6d8c31421b7aac8c81107b2fdf[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Mon Jun 17 18:03:25 2019 -0400
+
+    Update Noted First Temporal P2
+
+[33mcommit 899baf08e4ace53ed9a09406f92eaa8fb98616c7[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Mon Jun 17 17:02:17 2019 -0400
+
+    Update Noted First Temporal P1
+
+[33mcommit 166c8e26246c1a7d1edfed1dad73174496d215a6[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Mon Jun 17 12:15:41 2019 -0400
+
+    Add qtconsole for France
+
+[33mcommit f595cb995e4a1aaf638f3508604c2509712647ae[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Mon Jun 17 12:03:43 2019 -0400
+
+    Reduce redundant seeds variables
+
+[33mcommit 172e2e7ca79afef22eb79c39c490645aba7dab24[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Sun Jun 16 23:24:40 2019 -0400
+
+    Fixed visual of bad units when none found
+
+[33mcommit 766df9207ade6c7e658b274de8229904ee7eadad[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Sun Jun 16 22:21:58 2019 -0400
+
+    Second temporal update presented with first temporal update, post-merge
+
+[33mcommit 0520354f65dcb66eb18ed35b19016aacc4706aca[m
+Author: DeniseCaiLab <denisecailab@gmail.com>
+Date:   Sun Jun 16 21:01:16 2019 -0400
+
+    Updated defaults for France workshop
+
+[33mcommit 4c7260b89424d2dccf1961ad3326fedf5749ac68[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sun Jun 16 12:39:05 2019 -0700
+
+    properly handle the length of pulse if the total frame count is smaller than 500
+
+[33mcommit c3e43aeacfc0d79e01305344ab94caba2da97233[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sun Jun 16 12:22:38 2019 -0700
+
+    properly handle down-sampled spatial coordinates during init_perseed
+
+[33mcommit db44bbecd7171a1a637864dfeddbaf115239942f[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sun Jun 16 12:39:05 2019 -0700
+
+    properly handle the length of pulse if the total frame count is smaller than 500
+
+[33mcommit 6d0c17b1f1b3b32c8df220a86979630e48ab9a32[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sun Jun 16 12:35:43 2019 -0700
+
+    use new frame_height/width options in CNMFViewer, requires holoviews >= 1.12
+
+[33mcommit 6ba96ba73f63a820bf8a856ba48d19e2a6b3cfc5[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sun Jun 16 12:30:02 2019 -0700
+
+    accommodate api changes in panel 0.6.0
+
+[33mcommit 20f6476e635c033ffe036e2e1f41e5bb5d5020fd[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sun Jun 16 12:24:29 2019 -0700
+
+    reimplement down-sampling with xarray's new coarse function. requires xarray >= 0.12
+
+[33mcommit 7d87783473f58d1e1c1d56c671188a8f7b20e9d6[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sun Jun 16 12:22:38 2019 -0700
+
+    properly handle down-sampled spatial coordinates during init_perseed
+
+[33mcommit 9594fde4be0583dadd9c5f54a24a8005a8760bf7[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Jun 15 11:06:24 2019 -0700
+
+    add images for pipeline_noted
+
+[33mcommit a9e5c37a712b1aba801eaf0441838ecb421153f4[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Jun 15 11:03:41 2019 -0700
+
+    incorporate notes from @susiefeng
+
+[33mcommit eca2fd6183491523fc7b34c470c017641ce0c270[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Jun 12 08:42:35 2019 -0700
+
+    fix rechunking of YrA
+
+[33mcommit 666c620b1a4ed0c91f06244bc19d8a5aa056d59e[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Jun 11 09:46:28 2019 -0700
+
+    properly chunking to speed up initialize and compute_trace
+
+[33mcommit b7cdd595fb90cbfd08d8617ba08484ac53b7dce3[m
+Author: Zachary Pennington <denisecailab@gmail.com>
+Date:   Mon Jun 10 20:23:39 2019 -0400
+
+    fix data type bug in initialize
+
+[33mcommit 2e9d508ffce240bf9a42a784046d75744619cd92[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Jun 10 09:31:40 2019 -0700
+
+    properly chunk the data; clean up unecessary rechunking; take out in_memory options; clean up workflow
+
+[33mcommit d1970985f633a8aa829e90229212fd5199da4b07[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sun Jun 9 10:13:30 2019 -0700
+
+    clean up unecessary steps in motion correction
+
+[33mcommit de741b2373aa608e2fc996b28470830281769035[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Jun 8 12:40:45 2019 -0700
+
+    fix missing parameter in visualization
+
+[33mcommit f067a71a3155546f2c4a136ffff250c773f7de39[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Jun 8 12:39:54 2019 -0700
+
+    properly handle parameters for holomap
+
+[33mcommit 3880d48cea04d416539dc54401401a55475ba75e[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Jun 8 12:26:31 2019 -0700
+
+    correct refrence to widgetbox
+
+[33mcommit e9b055f872e6b1e0ac5bb2b7f202842ea4f4fa1d[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Jun 8 12:25:37 2019 -0700
+
+    take out pims
+
+[33mcommit 3ea67a63e83deabba6b5607017e92b6480393c2d[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Jun 8 14:23:52 2019 -0400
+
+    disable replacement during random choice of seeds
+
+[33mcommit e2c14712a40a545d0e89bf175f32ee1df9f64153[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Jun 8 14:21:14 2019 -0400
+
+    take out black frame detection and rechunking
+
+[33mcommit 800a38f48152d7675acee56b444a66f7512a2e51[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Jun 8 14:20:13 2019 -0400
+
+    take out handle crash
+
+[33mcommit a6dbd6545047aeec7d903568bc4d08e535854cb2[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Jun 8 14:19:31 2019 -0400
+
+    add a time limit to progressbar
+
+[33mcommit c5e2d29384afa2725592dc304b16aa50a655ed1e[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Jun 8 14:18:50 2019 -0400
+
+    clean up pre-processing and add isualization
+
+[33mcommit f8950575dadc15889f5a4babfdfa2c89ee47b0ba[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Jun 8 14:11:08 2019 -0400
+
+    enable plotting original image during visualize_preprocess
+
+[33mcommit 5e2d1e8ff9cd4b042879273224fae22d3b365e2e[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Jun 8 13:23:10 2019 -0400
+
+    accomodate new holoviews layout
+
+[33mcommit 1b874cd41b0852f9000b8bd14fe5737f0dc9cffd[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Jun 8 13:20:24 2019 -0400
+
+    add visualize_preprocess
+
+[33mcommit 5c2aac80f6e7be81d9e9d764187ce53929489453[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sun Jun 2 16:37:31 2019 -0400
+
+    switch tophat backend to opencv
+
+[33mcommit 69b0216d7122ab6aa1f847f5480ec1d58d34b90b[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon May 27 14:50:22 2019 -0400
+
+    correct options for unit labels dropdown
+
+[33mcommit a17448f16ae5f040ecf9e0920f1501b4fdd1dca4[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon May 27 14:47:36 2019 -0400
+
+    support list in xrconcat_recursive
+
+[33mcommit db8e2a0cbc6104db61f275c566d31919930f1717[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon May 27 14:46:15 2019 -0400
+
+    support inclusion/exclusion of directories in open_minian_mf
+
+[33mcommit 28470e0d20085eec194f5f726b3379795a892491[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon May 27 14:33:52 2019 -0400
+
+    return black frame when error occured
+
+[33mcommit ee6fb7e8132bd974e4d8b162a96683d82b9b5ac5[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon May 27 14:32:32 2019 -0400
+
+    add pims variation to load video
+
+[33mcommit bbb53bf3a0be3181af619c46c948507fb39808d8[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon May 27 13:57:02 2019 -0400
+
+    seperate compute trace and remove unnecessary rechunkings
+
+[33mcommit 1eeede032988371278e3bfcb6a4151c23a28ad65[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Mar 20 17:02:05 2019 -0400
+
+    fix load_params for pipeline_noted
+
+[33mcommit f6e2a95f7784e50a2e9531ee96acfaed67ffb3c5[m
+Merge: 20822286 021fa44d
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Wed Mar 20 16:54:08 2019 -0400
+
+    Merge pull request #26 from DeniseCaiLab/dev
+    
+    merge dev into master
+
+[33mcommit 021fa44df20b49a3d629a8b0ce2aa46afce32e75[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Mar 15 11:20:21 2019 -0400
+
+    bug fix
+
+[33mcommit 352f81bd09f738766a87daf17844d432508ec34b[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Mar 14 14:06:34 2019 -0400
+
+    avoid exception at saving unit_labels in batch mode
+
+[33mcommit 785845be8410f1275b1e10e8df9b64d241c2784e[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Mar 14 14:03:03 2019 -0400
+
+    handle the order of output video
+
+[33mcommit 476519a3e940e495ad74a420ff0c83fa8d3a3f1e[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Mar 14 14:01:01 2019 -0400
+
+    potential fix for exceptions and sometimes stuck at the initialize step
+
+[33mcommit 7c73ce41c815fa43645f93d60f999d683f487e4e[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Mar 14 13:04:27 2019 -0400
+
+    bug fix and properly invert the height dimension
+
+[33mcommit 6d7faf4806c98e956b333540ef35774c4434c20d[m
+Merge: 60a27f20 8e496440
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Mar 13 16:18:16 2019 -0400
+
+    Merge branch 'manual' into dev
+
+[33mcommit 8e4964406dac12e483c0b684fa864ef5e10204e2[m
+Merge: f27a9aeb f37c1d3c
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Wed Mar 13 16:16:22 2019 -0400
+
+    Merge pull request #25 from Mable/manual
+    
+    properly update unit labels during widgets construction
+
+[33mcommit 60a27f20299b932188d7cc5f4b5fdd93fe35940b[m
+Merge: db79e26b f27a9aeb
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Mar 13 16:07:13 2019 -0400
+
+    Merge branch 'manual' into dev
+
+[33mcommit db79e26b846554f3f80fc90a074696076edfa464[m
+Merge: 20822286 69af0f8f
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Mar 13 16:05:56 2019 -0400
+
+    Merge branch 'pre_batch' into dev
+
+[33mcommit 69af0f8f71db611e60e43d6bd010f1e742f90100[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Mar 13 16:03:34 2019 -0400
+
+    properly handle single video case
+
+[33mcommit 4cc9dd9c335ed3d703f23f90199a49b5e1cf963a[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Mar 12 17:35:23 2019 -0400
+
+    parameter cleanup
+
+[33mcommit ee124de343b1e54e93267d1b21dfb31fd7dcc2a7[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Mar 12 17:22:29 2019 -0400
+
+    refactor VArrayViewer to naturally handle nd coordinates of xarray; accept arbitrary DataArray with dimension 'sum_var' to be displayed as summary
+
+[33mcommit f37c1d3cacb3c82ce325be430022ee41b09c79d1[m
+Author: Lingxuan Chen <chenlingxuan1989@gmail.com>
+Date:   Tue Mar 12 14:21:16 2019 -0400
+
+    properly update unit labels during widgets construction
+
+[33mcommit f27a9aebb59257e3739d22bae7071381ce750e41[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Mar 12 13:59:19 2019 -0400
+
+    properly handle re-opened dataset
+
+[33mcommit bfcef85fe03d8119054055205af16d6dba460ae2[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Mar 6 17:19:52 2019 -0500
+
+    even more dirty hacks to load_params
+
+[33mcommit 7aa5951e9023d30a740e1e76cc1351d3b75fc31d[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Mar 5 12:00:08 2019 -0500
+
+    fix updating of the manual wigets upon selection change
+
+[33mcommit 20822286b3f9755696709c0cc44402e18c34bf49[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Mar 4 14:54:20 2019 -0500
+
+    bug fix
+
+[33mcommit 1b9c39c6bbe1987d0e6810f9fddda28a016f7fe8[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Mar 4 14:18:17 2019 -0500
+
+    bug fix
+
+[33mcommit a060b6c83cedead5ceaa55a1db1b44656008691e[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Mar 4 14:09:24 2019 -0500
+
+    handle subset_mc as well
+
+[33mcommit 9e25eef5f9d7c4ecd5627ce43f057f42a6807b25[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Mar 4 14:08:20 2019 -0500
+
+    fallback to eval for all parameters. DANGEROUS
+
+[33mcommit c3b4ad633f161d243e46549d649124976718fe53[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Mar 4 12:57:53 2019 -0500
+
+    fix readme
+
+[33mcommit 79c1af0d159b10d7cca95b482c2a8d8a8af19a34[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Mar 4 11:57:51 2019 -0500
+
+    update manual widgets on selection changes
+
+[33mcommit 98a71f28c7d9c168692c5e5f94946ad8eaf96e82[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Feb 28 16:24:51 2019 -0500
+
+    invert coordinates on height dimension
+
+[33mcommit f48633193924a8e3140db3d56221b46295a12a86[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Feb 28 15:26:08 2019 -0500
+
+    bug fix
+
+[33mcommit fa89cb8451a94e84595682e48c1fb27c2db454d4[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Feb 28 14:33:21 2019 -0500
+
+    bug fix
+
+[33mcommit a287c35279434076f3d1f3d0272fd515ab1dd0ae[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Feb 28 13:13:05 2019 -0500
+
+    bug fix and properly handle the slice objects
+
+[33mcommit 6c06ca529c64e8498eb57202ef44aa3c74b3c96c[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Feb 27 17:27:10 2019 -0500
+
+    implemented manual labelling of cells
+
+[33mcommit 27a6dccab6e908d263ce3116c08646142509d9dd[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Feb 27 14:40:23 2019 -0500
+
+    bug fix when varr has additional dimensions
+
+[33mcommit c0377bf6b79715935b658044908df3affbd175a3[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Feb 26 15:03:58 2019 -0500
+
+    save shifts by default
+
+[33mcommit 3856b3d9aacd83b5c23975c48a0c4f0a20ab84e4[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Feb 26 14:40:45 2019 -0500
+
+    implement holomap-like toggling for multiple sessions in VArrayViewer; implemented roi draw in VArrayViewer; implemented parameters override in batch processing
+
+[33mcommit 0f8fc97372d76936f772326b5c5be41d7128658e[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Feb 18 17:07:15 2019 -0500
+
+    bug fix
+
+[33mcommit fc347e766fcabcbe88401ff9ec2c4e01166f602e[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Feb 13 11:08:38 2019 -0500
+
+    update readme
+
+[33mcommit e8e0fc2ff4b21ca44bc94ae6e40605accdf510ad[m
+Merge: f14bbb82 1da65cff
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Feb 13 11:00:14 2019 -0500
+
+    Merge branch 'dev'
+    
+    with option -X theirs to accept all changes in dev
+
+[33mcommit 1da65cff16870f3244795ad84a97d89f45d18e8b[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Feb 12 20:03:41 2019 -0500
+
+    update readme
+
+[33mcommit e8b8dd61596e65a0ac71d785a12ce799bb85267b[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Feb 12 19:18:43 2019 -0500
+
+    require ffmpeg
+
+[33mcommit 1c262d469640336e874ca2ae930e1aef05199947[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Feb 12 17:32:22 2019 -0500
+
+    properly display the psd plot
+
+[33mcommit dbfd463559fba45bbdb81e7c91eb5bb1825e7625[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Feb 12 17:29:10 2019 -0500
+
+    update environment.yml to accomodate different versions on windows
+
+[33mcommit 334656aaaf99586d933b3896686f083a0f810243[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Feb 12 17:27:11 2019 -0500
+
+    fix subset_mc bug
+
+[33mcommit ce3c3f5a7a429e72c225ea1bbc11735e3c0d238a[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Feb 12 15:05:56 2019 -0500
+
+    update noted version
+
+[33mcommit 294d7a7913a946adee192880c36a89ad6802b951[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Feb 6 13:24:26 2019 -0500
+
+    print out the name of dataset opened; issue a warning when multiple datasets are found
+
+[33mcommit 659b96ac2b6db6cc4c3ac3679ed270f4d5389d25[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Feb 5 13:20:57 2019 -0500
+
+    fix coordinates of centroids when they don't start from zero
+
+[33mcommit f87afd4667c923621b5146e0e4f55969da2a4ec2[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Feb 5 13:02:57 2019 -0500
+
+    implement an roi draw for motion correction and parameter subset_mc
+
+[33mcommit 4d54fddb33b136bb90f11abe5cc2edf48b4f7195[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Feb 4 13:46:38 2019 -0500
+
+    fix meta-data handling in cases where there are only one session in one of the animals
+
+[33mcommit a7701bf2a0325da6b118816ab8635e00702cdc65[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Feb 2 12:18:03 2019 -0500
+
+    properly handle meta_dict
+
+[33mcommit 24dadb4a5fe1c5752ef6cb1b0dfa3348a289edb8[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Feb 2 12:14:21 2019 -0500
+
+    fix chunking issue after reindex
+
+[33mcommit a5890f4a9b333d31036d3ae13011ce8faf99c883[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Feb 1 13:48:14 2019 -0500
+
+    pass in data path to post_process
+
+[33mcommit 5141cdf99d95c0e11fe64a096110a3684b4e0f00[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Feb 1 12:48:00 2019 -0500
+
+    properly dried-out meta_dict
+
+[33mcommit 2ed74b8664df4fa7c90f4460e18765c7308f870a[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Feb 1 12:46:32 2019 -0500
+
+    add post_process option for open_minian
+
+[33mcommit c463f16df48e4e3adf7bbf5d96946a44c9661961[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Jan 31 19:09:43 2019 -0500
+
+    fix update_meta
+
+[33mcommit 9dfb94238bf1dcc76a88d1bc3917f003b60fdb16[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Jan 31 18:51:54 2019 -0500
+
+    fix update_meta
+
+[33mcommit 6fa65891784354035886d77f29410426d0add5b8[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Jan 31 13:03:30 2019 -0500
+
+    amend update_meta
+
+[33mcommit c43426074edccb36288d3324112ef5e6ba17f8aa[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Jan 31 12:57:15 2019 -0500
+
+    support zarr backend for update_meta
+
+[33mcommit c5d19d7aba62f86ec282a318df5f2547dcee4498[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Jan 31 12:53:02 2019 -0500
+
+    properly handle different A size in cnmfviewer; made datashade optional for visualize_seeds
+
+[33mcommit e3a7d5b928c2ea3a8f2746e0313322fd0adf5c2f[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Jan 31 12:51:49 2019 -0500
+
+    bug fix
+
+[33mcommit 928067fad2abe5128791403c6a82e0673e7f7eb6[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Jan 30 18:16:39 2019 -0500
+
+    make median filter optional
+
+[33mcommit 4a8d2a1932f45f8f18472eceb3aa4d8256f80bdf[m
+Merge: 555899ca 7cb5a749
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Wed Jan 30 18:03:19 2019 -0500
+
+    Merge pull request #5 from susiefeng/dev
+    
+    the version that has meidan filter in pnr
+
+[33mcommit 7cb5a749d7a459fcf2a9ec47579814175a42d189[m
+Author: susie <susiefeng@icahn.mssm.edu>
+Date:   Wed Jan 30 14:41:57 2019 -0500
+
+    the version that has meidan filter in pnr
+
+[33mcommit 555899ca92d02ba8a063e07d2afb148bf174569f[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Jan 30 12:59:40 2019 -0500
+
+    clean up
+
+[33mcommit 4720b328577ad5cb90b6c719c6fe613927793fa1[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Jan 30 12:59:23 2019 -0500
+
+    some parameter tweaks reflecting recent changes
+
+[33mcommit 8ade4e8d101b6be955261bae9714985f6d17c43b[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Jan 30 12:58:58 2019 -0500
+
+    make the count_overlap.ipynb a reproducible report
+
+[33mcommit 314ff01a58333b94e88ceb3cb7027dc2c7dc4f33[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Jan 30 12:15:11 2019 -0500
+
+    reindex A_init to get rid of nan values
+
+[33mcommit 06db6e96940db70580519d105a697746c339fa0e[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Jan 30 12:12:06 2019 -0500
+
+    switch to networkx instead of graph-tool; clean up imports; update environment.yml
+
+[33mcommit 2f9eeee68cf1d8d421a0f8eca3d5d54b7936b91c[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Jan 29 16:04:33 2019 -0500
+
+    normalize traces by default during spatial update
+
+[33mcommit ccaaa57596c13ee9c6644cbed4dc2646ad68c398[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Jan 24 15:19:50 2019 -0500
+
+    various changes reflecting api changes
+
+[33mcommit 48fa0c1e8cf3107f57054a34c642a97a8229641f[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Jan 24 15:17:13 2019 -0500
+
+    mode change
+
+[33mcommit 1f5c68977c7b4933e7cda5c86826d07f6f7f7d1a[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Jan 24 15:16:51 2019 -0500
+
+    add option to use mean of lower gaussian as additional mask in gmm_refine; fillna after initialize
+
+[33mcommit b041ab3f37d9bb6720c3d3f899cd143bc96e2ed8[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Jan 24 15:01:16 2019 -0500
+
+    add visualization of seeds and gmm fit
+
+[33mcommit a61da62fade9b26ff2e4091e72b49be96f697a50[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Jan 24 14:53:43 2019 -0500
+
+    fix relative path bug in save_minian
+
+[33mcommit 4a4fa7ec7863d0937b5ebedec98fc41302946f9e[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Jan 24 14:53:07 2019 -0500
+
+    add option to do stripe_correction per frame; handle nan case with zscore in remove_brightspot
+
+[33mcommit 9c0f72b6e285e02a753c66c77dce611490d3e750[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Jan 24 14:49:36 2019 -0500
+
+    switch to fftw implementation; properly handle background terms
+
+[33mcommit 5b4ce545370ed6ce97fc4897b14f3903b50e4559[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Jan 21 13:20:11 2019 -0500
+
+    support median and bilateral filter from opencv in denoise
+
+[33mcommit fb7ac481b81bc687901b08f4923b36163deb514a[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Jan 21 13:18:56 2019 -0500
+
+    add options for post processing when loading videos; add post-processing function to handle crashed
+
+[33mcommit 4b7d7391a568fd9dace0b2eb7a8d251b9c4adf90[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Jan 21 13:17:50 2019 -0500
+
+    implement gmm model for pnr refine; add parameter for intensity refine
+
+[33mcommit a7176f5201fa163271f360bac80fb4fd3f738df9[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Jan 21 13:16:46 2019 -0500
+
+    switch to fft method for estimating noise during temporal update
+
+[33mcommit 61c9903be3e77ff8c21f7000a834fb39f2b9ac5d[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Jan 17 11:31:01 2019 -0500
+
+    properly drop the labels if subset is taken
+
+[33mcommit e60a738037f78b898822b24df81c00ceea92a414[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Jan 17 11:29:51 2019 -0500
+
+    add visualization for cell counts; add matrix style visualization for overlaps
+
+[33mcommit 95259067f54e360a17ab73a0f0cb85a3ff33aa91[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Jan 17 11:22:44 2019 -0500
+
+    change default parameters; add visualization
+
+[33mcommit 651ccfef2505314076fb97c9b77b38869c4c5bc7[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Jan 17 11:19:40 2019 -0500
+
+    auto chunk the data; change pct_thres to 99.99; properly handle window; add visualization to registration result
+
+[33mcommit 27404911fcf3b8a5e60e33c119563db9d51afa82[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Jan 17 11:16:22 2019 -0500
+
+    pass in kwargs to open_minian with multiple file; add options for exclude paths
+
+[33mcommit 628ed158571968421f9616f484c4a9e23a6e7ffc[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Jan 16 16:36:44 2019 -0500
+
+    properly implemented on for cross-registration; various fix in visualization
+
+[33mcommit 7d17816b3af411802515865200a47a96e5b5fb6c[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Jan 16 16:30:52 2019 -0500
+
+    make sure shift dimensions are not chunked
+
+[33mcommit cc7761e0af54400678ef77bdf5baf13d7a061a9f[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Jan 16 16:30:32 2019 -0500
+
+    pass through pct_thres option
+
+[33mcommit 56ba6aa2d5846be67800b6abe6a8f70a32e567c6[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Jan 8 22:36:57 2019 -0500
+
+    add example to do batch processing
+
+[33mcommit ad35899e062a83a62ee3c4c9cd39921ff62ae420[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Jan 8 22:36:32 2019 -0500
+
+    add an option to dynspread for datashade_ndcurve
+
+[33mcommit 63072c9dd7f8d2207c0c7700e056e5848ea9d38b[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Jan 8 22:35:45 2019 -0500
+
+    add an option to overwrite
+
+[33mcommit eb6c8126460ae235f79ac51f6999ef93eda48e0e[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Jan 8 22:34:34 2019 -0500
+
+    make ProgressBar globally controlled. properly display interactive visualizations
+
+[33mcommit f7d2fa4c043f8f61f0f4b7c17ac4130aeb57e9e6[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Jan 7 16:56:59 2019 -0500
+
+    add option of quantile for pnr_refine
+
+[33mcommit 4de4d709981e83f1e82fdb640f9f34fb9015448a[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Jan 7 16:56:27 2019 -0500
+
+    add option of bandpass type for smooth_sig
+
+[33mcommit 86e9996298403597f7d499e70626fca903bbc5a5[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Jan 7 11:41:42 2019 -0500
+
+    parameterize pipeline
+
+[33mcommit 77ad73a9a992e44e7d5772d91dbcaa7406ddb779[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Jan 7 11:40:58 2019 -0500
+
+    clean up parameters for load_videos; add convenient functions to norm_params
+
+[33mcommit 0e097683c3672f50fc98d2f1e0bb471c010b49b1[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Jan 7 11:39:49 2019 -0500
+
+    handle single session case
+
+[33mcommit 308dd8c95b25216894d53fd1433b91d9cda18080[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Jan 5 19:20:33 2019 -0500
+
+    fixed warnings and colormap of VAViewer
+
+[33mcommit 245228e7fd84b1eeaf35dc38cc530f42e963282a[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Jan 5 19:18:18 2019 -0500
+
+    allow no dtype conversion in load_videos
+
+[33mcommit 8fddc27b005d574d1fca26d7c43383caafd1ed23[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Jan 3 19:25:27 2019 -0500
+
+    first working version of the new CNMFViewer
+
+[33mcommit 59bcbcddf21dd9dd22264f3d772534b972ee97a3[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Dec 28 12:33:41 2018 -0500
+
+    more flexible and streamlined and lazy version of cross-registration; add examples folder and moved count_overlap codes there
+
+[33mcommit 9c092fad171663bd67a133743e79dadb47b7fae9[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Dec 28 12:31:14 2018 -0500
+
+    more generalized estimate_shifts_fft; streamlined and dask-friendly cross-registration functions
+
+[33mcommit 1e6b61ffeac8b25b0f29149d9441d36c3a2b18c5[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Dec 28 12:30:21 2018 -0500
+
+    add open_minian_mf and xrconcat_recursive to open and concatenate multi-file datasets
+
+[33mcommit b7ac76462054030232df0413d7ef9015497083b1[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Dec 28 12:27:34 2018 -0500
+
+    better AlignViewer; better handling of metadata for centroid
+
+[33mcommit 5a63a8005030465bfb5c8abafede7a345b909954[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Dec 27 11:51:48 2018 -0500
+
+    lazy VArrayViewer; datashaded visualize_spatial_update and visualize_temporal_update; better labelled visualization overall
+
+[33mcommit 2b26ae72e5017d2d860e824c8ceaa278a1d691f7[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Dec 27 11:43:10 2018 -0500
+
+    get rid of FutureWarnings in np.linalg.lstsq; properly drop 'unit_labels'
+
+[33mcommit b711a1cd766f03a11d0f3e2be7ea7340b71862ce[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Dec 24 18:23:49 2018 -0500
+
+    lazy and threads-friendly version of seeds_init and initialize; use pandas for seeds_merge; add noise_freq option for seeds_merge
+
+[33mcommit a6087beff33ab7c60dceb0fe6158c09f73bb4e88[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Dec 24 18:14:35 2018 -0500
+
+    fix bug
+
+[33mcommit 1f20e588e7199ad6d907b82e358314a4a1569ffc[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Dec 19 17:51:09 2018 -0500
+
+    resolve A_shifted naming
+
+[33mcommit d79b7fc6bd83b00811d58923cf377dda0fd85cff[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Dec 19 17:38:17 2018 -0500
+
+    redefine sub-ds
+
+[33mcommit ac52973593bcdeb1e05af0109e39cd6218bee0a8[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Dec 19 17:33:33 2018 -0500
+
+    add sub_ds
+
+[33mcommit 76fea8389633a48b8303738c3893c1c783c453e6[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Dec 19 17:10:08 2018 -0500
+
+    lazy apply_shifts
+
+[33mcommit 4adc5d4946033a7a22107f9176d3ad4a5b146fc6[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Dec 19 16:51:18 2018 -0500
+
+    notebooks update
+
+[33mcommit 7fa9faf0254e346e80c38d09741951aa9fe267f7[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Dec 19 16:50:51 2018 -0500
+
+    add an option to smooth the signal before seeds_merge
+
+[33mcommit 38b9f8e46fde333f19f68e18e5ce76f299be7a9f[m
+Merge: 1c45f750 5570aeda
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Fri Dec 14 12:24:19 2018 -0500
+
+    Merge pull request #4 from joezaki/dev
+    
+    fix argument conflict; fix wrong sh_dict
+
+[33mcommit 1c45f750ada82e07aeb39265a4cf5dd362ae42be[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Dec 14 12:23:04 2018 -0500
+
+    refine pipeline
+
+[33mcommit 772e405c9f0273587805d42a37aed60a8e71563b[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Dec 14 11:48:17 2018 -0500
+
+    zarr support and fully lazy operation up to initialization; take out per-unit scaling after spatial_update
+
+[33mcommit 537b61c17a9141a8af160f5bc43c2895db8797b5[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Dec 14 11:41:27 2018 -0500
+
+    add an option to pre_compute for generate_videos
+
+[33mcommit 6b1338ff37f0f198a749fc4fb9700365f687fb50[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Dec 14 11:40:40 2018 -0500
+
+    fix mean method in load_videos; add an option to pre-compute in scale_varr; add open_minian and save_minian to support zarr backend
+
+[33mcommit 7b5d0e4a8ecd585e2509a55fc6e69fce832d42e2[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Dec 14 11:39:23 2018 -0500
+
+    dask support for motion_correction
+
+[33mcommit 3951cdddf10f93dbc4bfc6b8ee0d58c1cde45851[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Dec 14 11:29:29 2018 -0500
+
+    more chunking in initialization
+
+[33mcommit 42f4c39e52d6a7f5f466555aebc4afbae0465bdb[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Dec 14 11:28:11 2018 -0500
+
+    better handling of chunks; add in post-hoc scaling for update_spatial as well; add an option to fallback to scs for update_temporal and change the default max_iters for scs; better information of problem status
+
+[33mcommit 5570aeda72c6a207202a56b95ef5cb2871e076aa[m
+Author: Joe Zaki <joe.zaki@icahn.mssm.edu>
+Date:   Thu Dec 13 19:24:18 2018 -0500
+
+    fix argument conflict; fix wrong sh_dict
+
+[33mcommit c0c3fd20a102a76d21b7f76fc064ecfb3434d234[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Dec 11 15:01:07 2018 -0500
+
+    fixed missing dtype conversion; change parameter 'resample' to 'downsample'; add an option of downsampling strategy
+
+[33mcommit c6f7c83cd270205bbe7b745c2fc4ba4c3931aee3[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Dec 10 15:56:42 2018 -0500
+
+    notebook update to reflect api changes
+
+[33mcommit 4c259f9cfbcf23d0d3b5d0464244acebd2046949[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Dec 10 15:56:14 2018 -0500
+
+    add in background term in generate_videos; bug fix
+
+[33mcommit 067cee56638c4ca55cee4dd6c2b601a7a3cd3af9[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Dec 10 15:55:11 2018 -0500
+
+    load_videos is now completely lazy
+
+[33mcommit ff7e292600faf600b3fcc279b4cf30f93a740f57[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Dec 10 15:53:18 2018 -0500
+
+    utilize parallel dot product for calculating spatial overlap and jac distance in update_temporal and unit_merge; add in post-hoc scaling function fo update_temporal; add in an option to used constrained version of the problem for update_temporal
+
+[33mcommit 882b2b1cf05f18e575736180e2381c0f06e20d97[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Dec 7 14:08:49 2018 -0500
+
+    return null values for apply_shift instead of roll them to the other side
+
+[33mcommit abd6d5c532dbd837aa2ba4a3a21e405c6922fb84[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Dec 7 14:07:31 2018 -0500
+
+    properly handle scheduler
+
+[33mcommit a656afe36a1dc8f353d98347a661972c4715c69f[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Dec 6 14:05:51 2018 -0500
+
+    restructured pipeline; save motion-corrected movies as org
+
+[33mcommit fa0b713d7743d1a0e8457bb7a2a0b0186feac6c9[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Dec 6 14:04:45 2018 -0500
+
+    add timestamp to backup files for delete_variable
+
+[33mcommit 4ed7f8a1aeb9a9f7e21e16444d4368904091cc77[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Dec 6 14:04:07 2018 -0500
+
+    use butterworth filter for pnr_refine, enabling arbiturary noise freq cut-off
+
+[33mcommit f65fd674a57aa149c6a47c38bb59cbf95a9ad4e4[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Dec 6 14:02:33 2018 -0500
+
+    add zero_thres to update_spatial too; add an option to combine additional variables during unit_merge
+
+[33mcommit 84fae7b01f31dc135de3c0ecc0c3df07044bee3c[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Dec 4 18:47:26 2018 -0500
+
+    hotfix
+
+[33mcommit cbec136d1119b9ea76f7784e2c0516d1ff48ccba[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Dec 4 18:43:18 2018 -0500
+
+    use pandas dataframe to store seeds information instead of xarray; adds visualization for each step of seeds cleaning
+
+[33mcommit 4a1de91fe1f093e78ebb5cd15ed4bdd60c69b79d[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Dec 4 18:41:58 2018 -0500
+
+    add convenient function delete_varaible
+
+[33mcommit c8a493202b0702e431064a41221cd9b3ff1ffd3e[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Dec 4 13:39:48 2018 -0500
+
+    hotfix for the new psd methods and update_spatial visualization. rescale org during generate_videos
+
+[33mcommit 4bea0cd695f56451d68e3aef789857e0328ca052[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Dec 3 17:17:02 2018 -0500
+
+    take out anisotropic diffusion and cleaned up the preprocessing steps; always generate a copy of video using old method for motion correction and saved as org now; split up get_noise to encourage changing noise frequency based on psd; better visualization for spatial updates; add in zero_thres in update_temporal to automatically take out poor fit units; normalize A after each update_spatial
+
+[33mcommit 5cb4a5181f439921fcd5e90fe350232be6b4b8cb[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Dec 3 16:58:41 2018 -0500
+
+    add in options to remove background before cross registration
+
+[33mcommit 407720acfa4bf70d0dd53e376d2fb281f7872272[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Dec 3 16:55:18 2018 -0500
+
+    add in functions to convert avi to tif and load in tiffs in parallel
+
+[33mcommit fd832cabd58635fdede63307d0e11001c4a56299[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Dec 3 16:51:08 2018 -0500
+
+    split get_noise methods into two steps: psd and averaging; add zero_thres in update_temporal to take out poor fitting units
+
+[33mcommit 92d48a9fd4cde9f0970b241a13ef00cd43ab4cca[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Nov 23 17:34:36 2018 -0500
+
+    first attempt to support out-of-core computation
+
+[33mcommit afbb05500ea85f4b4302484a0e4dad725aa0fb9b[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Nov 23 17:34:09 2018 -0500
+
+    add in functions to handle tiff
+
+[33mcommit 0a8e45b5935d78ba14572b1f9104ef73ba8fd4af[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Nov 23 13:42:20 2018 -0500
+
+    fix a bug where null values in the movie will cause index error
+
+[33mcommit a13f5178945909aefb2516e5ec0cfe793d714a19[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Nov 20 19:47:24 2018 -0500
+
+    add html code to preserve grey shading of inline code
+
+[33mcommit 1cc66ee133c1ffadefd531765fad65f9ecac3ec6[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Nov 20 19:28:19 2018 -0500
+
+    finish comments - first version
+
+[33mcommit 87e1726977a243f5b2acebc467f4204a33cab167[m
+Author: bendog <zhe.dong@icahn.mssm.edu>
+Date:   Tue Nov 20 11:47:39 2018 -0500
+
+    add notes
+
+[33mcommit 1de913797fb7cc8f0f1afb0222a0c8ccc189d80c[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Nov 19 17:48:47 2018 -0500
+
+    add notes for cnmf
+
+[33mcommit 75bbd41f16e4156b01c4195b55472f8ad8708e27[m
+Author: bendog <zhe.dong@icahn.mssm.edu>
+Date:   Mon Nov 19 11:34:27 2018 -0500
+
+    add notes
+
+[33mcommit a55b483415aa7457440b4141fb0574cfdf7b73e8[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Nov 16 18:36:10 2018 -0500
+
+    add note to initialization section
+
+[33mcommit 57cd7a8896f8c212c16ab6437f6dbe2ab5c4ff75[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Nov 14 13:20:22 2018 -0500
+
+    fix missing f_path
+
+[33mcommit 6e5689a385822c5ef3d2a139580996fada6e457d[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Nov 14 13:19:30 2018 -0500
+
+    updated default path
+
+[33mcommit 18b25ca7093ecd944c553f9c4a48a8a08a4b98cd[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Nov 14 12:06:44 2018 -0500
+
+    updated update_meta
+
+[33mcommit ee249235c37194e09e656d372556a120496778f2[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Nov 13 17:25:10 2018 -0500
+
+    add notes for motion correction section
+
+[33mcommit 3e58d65acc7c9208cca6ef7703038d38994dfbc0[m
+Author: bendog <zhe.dong@icahn.mssm.edu>
+Date:   Mon Nov 12 21:05:50 2018 -0500
+
+    add notes to pre-processing steps
+
+[33mcommit d03a785745ac563cc4f3d264d34be22d8364ddc5[m
+Author: bendog <zhe.dong@icahn.mssm.edu>
+Date:   Mon Nov 12 21:05:28 2018 -0500
+
+    remove pycuda related stuff
+
+[33mcommit 1a441e8de95f7655b629b5430d7d5283a1d43d56[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Nov 12 13:33:00 2018 -0500
+
+    add note to pre-processing
+
+[33mcommit f081ac3db88dcbf3f76e2cdea839135cf530e227[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Nov 12 13:32:33 2018 -0500
+
+    remove datatype conversion
+
+[33mcommit 3e0bcc871316128da282c0ff7cf02fb15bc6f61c[m
+Author: bendog <dz.bendog@hotmail.com>
+Date:   Fri Nov 9 17:06:22 2018 -0500
+
+    migrated notes from old to new version of pipeline_noted.ipynb
+
+[33mcommit 1198c0f5b32227e5b5ea99dfa628d47de0357d4f[m
+Author: bendog <dz.bendog@hotmail.com>
+Date:   Fri Nov 9 12:41:07 2018 -0500
+
+    update default dpath and kernel name
+
+[33mcommit 367505366e2c55dea10309fb27840718ec3e8566[m
+Author: bendog <dz.bendog@hotmail.com>
+Date:   Sat Oct 6 08:30:46 2018 +0800
+
+    update environment file and dependencies
+
+[33mcommit 756d502d8ae4e3637434c63b61db26bfbe20059d[m
+Author: bendog <dz.bendog@hotmail.com>
+Date:   Wed Oct 3 22:03:46 2018 +0800
+
+    take out some unnecessary packages
+
+[33mcommit 944fad9f77489cbcee0bf0b0ecd327d9ed246554[m
+Merge: ba262f89 4fc42612
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Sep 29 16:20:38 2018 -0400
+
+    Merge branch 'dev' of https://github.com/phildong/minian into dev
+
+[33mcommit ba262f8942d67881f2065871247911cb1c43525b[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Sep 29 16:19:24 2018 -0400
+
+    add in 'last' option for estimate_shifts
+
+[33mcommit 4fc42612a3bee933b3aa6ab6e560ba15dd248102[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Sep 28 15:40:09 2018 -0400
+
+    update enviornment file
+
+[33mcommit 251fde4ab240dcab13972ab44210755cb95aa521[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Sep 24 16:48:58 2018 -0400
+
+    update pipeline to add in options for alternative motion correction
+
+[33mcommit 2ec870e6ff7303e3e40aca9d869f73d33d583fa3[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Sep 24 16:10:30 2018 -0400
+
+    clean up motion correction
+
+[33mcommit 1befcc80704ead69c34cddfe2b29438137a5edc5[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Sep 24 16:09:56 2018 -0400
+
+    properly return psd
+
+[33mcommit b8a86026d2db95b67c868dd000427d97b634da02[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Sep 24 11:27:26 2018 -0400
+
+    add normailize and stripe correction
+
+[33mcommit 0171dd148435ec713eb968924a89f26719da1ec8[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sun Sep 23 17:39:26 2018 -0400
+
+    move visualization-related functions to script
+
+[33mcommit f1ff2e9be224487d425f35ae7235b1198a49efa6[m
+Merge: 41e63b2a 5691473a
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Sep 22 21:34:06 2018 -0400
+
+    Merge branch 'dev' of https://github.com/phildong/minian into dev
+    
+    merge so that new changes can be pushed
+
+[33mcommit 41e63b2ae4ed2de93519d8493c766ece504b1482[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Sep 22 21:29:15 2018 -0400
+
+    reflect new api changes. parameters are set to work with dorsal striatum data
+
+[33mcommit 698cd0ffbc21bcab23e65fe50a6a38eb6f8a902f[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Sep 22 21:28:14 2018 -0400
+
+    relatively stable version
+
+[33mcommit f14bbb82b6858854a03416d0fe9a080352cce8a9[m
+Author: bendog <zhe.dong@icahn.mssm.edu>
+Date:   Wed Aug 22 13:20:00 2018 -0700
+
+    fix the unit_id_init mismatch
+
+[33mcommit d3ebc0eb1d4a2689216fe22dafff4b71b369cd41[m
+Merge: 4cff3eaa 5691473a
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Wed Aug 22 00:22:53 2018 -0400
+
+    Merge pull request #2 from phildong/dev
+    
+    fix a bug where flattened sample index mismatch the array coordinates
+
+[33mcommit 5691473af9ce14ac8e6c6e6e050faabe098b3ec2[m
+Author: root <zhe.dong@icahn.mssm.edu>
+Date:   Tue Aug 21 21:20:41 2018 -0700
+
+    fix a bug where flattened sample index mismatch the array coordinates
+
+[33mcommit 4cff3eaa0c2ba34263384bfebbacaf3f4cb488f9[m
+Author: bendog <zhe.dong@icahn.mssm.edu>
+Date:   Tue Aug 21 13:52:12 2018 -0700
+
+    fix a potential bug where the dimensions are in wrong order
+
+[33mcommit 2cc823e7923206b585616e413e62a0de4ca3aeed[m
+Merge: 7f271cba fc23f98e
+Author: phildong <35715936+phildong@users.noreply.github.com>
+Date:   Fri Aug 17 16:05:18 2018 -0400
+
+    Merge pull request #1 from phildong/dev
+    
+    minimal working version after MINIP1PE update
+
+[33mcommit fc23f98e2dd09a3567a45b2b25ea767f78828e8e[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Aug 17 16:02:34 2018 -0400
+
+    upload compressed sample video
+
+[33mcommit 2686e18636a4bb2aed39289808b0cbd183a735f1[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Aug 17 15:28:59 2018 -0400
+
+    remove large demo movies
+
+[33mcommit 517cd1c1accdaf9e8188fba262142f52dd2c911e[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Aug 17 15:27:27 2018 -0400
+
+    updated pipeline
+
+[33mcommit 729200cf87ecd699429c98134d7242b0c5646d8f[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Aug 17 15:26:58 2018 -0400
+
+    updated visualization to work with new data structure
+
+[33mcommit bcd6ef28b0f00eebbca24c394be09d6910588a01[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Aug 17 15:26:09 2018 -0400
+
+    update overlapping units simultaneously in update_temporal
+
+[33mcommit 5786e1f3969a30881779fb4f9e922ae30a472ad9[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Aug 17 10:07:07 2018 -0400
+
+    first minimal working version since MINIP1PE update
+
+[33mcommit 2ed93fb83a02c6c5131a4266cea1654f7bcfd202[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Aug 13 01:33:57 2018 -0400
+
+    implement temporal update
+
+[33mcommit 50fc6509fa5b944668a12969217cad8fe5ea8068[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Aug 13 01:33:34 2018 -0400
+
+    partial parallel support
+
+[33mcommit 5a5dc2772ae6ffe75dd3077304592e6308d6f7c0[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Aug 9 22:39:48 2018 -0400
+
+    checkpoint of pipeline.ipynb
+
+[33mcommit 71eb4e44903dc2a0604de1472fa4a8649f810b3c[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Aug 9 22:39:06 2018 -0400
+
+    implement spatial update
+
+[33mcommit 2133493a1cee737dce4d877ec517a631d36c65ef[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Aug 9 22:38:21 2018 -0400
+
+    partial support for dask array
+
+[33mcommit 7f271cba07260b06bb4d29b2fc089f2352bd8e97[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Mon Aug 6 19:38:04 2018 -0400
+
+    implement spatial temporal initialization from MIN1PIPE
+
+[33mcommit 81a3f00ee2ec8d4abdaac20d84f3341c947e73d0[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sun Aug 5 23:20:56 2018 -0400
+
+    implement seeds initialization and cleaning from MIN1PIPE
+
+[33mcommit e62fed1602a13875632d0b08dfb589871100b6be[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Jul 27 14:49:24 2018 -0400
+
+    properly implemented perframe motion correction
+
+[33mcommit 18c4ae61bc357a7d16e37c4c7b5de985ce40caad[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Fri Jul 27 14:23:19 2018 -0400
+
+    cancel parallelization for estimate_shifts, fixed assigning bug in apply_shifts
+
+[33mcommit 2848b8ea155097dd9d278e1018b0618055154a51[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Thu Jul 26 14:54:51 2018 -0400
+
+    add in anisotropic diffusion and morphological background removal
+
+[33mcommit 33d5e53952293b8742cf397ca587b1dfc551d818[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Jul 24 11:51:36 2018 -0400
+
+    add in new visualization for cross-registration
+
+[33mcommit 523ab9b4a9c3e5d3ce5fa1d76ae4b8ea6f7b2d7d[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Jun 12 15:03:58 2018 -0400
+
+    various bug fix regarding updates from xarray. add in visualization tool to select roi when aligning across session
+
+[33mcommit 8ed1e3b7368f42b937bcec773563dde9fb5a73b6[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed May 16 13:20:43 2018 -0400
+
+    add result clean up during calculate_centroids
+
+[33mcommit aa489637438877c037c500219ce9dc8922a0fc98[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed May 16 13:04:16 2018 -0400
+
+    require supplying window during centroids calculation
+
+[33mcommit 39854125ac4a2b150a5344d693e285abb2a68e02[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed May 16 11:50:54 2018 -0400
+
+    handle no corresponding varr
+
+[33mcommit 24037e79e74aca73c4a5c5f358906693205d0329[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Apr 25 16:22:46 2018 -0400
+
+    correct the way denominator of overlap is calculated
+
+[33mcommit ac501ebc34f3735a3eb090ffef34d6174df464c8[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Apr 25 16:08:07 2018 -0400
+
+    fix mistakes in cross-registration
+
+[33mcommit c49c5efb1ca47b7eb24f9ed71ea267609421d201[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Apr 25 16:05:21 2018 -0400
+
+    add helper function to update metadata
+
+[33mcommit 2ee7a6d55b42db333b8c3f602e661db2b19c49c4[m
+Author: unknown <zhe.dong@icahn.mssm.edu>
+Date:   Wed Apr 18 16:19:28 2018 -0700
+
+    remove unused import dash_table_experiments
+
+[33mcommit 599e322ed44ca20c2b758c2406df45d7b9c23c51[m
+Author: unknown <zhe.dong@icahn.mssm.edu>
+Date:   Wed Apr 18 16:16:37 2018 -0700
+
+    un-pin most of dependencies leaving only essential ones
+
+[33mcommit fe6b0ddfbb192695a68621984280f900ba5f2ba9[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Tue Apr 17 10:29:42 2018 -0400
+
+    use original demo movie with git-lfs
+
+[33mcommit 8dd71aacfa92d0571f2dcd0c504426756b2b6989[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Wed Apr 4 23:26:06 2018 -0400
+
+    fix unit 0 bug for cnmf viewer
+
+[33mcommit 963d67c5eb7e18ee655cae39569a2d8b8bc3456a[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sun Apr 1 11:11:04 2018 -0400
+
+    add quick start guide
+
+[33mcommit 14ab084c7905b733ecd704190a58b59600d973a4[m
+Author: phild <zhe.dong@icahn.mssm.edu>
+Date:   Sat Mar 31 12:07:58 2018 -0400
+
+    initial commit

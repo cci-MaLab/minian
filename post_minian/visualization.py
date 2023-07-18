@@ -1,3 +1,4 @@
+
 import os
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,6 +8,7 @@ from panel.widgets import MultiSelect, StaticText, Select
 from panel import Row, Column
 from panel.layout import WidgetBox
 import xarray as xr
+import panel as pn
 
 def plot_multiple_traces(explorer, neurons_to_plot=None, data_type='C', shift_amount=0.4, figure_ax = None):
     if figure_ax == None:
@@ -93,7 +95,7 @@ class ClusteringExplorer:
                     None
                 )
                 w_description.value = selected_feature.description
-                w_ranges.value = selected_feature.timeframevalue
+                w_ranges.value = selected_feature.ranges
                 w_events.value = selected_feature.event
         
         # Register the callback with the value attribute of the feature selection widget
