@@ -1,3 +1,4 @@
+
 import os
 import numpy as np
 import matplotlib.pyplot as plt
@@ -7,6 +8,7 @@ from panel.widgets import MultiSelect, StaticText, Select
 from panel import Row, Column
 from panel.layout import WidgetBox
 import xarray as xr
+import panel as pn
 
 def plot_multiple_traces(explorer, neurons_to_plot=None, data_type='C', shift_amount=0.4, figure_ax = None):
     if figure_ax == None:
@@ -60,24 +62,36 @@ class ClusteringExplorer:
         features: Union[Feature, List[Feature]],
         A: xr.DataArray,
     ):
-        self.features = features
+        self.features = {feature.name: feature for feature in features}
         self.widgets = self._create_widgets()
     
     def _create_widgets(self):
         # Implement multiselect for features, this will occupy the left side of the panel
-        w_feature_select = MultiSelect(name='Feature Selection',
-                options=[feature.name for feature in self.features])
+        self.w_feature_select = MultiSelect(name='Feature Selection',
+                options=[name for name in self.features.keys()])
         
         # Display information from selected feature
 
         # TODO: Plot the information from the selected feature
-        w_description = StaticText(name="Description", value="")
-        w_ranges = StaticText(name="Ranges", value="")
-        w_events = StaticText(name="Events", value="")
-        w_distance_metric = Select(name='Select', options=['Euclidean', 'Cosine', 'Manhattan'])
+        self.w_description = StaticText(name="Description", value="")
+        self.w_ranges = StaticText(name="Ranges", value="")
+        self.w_events = StaticText(name="Events", value="")
+        self.w_distance_metric = Select(name='Select', options=['Euclidean', 'Cosine', 'Manhattan'])
 
-        self.left_panel = w_feature_select
-        self.right_panel_description = Column(w_description, w_ranges, w_events, w_distance_metric)
+        # Set up the functionality of the widgets
+        #@pn.depends(self.w_feature_select.param.value, watch=True)
+        def update_description(selection):
+            if selection:
+                selection = selection[0]
+                self.w_description.value = self.features[selection].description
+                self.w_ranges.value = self.features[selection].ranges
+                self.w_events.value = "".join(self.features[selection].event)
+        
+        self.w_feature_select.param.watch(update_description, 'value')
+
+        # Set up the panels
+        self.left_panel = self.w_feature_select
+        self.right_panel_description = Column(self.w_description, self.w_ranges, self.w_events, self.w_distance_metric)
 
     def show(self) -> Row:
         """
@@ -90,6 +104,5 @@ class ClusteringExplorer:
         """
         return Row(
             self.left_panel,
-            self.right_panel_description
-            
+            self.right_panel_description            
         )
