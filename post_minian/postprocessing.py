@@ -519,14 +519,14 @@ class Feature:
 
     def __init__(self,
                 name: str, 
-                timeframevalue: tuple, 
+                ranges: tuple, 
                 values: Union[xr.DataArray, List[xr.DataArray], xr.Dataset],  
                 description: str,
                 dist_met: Optional[str], 
                 event: Union[str, List[str], None]
         ):
         self.name = name
-        self.timeframevalue = timeframevalue
+        self.ranges = ranges
         self.values = np.array(values)
         self.dist_met = dist_met
         self.description = description
