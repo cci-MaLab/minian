@@ -82,23 +82,18 @@ class ClusteringExplorer:
         
         def update_feature_info(event):
             selected_features = event.new
-
             if selected_features:
                 selected_feature_name = selected_features[0]
                 selected_feature = next(
                     (feature for feature in self.features if feature.name == selected_feature_name),
                     None
-                ) 
-                selected_feature = next(
-                    (feature for feature in self.features if feature.name == selected_feature_name),
-                    None
                 )
+                
                 w_description.value = selected_feature.description
                 w_ranges.value = selected_feature.ranges
                 w_events.value = selected_feature.event
         
-        # Register the callback with the value attribute of the feature selection widget
-        
+        # Register the callback with the value attribute of the feature selection widget        
         self.left_panel = w_feature_select
         self.right_panel_description = Column(w_description, w_ranges, w_events, w_distance_metric)
         
