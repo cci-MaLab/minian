@@ -8,6 +8,7 @@ from panel.widgets import MultiSelect, StaticText, Select
 from panel import Row, Column
 from panel.layout import WidgetBox
 import xarray as xr
+import holoviews as hv
 import panel as pn
 
 def plot_multiple_traces(explorer, neurons_to_plot=None, data_type='C', shift_amount=0.4, figure_ax = None):
@@ -63,17 +64,22 @@ class ClusteringExplorer:
         A: xr.DataArray,
     ):
         self.features = features
-        self.widgets = self._create_widgets()
-        #self._update_feature_info(None)
+        self.widgets = self._description_widgets()
+        self._u = None
+
     
-    def _create_widgets(self):
+    
+    def _description_widgets(self):
+        """
+        Widgets associated with the initial values loaded and their description.
+        """
         # Implement multiselect for features, this will occupy the left side of the panel
         w_feature_select = MultiSelect(name='Feature Selection',
                 options=[feature.name for feature in self.features])
         
         # Display information from selected feature
-
-        # TODO: Plot the information from the selected feature
+        w_select_cell = Select(name='Select Cell', options=[])
+        w_visualize = pn.panel(hv.Curve([]))
         w_description = StaticText(name="Description", value="")
         w_ranges = StaticText(name="Ranges", value="")
         w_events = StaticText(name="Events", value="")
@@ -92,13 +98,30 @@ class ClusteringExplorer:
                 w_description.value = selected_feature.description
                 w_ranges.value = selected_feature.ranges
                 w_events.value = selected_feature.event
+
+                # Visualization stuff
+                data = selected_feature.values
+                self._u = data.isel(frame=0).dropna("unit_id").coords["unit_id"].values
+                w_select_cell.options = [f"Cell {u}" for u in self._u]
+                w_visualize = self._temp_comp_sub(self._u[0], data)
         
         # Register the callback with the value attribute of the feature selection widget        
         self.left_panel = w_feature_select
-        self.right_panel_description = Column(w_description, w_ranges, w_events, w_distance_metric)
+        self.right_panel_description = Column(w_select_cell, w_visualize, w_description, w_ranges, w_events, w_distance_metric)
         
         w_feature_select.param.watch(update_feature_info, 'value')
         
+    def _temp_comp_sub(self, usub=None, data=None):
+        if usub is None:
+            usub = self.strm_usub.usub
+        
+        signal = hv.Dataset(
+                data(unit_id=usub)
+                .compute()
+                .rename("Intensity (A. U.)")
+                .dropna("frame", how="all")
+            ).to(hv.Curve, "frame")
+        return pn.panel(signal)
         
     def show(self) -> Row:
         """

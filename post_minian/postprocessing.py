@@ -527,7 +527,7 @@ class Feature:
         ):
         self.name = name
         self.ranges = ranges
-        self.values = np.array(values)
+        self.values = values
         self.dist_met = dist_met
         self.description = description
         self.event = event
