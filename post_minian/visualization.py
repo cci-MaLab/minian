@@ -10,6 +10,8 @@ from panel.layout import WidgetBox
 import xarray as xr
 import holoviews as hv
 import panel as pn
+from holoviews.streams import Stream
+import param
 
 def plot_multiple_traces(explorer, neurons_to_plot=None, data_type='C', shift_amount=0.4, figure_ax = None):
     if figure_ax == None:
@@ -64,11 +66,21 @@ class ClusteringExplorer:
         A: xr.DataArray,
     ):
         self.features = features
+        self._all_cells = None
+
+        # Streams
+        Stream_usub = Stream.define("Stream_usub", usub=param.Integer())
+        self.strm_usub = Stream_usub()
+        self.strm_usub.add_subscriber(self.callback_usub)
+        self.usub_sel = self.strm_usub.usub
+
+        # Widgets
         self.widgets = self._description_widgets()
-        self._u = None
 
     
-    
+    def callback_usub(self, usub=None):
+        self.update_temp_comp_sub(usub)
+
     def _description_widgets(self):
         """
         Widgets associated with the initial values loaded and their description.
@@ -79,12 +91,17 @@ class ClusteringExplorer:
         
         # Display information from selected feature
         w_select_cell = Select(name='Select Cell', options=[])
-        w_visualize = pn.panel(hv.Curve([]))
+        self.w_visualize = pn.panel(hv.Curve([]).opts(xaxis=None,yaxis=None,xlabel=None,ylabel=None), width=400, height=200)
         w_description = StaticText(name="Description", value="")
         w_ranges = StaticText(name="Ranges", value="")
         w_events = StaticText(name="Events", value="")
         w_distance_metric = Select(name='Select', options=['Euclidean', 'Cosine', 'Manhattan'])
 
+        def update_usub(usub):
+            to_int = int(usub.new.split(" ")[1])
+            self.strm_usub.event(usub=to_int)
+
+        w_select_cell.param.watch(update_usub, "value")
         
         def update_feature_info(event):
             selected_features = event.new
@@ -100,14 +117,14 @@ class ClusteringExplorer:
                 w_events.value = selected_feature.event
 
                 # Visualization stuff
-                data = selected_feature.values
-                self._u = data.isel(frame=0).dropna("unit_id").coords["unit_id"].values
-                w_select_cell.options = [f"Cell {u}" for u in self._u]
-                w_visualize = self._temp_comp_sub(self._u[0], data)
+                self.data = selected_feature.values
+                self._all_cells = self.data.isel(frame=0).dropna("unit_id").coords["unit_id"].values
+                w_select_cell.options = [f"Cell {u}" for u in self._all_cells]
+                self.update_temp_comp_sub(self._all_cells[0])
         
         # Register the callback with the value attribute of the feature selection widget        
         self.left_panel = w_feature_select
-        self.right_panel_description = Column(w_select_cell, w_visualize, w_description, w_ranges, w_events, w_distance_metric)
+        self.right_panel_description = Column(self.w_visualize, w_select_cell, w_description, w_ranges, w_events, w_distance_metric)
         
         w_feature_select.param.watch(update_feature_info, 'value')
         
@@ -116,12 +133,16 @@ class ClusteringExplorer:
             usub = self.strm_usub.usub
         
         signal = hv.Dataset(
-                data(unit_id=usub)
+                data.sel(unit_id=usub)
                 .compute()
                 .rename("Intensity (A. U.)")
                 .dropna("frame", how="all")
             ).to(hv.Curve, "frame")
-        return pn.panel(signal)
+        return pn.panel(signal, width=400, height=200)
+        
+    
+    def update_temp_comp_sub(self, usub=None):
+        self.w_visualize.object = self._temp_comp_sub(usub, self.data).object
         
     def show(self) -> Row:
         """
