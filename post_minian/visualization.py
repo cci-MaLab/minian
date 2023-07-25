@@ -89,11 +89,8 @@ class ClusteringExplorer:
         w_feature_select = MultiSelect(name='Feature Selection',
                 options=[feature.name for feature in self.features])
         
-        # Implement multiselect for added features, this will occupy the middle side of the panel
-        self.w_loaded_features = {feature.name:False for feature in self.features}
         #adding features that are TRUE in MultiSelect
-        w_added_feature_select = MultiSelect(name='Loaded Features',
-                options=[feature.name for feature in self.features if self.w_loaded_features[feature.name]])
+        w_added_feature_select = MultiSelect(name='Loaded Features')
         
         # Display information from selected feature
         w_select_cell = Select(name='Select Cell', options=[])
@@ -128,30 +125,21 @@ class ClusteringExplorer:
                 w_select_cell.options = [f"Cell {u}" for u in self._all_cells]
                 self.update_temp_comp_sub(self._all_cells[0])
         
-        def load_feature(event):
-            selected_features = event.new
-            if selected_features:
-                selected_feature_name = selected_features[0]
-                #print(selected_feature_name)
-                self.w_loaded_features[selected_feature_name]=True
-                w_added_feature_select = MultiSelect(name='Loaded Features',
-                    options=[feature.name for feature in self.features if self.w_loaded_features[feature.name]])
+        def load_feature(clicks=None):
+            if w_feature_select.value:
+                w_added_feature_select.options = w_added_feature_select.options + w_feature_select.value
         
-        def unload_feature(event):
-            selected_features = event.new
-            if selected_features:
-                selected_feature_name = selected_features[0]
-                #print(selected_feature_name)
-                self.w_loaded_features[selected_feature_name]=False
-                w_added_feature_select = MultiSelect(name='Loaded Features',
-                    options=[feature.name for feature in self.features if self.w_loaded_features[feature.name]])
+        def unload_feature(clicks=None):
+            if w_added_feature_select.value:
+                trimmed_options = [option for option in w_added_feature_select.options if option not in w_added_feature_select.value]
+                w_added_feature_select.options = trimmed_options
                 
-        #addign buttons 
+        #adding buttons 
         load_feature_button = Button(name='Load', button_type='success')
         unload_feature_button = Button(name='Unload', button_type='danger')
         
-        load_feature_button.on_click(load_feature)
-        unload_feature_button.on_click(unload_feature)
+        load_feature_button.param.watch(load_feature, "clicks")
+        unload_feature_button.param.watch(unload_feature, "clicks")
         
         # Register the callback with the value attribute of the feature selection widget        
         self.left_panel = pn.Tabs(('Inital Features',w_feature_select),('Loaded Features',w_added_feature_select))
@@ -159,6 +147,8 @@ class ClusteringExplorer:
         self.right_panel_description = Column(self.w_visualize, w_select_cell, w_description, w_ranges, w_events, w_distance_metric)
         
         w_feature_select.param.watch(update_feature_info, 'value')
+        w_added_feature_select.param.watch(update_feature_info, 'value')
+        load_feature()
         
     def _temp_comp_sub(self, usub=None, data=None):
         if usub is None:
