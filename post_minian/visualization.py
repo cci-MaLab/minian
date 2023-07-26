@@ -3,7 +3,7 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 from typing import Callable, List, Optional, Tuple, Union
-from post_minian.postprocessing import Feature
+from post_minian.postprocessing import Feature, CellClustering
 from panel.widgets import MultiSelect, StaticText, Select, Button
 from panel import Row, Column
 from panel.layout import WidgetBox
@@ -95,6 +95,10 @@ class ClusteringExplorer:
         # Display information from selected feature
         w_select_cell = Select(name='Select Cell', options=[])
         self.w_visualize = pn.panel(hv.Curve([]).opts(xaxis=None,yaxis=None,xlabel=None,ylabel=None), width=400, height=200)
+        
+        self.w_visualize_dendogram = pn.panel(hv.Curve([]).opts(xaxis=None,yaxis=None,xlabel=None,ylabel=None), width=400, height=200)
+        self.w_visualize_cluster = pn.panel(hv.Curve([]).opts(xaxis=None,yaxis=None,xlabel=None,ylabel=None), width=400, height=200)
+        
         w_description = StaticText(name="Description", value="")
         w_ranges = StaticText(name="Ranges", value="")
         w_events = StaticText(name="Events", value="")
@@ -124,6 +128,8 @@ class ClusteringExplorer:
                 self._all_cells = self.data.isel(frame=0).dropna("unit_id").coords["unit_id"].values
                 w_select_cell.options = [f"Cell {u}" for u in self._all_cells]
                 self.update_temp_comp_sub(self._all_cells[0])
+                
+                #self.update_cell_clustering()
         
         def load_feature(clicks=None):
             if w_feature_select.value:
@@ -141,10 +147,15 @@ class ClusteringExplorer:
         load_feature_button.param.watch(load_feature, "clicks")
         unload_feature_button.param.watch(unload_feature, "clicks")
         
-        # Register the callback with the value attribute of the feature selection widget        
+        
+        # Register the callback with the value attribute of the feature selection widget               
         self.left_panel = pn.Tabs(('Inital Features',w_feature_select),('Loaded Features',w_added_feature_select))
         self.middle_panel = Column(load_feature_button,unload_feature_button)
-        self.right_panel_description = Column(self.w_visualize, w_select_cell, w_description, w_ranges, w_events, w_distance_metric)
+        self.right_panel_description = pn.Tabs(
+            ('Description',Column(self.w_visualize, w_select_cell, w_description, w_ranges, w_events, w_distance_metric)),
+            ('Dendogram',self.w_visualize_dendogram),
+            ('Cluster',self.w_visualize_cluster)
+        )
         
         w_feature_select.param.watch(update_feature_info, 'value')
         w_added_feature_select.param.watch(update_feature_info, 'value')
@@ -165,7 +176,24 @@ class ClusteringExplorer:
     
     def update_temp_comp_sub(self, usub=None):
         self.w_visualize.object = self._temp_comp_sub(usub, self.data).object
+    
+    '''
+    #I was not sure what should be the input of this functions. 
+    #Section or A values in CellClustering 
         
+    def update_cluster(self,cluster):
+        self.w_visualize_cluster = cluster 
+    
+    def update_dendogram(self,dendogram):
+        self.w_visualize_dendogram = dendogram
+        
+    def update_cell_clustering(self,Section,A,distance=None):
+        if not Section and not A:
+            temp_cell_clustering = CellClustering(Section,A)
+            self.update_cluster(temp_cell_clustering.visualize_clusters(distance))
+            self.update_dendogram(temp_cell_clustering.visualize_dendrogram())
+    ''' 
+    
     def show(self) -> Row:
         """
         Return visualizations that can be directly displayed.
@@ -179,5 +207,4 @@ class ClusteringExplorer:
             self.left_panel,
             self.middle_panel,
             self.right_panel_description
-            
         )

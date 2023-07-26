@@ -67,8 +67,8 @@ class CellClustering:
     def visualize_dendrogram(self, color_threshold=None):
         self.dendro = dendrogram(self.linkage_data, color_threshold=color_threshold)
         return self.dendro
-        
-    
+
+
     def visualize_clusters(self, distance):
         self.cluster_indices = fcluster(self.linkage_data, distance, criterion='distance')
         viridis = cm.get_cmap('viridis', self.cluster_indices.max())
@@ -502,6 +502,7 @@ class FeatureExploration:
             output_dtypes=[self.data['C'].dtype],
         )
         self.data['smoothed_C'] = smoothed_C
+
 
 class Feature:
     '''
