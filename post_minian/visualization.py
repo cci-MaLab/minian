@@ -67,6 +67,9 @@ class ClusteringExplorer:
     ):
         self.features = features
         self._all_cells = None
+        self.cell_clustering = None
+        self.A = A
+
 
         # Streams
         Stream_usub = Stream.define("Stream_usub", usub=param.Integer())
@@ -96,7 +99,7 @@ class ClusteringExplorer:
         w_select_cell = Select(name='Select Cell', options=[])
         self.w_visualize = pn.panel(hv.Curve([]).opts(xaxis=None,yaxis=None,xlabel=None,ylabel=None), width=400, height=200)
         
-        self.w_visualize_dendogram = pn.panel(hv.Curve([]).opts(xaxis=None,yaxis=None,xlabel=None,ylabel=None), width=400, height=200)
+        self.w_visualize_dendogram = pn.pane.Matplotlib(width=400, height=200)
         self.w_visualize_cluster = pn.panel(hv.Curve([]).opts(xaxis=None,yaxis=None,xlabel=None,ylabel=None), width=400, height=200)
         
         w_description = StaticText(name="Description", value="")
@@ -128,8 +131,6 @@ class ClusteringExplorer:
                 self._all_cells = self.data.isel(frame=0).dropna("unit_id").coords["unit_id"].values
                 w_select_cell.options = [f"Cell {u}" for u in self._all_cells]
                 self.update_temp_comp_sub(self._all_cells[0])
-                
-                #self.update_cell_clustering()
         
         def load_feature(clicks=None):
             if w_feature_select.value:
@@ -139,13 +140,27 @@ class ClusteringExplorer:
             if w_added_feature_select.value:
                 trimmed_options = [option for option in w_added_feature_select.options if option not in w_added_feature_select.value]
                 w_added_feature_select.options = trimmed_options
+        
+        def load_dendrogram(clicks=None):
+            w_added_feature_select.options = ["Feature 1"]
+            if w_added_feature_select.options:
+                selected_feature = next(
+                    (feature for feature in self.features if feature.name == w_added_feature_select.options[0]),
+                    None
+                )
+                self.cell_clustering = CellClustering(selected_feature.values, self.A)
+                fig, ax = plt.subplots()
+                self.cell_clustering.visualize_dendrogram(ax=ax)
+                self.w_visualize_dendogram = pn.pane.Matplotlib(fig, width=400, height=200)
                 
         #adding buttons 
         load_feature_button = Button(name='Load', button_type='success')
         unload_feature_button = Button(name='Unload', button_type='danger')
+        load_dendrogram_button = Button(name='Generate Dendrogram from Loaded Features', button_type='primary')
         
         load_feature_button.param.watch(load_feature, "clicks")
         unload_feature_button.param.watch(unload_feature, "clicks")
+        load_dendrogram_button.param.watch(load_dendrogram, "clicks")
         
         
         # Register the callback with the value attribute of the feature selection widget               
@@ -153,13 +168,13 @@ class ClusteringExplorer:
         self.middle_panel = Column(load_feature_button,unload_feature_button)
         self.right_panel_description = pn.Tabs(
             ('Description',Column(self.w_visualize, w_select_cell, w_description, w_ranges, w_events, w_distance_metric)),
-            ('Dendogram',self.w_visualize_dendogram),
+            ('Dendrogram',Column(self.w_visualize_dendogram, load_dendrogram_button)),
             ('Cluster',self.w_visualize_cluster)
         )
         
         w_feature_select.param.watch(update_feature_info, 'value')
         w_added_feature_select.param.watch(update_feature_info, 'value')
-        load_feature()
+        load_dendrogram()
         
     def _temp_comp_sub(self, usub=None, data=None):
         if usub is None:

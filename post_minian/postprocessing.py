@@ -43,7 +43,7 @@ class CellClustering:
     
         self.signals = section
         self.A = A
-        self.units = self.signals['unit_id'].values
+        self.units = self.signals.isel(frame=0).dropna("unit_id").coords["unit_id"].values
         self.psd_list = []
 
         if fft:
@@ -64,8 +64,8 @@ class CellClustering:
                detrend='constant') 
         self.psd_list.append(psd)
     
-    def visualize_dendrogram(self, color_threshold=None):
-        self.dendro = dendrogram(self.linkage_data, color_threshold=color_threshold)
+    def visualize_dendrogram(self, color_threshold=None, ax=None):
+        self.dendro = dendrogram(self.linkage_data, color_threshold=color_threshold, ax=ax)
         return self.dendro
 
 
