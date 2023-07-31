@@ -67,6 +67,11 @@ class ClusteringExplorer:
     ):
         #self.features = features
         self.features = {feature.name:feature for feature in features}
+        #Convert event to list if its not list
+        for feature in self.features.values():
+            if not isinstance(feature.event,list):
+                feature.event = [feature.event]
+        
         self._all_cells = None
         self.cell_clustering = None
         self.A = A
@@ -95,6 +100,9 @@ class ClusteringExplorer:
         
         #adding features that are TRUE in MultiSelect
         w_added_feature_select = MultiSelect(name='Loaded Features')
+        
+        #adding filter 
+        w_event_filter_select = MultiSelect(name='Event Filter', options=['ALP','IALP','RNFS'])
         
         # Display information from selected feature
         w_select_cell = Select(name='Select Cell', options=[])
@@ -161,10 +169,18 @@ class ClusteringExplorer:
                 hv_image = hv.RGB(numpy_image)
                 self.w_visualize_cluster = pn.panel(hv_image.opts(xaxis=None,yaxis=None,xlabel=None,ylabel=None), width=400, height=400)
                 load_cluster_button.name = "Load Cluster from Loaded Features"
-            
+        
+        def load_filter(clicks=None):
+            #w_event_filter_select = ["ALP"]
+            if w_event_filter_select.value:
+                trimmed_options = [option for option in w_feature_select.options if any(e in w_event_filter_select.value for e in self.features[option].event)]
+                w_feature_select.options = trimmed_options or []
+                 
         #adding buttons 
         load_feature_button = Button(name='Load', button_type='success')
         unload_feature_button = Button(name='Unload', button_type='danger')
+        filter_button = Button(name='Filter', button_type='primary')
+        
         load_dendrogram_button = Button(name='Generate Dendrogram from Loaded Features', button_type='primary')
         load_cluster_button = Button(name='Load Cluster from Loaded Features', button_type='primary')
         
@@ -172,11 +188,11 @@ class ClusteringExplorer:
         unload_feature_button.param.watch(unload_feature, "clicks")
         load_dendrogram_button.param.watch(load_dendrogram, "clicks")
         load_cluster_button.param.watch(load_cluster,"clicks")
-        
+        filter_button.param.watch(load_filter,"clicks")
         
         # Register the callback with the value attribute of the feature selection widget               
         self.left_panel = pn.Tabs(('Inital Features',w_feature_select),('Loaded Features',w_added_feature_select))
-        self.middle_panel = Column(load_feature_button,unload_feature_button)
+        self.middle_panel = Column(load_feature_button,unload_feature_button,w_event_filter_select,filter_button)
         self.right_panel_description = pn.Tabs(
             ('Description',Column(self.w_visualize, w_select_cell, w_description, w_ranges, w_events, w_distance_metric)),
             ('Dendrogram',Column(load_dendrogram_button, self.w_visualize_dendogram)),
@@ -185,7 +201,8 @@ class ClusteringExplorer:
         
         w_feature_select.param.watch(update_feature_info, 'value')
         w_added_feature_select.param.watch(update_feature_info, 'value')
-        load_cluster()
+        load_filter()
+        #load_cluster()
         
     def _temp_comp_sub(self, usub=None, data=None):
         if usub is None:
