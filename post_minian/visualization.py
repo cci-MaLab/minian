@@ -101,7 +101,7 @@ class ClusteringExplorer:
         self.w_visualize = pn.panel(hv.Curve([]).opts(xaxis=None,yaxis=None,xlabel=None,ylabel=None), width=400, height=200)
         
         self.w_visualize_dendogram = pn.pane.Matplotlib(width=400, height=200)
-        self.w_visualize_cluster = pn.pane.Matplotlib(width=400, height=200)
+        self.w_visualize_cluster = pn.panel(hv.Curve([]).opts(xaxis=None,yaxis=None,xlabel=None,ylabel=None), width=400, height=400)
         
         w_description = StaticText(name="Description", value="")
         w_ranges = StaticText(name="Ranges", value="")
@@ -143,20 +143,24 @@ class ClusteringExplorer:
         def load_dendrogram(clicks=None):
             w_added_feature_select.options = ["Feature 1"]
             if w_added_feature_select.options:
+                load_dendrogram_button.name = "Loading..."
                 selected_feature = self.features.get(w_added_feature_select.options[0])
                 self.cell_clustering = CellClustering(selected_feature.values, self.A)
                 fig, ax = plt.subplots()
                 self.cell_clustering.visualize_dendrogram(ax=ax)
-                #self.w_visualize_dendogram = pn.pane.Matplotlib(fig, width=400, height=200)
                 self.w_visualize_dendogram.object = fig
+                load_dendrogram_button.name = "Generate Dendrogram from Loaded Features"
         
         def load_cluster(clicks=None):
             w_added_feature_select.options = ["Feature 1"]
             if w_added_feature_select.options:
+                load_cluster_button.name = "Loading..."
                 selected_feature = self.features.get(w_added_feature_select.options[0])
                 self.cell_clustering = CellClustering(selected_feature.values, self.A)
-                fig = self.cell_clustering.visualize_clusters(distance=self.w_cluster_distance.value)
-                self.w_visualize_cluster.object = fig
+                numpy_image = self.cell_clustering.visualize_clusters(distance=self.w_cluster_distance.value)
+                hv_image = hv.RGB(numpy_image)
+                self.w_visualize_cluster = pn.panel(hv_image.opts(xaxis=None,yaxis=None,xlabel=None,ylabel=None), width=400, height=400)
+                load_cluster_button.name = "Load Cluster from Loaded Features"
             
         #adding buttons 
         load_feature_button = Button(name='Load', button_type='success')
@@ -175,14 +179,13 @@ class ClusteringExplorer:
         self.middle_panel = Column(load_feature_button,unload_feature_button)
         self.right_panel_description = pn.Tabs(
             ('Description',Column(self.w_visualize, w_select_cell, w_description, w_ranges, w_events, w_distance_metric)),
-            ('Dendrogram',Column(self.w_visualize_dendogram, load_dendrogram_button)),
+            ('Dendrogram',Column(load_dendrogram_button, self.w_visualize_dendogram)),
             ('Cluster',Column(self.w_visualize_cluster,self.w_cluster_distance,load_cluster_button))
         )
         
         w_feature_select.param.watch(update_feature_info, 'value')
         w_added_feature_select.param.watch(update_feature_info, 'value')
-        #load_dendrogram()
-        #load_cluster()
+        load_cluster()
         
     def _temp_comp_sub(self, usub=None, data=None):
         if usub is None:

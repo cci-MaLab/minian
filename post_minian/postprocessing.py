@@ -79,7 +79,7 @@ class CellClustering:
         for idx, cluster in enumerate(self.cluster_indices):
             final_image += np.stack((self.A.sel(unit_id=self.units[idx]).values,)*3, axis=-1) * viridis(cluster)[:3]
         
-        return plt.imshow(final_image)
+        return final_image
     
     def visualize_clusters_color(self):
         viridis = cm.get_cmap('viridis', len(np.unique(self.dendro["leaves_color_list"])))
