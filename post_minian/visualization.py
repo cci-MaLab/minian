@@ -109,7 +109,7 @@ class ClusteringExplorer:
         self.w_visualize = pn.panel(hv.Curve([]).opts(xaxis=None,yaxis=None,xlabel=None,ylabel=None), width=400, height=200)
         
         self.w_visualize_dendogram = pn.pane.Matplotlib(width=400, height=200)
-        self.w_visualize_cluster = pn.panel(hv.Curve([]).opts(xaxis=None,yaxis=None,xlabel=None,ylabel=None), width=400, height=400)
+        self.w_visualize_cluster = pn.pane.Matplotlib(width=400, height=200)
         
         w_description = StaticText(name="Description", value="")
         w_ranges = StaticText(name="Ranges", value="")
@@ -165,13 +165,13 @@ class ClusteringExplorer:
                 load_cluster_button.name = "Loading..."
                 selected_feature = self.features.get(w_added_feature_select.options[0])
                 self.cell_clustering = CellClustering(selected_feature.values, self.A)
-                numpy_image = self.cell_clustering.visualize_clusters(distance=self.w_cluster_distance.value)
-                hv_image = hv.RGB(numpy_image)
-                self.w_visualize_cluster = pn.panel(hv_image.opts(xaxis=None,yaxis=None,xlabel=None,ylabel=None), width=400, height=400)
+                fig, ax = plt.subplots()
+                ax.imshow(self.cell_clustering.visualize_clusters(distance=self.w_cluster_distance.value))
+                ax.set_axis_off()
+                self.w_visualize_cluster.object = fig
                 load_cluster_button.name = "Load Cluster from Loaded Features"
         
         def load_filter(clicks=None):
-            #w_event_filter_select = ["ALP"]
             if w_event_filter_select.value:
                 trimmed_options = [option for option in w_feature_select.options if any(e in w_event_filter_select.value for e in self.features[option].event)]
                 w_feature_select.options = trimmed_options or []
@@ -196,7 +196,7 @@ class ClusteringExplorer:
         self.right_panel_description = pn.Tabs(
             ('Description',Column(self.w_visualize, w_select_cell, w_description, w_ranges, w_events, w_distance_metric)),
             ('Dendrogram',Column(load_dendrogram_button, self.w_visualize_dendogram)),
-            ('Cluster',Column(self.w_visualize_cluster,self.w_cluster_distance,load_cluster_button))
+            ('Cluster',Column(self.w_cluster_distance, load_cluster_button, self.w_visualize_cluster))
         )
         
         w_feature_select.param.watch(update_feature_info, 'value')
