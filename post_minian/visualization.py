@@ -119,6 +119,7 @@ class ClusteringExplorer:
         w_ranges = StaticText(name="Ranges", value="")
         w_events = StaticText(name="Events", value="")
         self.w_cluster_distance = IntSlider(name="Cluster Distance", value=1,step=1,start=1,end=1000)
+        self.w_time_filter = IntSlider(name="Time Filter", value=1,step=1,start=1,end=30)
         w_distance_metric = Select(name='Select', options=['Euclidean', 'Cosine', 'Manhattan'])
 
         def update_usub(usub):
@@ -188,6 +189,10 @@ class ClusteringExplorer:
                 load_cluster_button.name = "Load Cluster from Loaded Features"
         
         def load_filter(clicks=None):
+            #Functionality of Load_Feature Class 
+            if w_data_select.value:
+                w_added_feature_select.options = w_added_feature_select.options + w_data_select.value
+            #Funcationality of load Filter class
             if w_event_filter_select.value:
                 trimmed_options = [option for option in w_data_select.options if any(e in w_event_filter_select.value for e in self.data[option].event)]
                 w_data_select.options = trimmed_options or []
@@ -200,7 +205,10 @@ class ClusteringExplorer:
         #adding buttons 
         load_feature_button = Button(name='Load', button_type='success')
         unload_feature_button = Button(name='Unload', button_type='danger')
-        filter_button = Button(name='Filter', button_type='primary')
+        frequency_filter_button = Button(name='Frequency', button_type='primary')
+        peak_value_filter_button = Button(name='Peak Value', button_type='primary')
+        rising_time_filter_button = Button(name='Rising Time', button_type='primary')
+        filter_button = Button(name='Filter', button_type='success')
         
         load_dendrogram_button = Button(name='Generate Dendrogram from Loaded Features', button_type='primary')
         load_cluster_button = Button(name='Load Cluster from Loaded Features', button_type='primary')
@@ -212,8 +220,10 @@ class ClusteringExplorer:
         filter_button.param.watch(load_filter,"clicks")
         
         # Register the callback with the value attribute of the feature selection widget               
-        self.pn_data_features = pn.Tabs(('Initial Data',w_data_select),('Loaded Features',w_added_feature_select))
-        self.pn_utility = Column(load_feature_button,unload_feature_button,w_event_filter_select,filter_button)
+        self.pn_data_features = pn.Tabs(('Initial Data',w_data_select),('Loaded Features',Column(w_added_feature_select,unload_feature_button)))
+        self.pn_utility = Column(w_event_filter_select,self.w_time_filter,
+                                 Row(frequency_filter_button,peak_value_filter_button,rising_time_filter_button),
+                                 filter_button)
         self.pn_description = ('Description',Column(self.w_visualize, w_select_cell))
         self.pn_description_advanced = ('Description',Column(self.w_visualize, w_select_cell, w_distance_metric))
         self.pn_dendrogram = ('Dendrogram',Column(load_dendrogram_button, self.w_visualize_dendogram))
@@ -251,3 +261,8 @@ class ClusteringExplorer:
             Resulting visualizations containing both plots and toolboxes.
         """
         return self.main_panel
+
+    #def display(self):
+    #    layout = self.show()
+    #
+    # layout.show()
