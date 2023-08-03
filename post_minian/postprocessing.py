@@ -163,8 +163,7 @@ class FeatureExploration:
     def __init__(
         self,
         dpath: str,
-    ):
-        
+    ):        
         mouseID, day, session = match_information(dpath)
         mouse_path, video_path = match_path(dpath)
         behavior_data = pd.read_csv(os.path.join(mouse_path, mouseID + "_" + day + "_" + session + "_" + "behavior_ms.csv"),sep=',')
@@ -317,6 +316,7 @@ class FeatureExploration:
         """
         return np.unique(a).size - 1
 
+        
     def collapse_E_events(self, smoothing="gauss", kwargs=None) -> None:
         """
         Collapse the E values by summing up the values.
@@ -490,18 +490,63 @@ class FeatureExploration:
         filted_C = self.data['C'] * non_collapsed_E
         self.data['filted_C'] = filted_C
 
-    def smoothed_C(self,window_length = 6) -> None:
-        smoothed_C = xr.apply_ufunc(
-            savgol_filter,
-            self.data['C'].chunk(dict(frame=-1, unit_id="auto")),
-            window_length,
-            3,
-            input_core_dims=[["frame"],[],[]],
+    def smoothed_C(self,window_length = 6, n = 3,mode = "savgol",unit_id = []) -> None:
+        self.data['smoothed_C'] = self.data['C']
+        if unit_id is None:
+            unit_id = self.data['unit_ids']
+        if mode =="savgol":
+            smoothed_C = xr.apply_ufunc(
+                savgol_filter,
+                self.data['C'].sel(unit_id=unit_id),
+                window_length,
+                n,
+                input_core_dims=[["frame"],[],[]],
+                output_core_dims=[["frame"]],
+                dask="parallelized",
+                output_dtypes=[self.data['C'].dtype],
+            )
+        elif mode =="gauss":
+            smoothed_C = xr.apply_ufunc(
+                gaussian_filter1d,
+                self.data['C'].sel(unit_id=unit_id),
+                3,
+                input_core_dims=[["frame"],[]],
+                output_core_dims=[["frame"]],
+                dask="parallelized",
+                output_dtypes=[self.data['C'].dtype],
+            )
+        for uid in unit_id:
+            self.data['smoothed_C'].sel(unit_id = uid).values = smoothed_C.sel(unit_id=uid)
+
+    def smoothed_filted_C(self) -> None:
+        non_collapsed_E = xr.apply_ufunc(
+            self.normalize_events,
+            self.data['E'].chunk(dict(frame=-1, unit_id="auto")),
+            input_core_dims=[["frame"]],
             output_core_dims=[["frame"]],
             dask="parallelized",
-            output_dtypes=[self.data['C'].dtype],
+            output_dtypes=[self.data['E'].dtype],
         )
-        self.data['smoothed_C'] = smoothed_C
+        smoothed_filted_C = self.data['smoothed_C'] * non_collapsed_E
+        self.data['smoothed_filted_C'] = smoothed_filted_C
+
+    # def calculate_slop(self, a: np.ndarray) -> None:
+    #     a = a.copy()
+    #     a
+
+    # def get_events_rising_part(self) -> None:
+    #     #calculate_slop
+    #     calculate_E = xr.apply_ufunc(
+    #         self.calculate_slop,
+    #         self.data['E'].chunk(dict(frame=-1, unit_id="auto")),
+    #         input_core_dims=[["frame"]],
+    #         output_core_dims=[["frame"]],
+    #         dask="parallelized",
+    #         output_dtypes=[self.data['E'].dtype],
+    #     )
+    #     smoothed_filted_C = self.data['smoothed_C'] * non_collapsed_E
+    #     self.data['smoothed_filted_C'] = smoothed_filted_C
+
 
 
 class Feature:
@@ -533,3 +578,99 @@ class Feature:
         self.description = description
         self.event = event
 
+
+class NewFeatures:
+    '''
+        Parameters
+        ----------
+        ALP
+    '''
+
+    def __init__(self,
+                A: dict,
+                ALP: List[xr.DataArray],
+                IALP: List[xr.DataArray],
+                RNFS: List[xr.DataArray],  
+                timefilter: Optional[tuple] = None,
+                events: Optional[List[str]] = None, 
+                description: Optional[str] = None,
+                dist_met: Optional[str] = None, 
+        ):
+        self.A = A
+        self.ALPlist = ALP
+        self.IALPlist = IALP
+        self.RNFSlist = RNFS
+        self.timefilter = timefilter
+        self.events = events
+        self.dist_met = dist_met
+        self.description = description
+        self.set_timefilter(self.timefilter)
+        self.set_vector(self.events)
+
+    
+    def set_timefilter(self, timefilter:Optional[tuple]):
+        ALP = {}
+        IALP = {}
+        RNFS = {}
+        if self.timefilter is None:
+            for i in self.ALPlist:
+                for j in self.ALPlist.coords['unit_id'].values:
+                    try:
+                        ALP[j]
+                    except:
+                        ALP[j] = np.array([])
+                    ALP[j] = np.r_['-1', ALP[j], np.array(i.sel(unit_id=j).values)]
+            for i in self.IALPlist:
+                for j in self.IALPlist.coords['unit_id'].values:
+                    IALP[j] = np.r_['-1', IALP[j], np.array(i.sel(unit_id=j).values)]
+            for i in self.RNFSlist:
+                for j in self.RNFSlist.coords['unit_id'].values:
+                    RNFS[j] = np.r_['-1', RNFS[j], np.array(i.sel(unit_id=j).values)]
+        self.ALP = ALP
+        self.IALP = IALP
+        self.RNFS = RNFS
+        self.set_vector(self.events)
+
+
+    def set_events(self, events:List[str]):
+        self.events = events
+        self.set_vector(self.events)
+
+    def set_vector(self, events:list):
+        '''
+        event :  str, list
+            event can be ALP/IALP/RNFS
+        '''
+        if events is None:
+            events=['ALP','IALP','RNFS']
+        values = {}
+        if 'ALP' in events:
+            for key in self.ALP:
+                try:
+                    values[key]
+                except:
+                    values[key] = np.array([])
+                values[key] = np.r_['-1', values[key], self.ALP[key]]            
+        if 'IALP' in events:
+            for key in self.IALP:
+                try:
+                    values[key]
+                except:
+                    values[key] = np.array([])
+                values[key] = np.r_['-1', values[key], self.IALP[key]]
+        if 'RNFS' in events:
+            for key in self.RNFS:
+                try:
+                    values[key]
+                except:
+                    values[key] = np.array([])
+                values[key] = np.r_['-1', values[key], self.RNFS[key]]
+        self.values = values
+    
+    def set_description(self, content:str):
+        self.description = content
+
+    def reset_dataArray(self, a: np.ndarray):
+        a = np.array([])
+        return a
+    
