@@ -222,8 +222,8 @@ class ClusteringExplorer:
         # Register the callback with the value attribute of the feature selection widget               
         self.pn_data_features = pn.Tabs(('Initial Data',w_data_select),('Loaded Features',Column(w_added_feature_select,unload_feature_button)))
         self.pn_utility = Column(w_event_filter_select,self.w_time_filter,
-                                 Row(frequency_filter_button,peak_value_filter_button,rising_time_filter_button),
-                                 filter_button)
+                                 Column(frequency_filter_button,peak_value_filter_button,rising_time_filter_button),
+                                 filter_button, width=300)
         self.pn_description = ('Description',Column(self.w_visualize, w_select_cell))
         self.pn_description_advanced = ('Description',Column(self.w_visualize, w_select_cell, w_distance_metric))
         self.pn_dendrogram = ('Dendrogram',Column(load_dendrogram_button, self.w_visualize_dendogram))
