@@ -1,5 +1,6 @@
 
 import os
+import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from typing import Callable, List, Optional, Tuple, Union
@@ -64,7 +65,9 @@ class ClusteringExplorer:
 
     def __init__(
         self,
-        dataset: List[object]
+        dataset: List[object],
+        events: Optional[pd.DataFrame] = None,
+
     ):
         self.data = {}
         for element in dataset:
@@ -75,10 +78,12 @@ class ClusteringExplorer:
                         self.Asum = element.sum("unit_id").compute()
             
             else:
-                print(f"Warning: object {type(element)} is not an allowed data type and will be ignored.")
+                print(f"Warning: {type(element)} is not an allowed data type and will be ignored.")
         
         self._all_cells = None
         self.cell_clustering = None
+        if events is not None:
+            self.events = events
 
 
         # Streams
@@ -138,7 +143,7 @@ class ClusteringExplorer:
                     selected_feature = self.data.get(selected_feature_name)
 
                     # Visualization stuff for C and S
-                    if selected_feature.name in ['C','S']:
+                    if selected_feature.name in ['C','S','E']:
                         self.selection = selected_feature
                         self._all_cells = self.selection.isel(frame=0).dropna("unit_id").coords["unit_id"].values
                         w_select_cell.options = [f"Cell {u}" for u in self._all_cells]
@@ -235,6 +240,8 @@ class ClusteringExplorer:
         w_data_select.param.watch(update_feature_info, 'value')
         w_added_feature_select.param.watch(update_feature_info, 'value')
 
+        w_data_select.value = ["E"]
+
     def _temp_comp_sub(self, usub=None, data=None):
         if usub is None:
             usub = self.strm_usub.usub
@@ -262,7 +269,7 @@ class ClusteringExplorer:
         """
         return self.main_panel
 
-    #def display(self):
-    #    layout = self.show()
-    #
-    # layout.show()
+    def display(self):
+        layout = self.show()
+    
+        layout.show()
