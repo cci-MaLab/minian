@@ -568,8 +568,8 @@ class Feature:
                 ranges: tuple, 
                 values: Union[xr.DataArray, List[xr.DataArray], xr.Dataset],  
                 description: str,
-                dist_met: Optional[str], 
-                event: Union[str, List[str], None]
+                dist_met: Optional[str] = None, 
+                event: Union[str, List[str], None] = None
         ):
         self.name = name
         self.ranges = ranges
