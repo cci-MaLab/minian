@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 from typing import Callable, List, Optional, Tuple, Union
 from post_minian.postprocessing import Feature, CellClustering
-from panel.widgets import MultiSelect, StaticText, Select, Button, IntSlider
+from panel.widgets import MultiSelect, StaticText, Select, Button, IntSlider, RangeSlider
 from panel import Row, Column
 from panel.layout import WidgetBox
 import xarray as xr
@@ -70,6 +70,7 @@ class ClusteringExplorer:
 
     ):
         self.data = {}
+        self.features = {}
         for element in dataset:
             if isinstance(element, xr.DataArray):
                 self.data[element.name] = element
@@ -93,26 +94,31 @@ class ClusteringExplorer:
         self.usub_sel = self.strm_usub.usub
 
         # Widgets
-        self.widgets = self._description_widgets()
+        self.widgets = self._create_widgets()
 
     
     def callback_usub(self, usub=None):
         self.update_temp_comp_sub(usub)
 
-    def _description_widgets(self):
+    def _create_widgets(self):
         """
         Widgets associated with the initial values loaded and their description.
         """
         # Implement multiselect for features, this will occupy the left side of the panel
+        self.currents_events = {}
         w_data_select = MultiSelect(name='Data Selection',
                 options=list(self.data.keys()))
         
         #adding features that are TRUE in MultiSelect
         w_added_feature_select = MultiSelect(name='Loaded Features')
         
-        #adding filter 
+        # Utility widgets
         w_event_filter_select = MultiSelect(name='Event Filter', options=['ALP','IALP','RNFS'])
-        
+        w_initial_range = RangeSlider(name='Specify Range', start=0, end=100, value=(0,100), step=1)
+        w_haste_slider = IntSlider(name="Haste", value=0,step=1,start=0,end=30)
+        w_window_slider = IntSlider(name="Window Size", value=1,step=1,start=0,end=30)
+
+
         # Display information from selected feature
         w_select_cell = Select(name='Select Cell', options=[])
         self.w_visualize = pn.panel(hv.Curve([]).opts(xaxis=None,yaxis=None,xlabel=None,ylabel=None), width=400, height=400, sizing_mode="scale_both")
@@ -124,16 +130,15 @@ class ClusteringExplorer:
         w_ranges = StaticText(name="Ranges", value="")
         w_events = StaticText(name="Events", value="")
         self.w_cluster_distance = IntSlider(name="Cluster Distance", value=1,step=1,start=1,end=1000)
-        self.w_time_filter = IntSlider(name="Time Filter", value=1,step=1,start=1,end=30)
         w_distance_metric = Select(name='Select', options=['Euclidean', 'Cosine', 'Manhattan'])
 
         def update_usub(usub):
             to_int = int(usub.new.split(" ")[1])
             self.strm_usub.event(usub=to_int)
-
-        w_select_cell.param.watch(update_usub, "value")
         
         def update_feature_info(event=None):
+            self.currents_events = {}
+            self.ranges = None
             if event is None:
                 self.main_panel.objects = pn.Row(self.pn_data_features).objects
             else:
@@ -149,6 +154,8 @@ class ClusteringExplorer:
                         w_select_cell.options = [f"Cell {u}" for u in self._all_cells]
                         self.update_temp_comp_sub(self._all_cells[0])
                         if self.pn_data_features.active == 0:
+                            w_initial_range.end = self.selection.shape[1]
+                            w_initial_range.value = (0, w_initial_range.end)
                             self.main_panel.objects = pn.Row(self.pn_data_features, self.pn_utility, pn.Tabs(self.pn_description)).objects
                         else:
                             self.main_panel.objects = pn.Row(self.pn_data_features, pn.Tabs(self.pn_description_advanced, self.pn_dendrogram, self.pn_clustering)).objects
@@ -194,25 +201,66 @@ class ClusteringExplorer:
                 load_cluster_button.name = "Load Cluster from Loaded Features"
         
         def load_filter(clicks=None):
-            #Functionality of Load_Feature Class 
-            if w_data_select.value:
-                w_added_feature_select.options = w_added_feature_select.options + w_data_select.value
-            #Funcationality of load Filter class
+            trimmed_df = self.events.loc[self.ranges[0]:self.ranges[1],:]
             if w_event_filter_select.value:
-                trimmed_options = [option for option in w_data_select.options if any(e in w_event_filter_select.value for e in self.data[option].event)]
-                w_data_select.options = trimmed_options or []
+                selected_events = w_event_filter_select.value
+                values = []
+                for event in selected_events:
+                    pre_trimmed_list = trimmed_df.index[trimmed_df[event] > 0].to_list()
+                    for index in pre_trimmed_list:
+                        values.append(self.get_section(index - w_haste_slider.value, w_window_slider.value))
+                
+                name = ','.join(w_data_select.value) + ":" + ','.join(selected_events)
+                description = (f"{name} contains all the values from {self.ranges[0]} to {self.ranges[1]} "
+                               f"filtered by {','.join(selected_events)} with a window of {w_window_slider.value} "
+                               f"and a haste of {w_haste_slider.value}.")
+            else:
+                name = ','.join(w_data_select.value)
+                timeframevalue = tuple(self.ranges)
+                values = trimmed_df
+                description = f"{name} contains all the values from {timeframevalue[0]} to {timeframevalue[1]}"
+            self.features[name] = Feature(name=name, ranges=self.ranges, values=values, description=description)
+            w_added_feature_select.options = w_added_feature_select.options + [name]
         
         def data_feat_switch(event):
             w_data_select.value = []
             w_added_feature_select.value = []
             update_feature_info()
+
+        def update_visual_ranges(event):
+            self.ranges = event.new
+            self.update_temp_comp_sub(None)
+        
+        def update_visual_events(event):
+            events = event.new
+            self.currents_events = {}
+
+            for event in events:
+                pre_trimmed_list = self.events.index[self.events[event] > 0].to_list()
+
+                remove_distance = 0
+                new_list = []
+
+                for i, val in enumerate(pre_trimmed_list):
+                    if i == 0:
+                        new_list.append(val)
+                    else:
+                        if val - pre_trimmed_list[i-1] > remove_distance:
+                            new_list.append(val)
+                
+                if new_list:
+                    self.currents_events[event] = hv.VLine(new_list[0]).opts(color='green')
+                    for i in range(1,  len(new_list)):
+                        self.currents_events[event] *= hv.VLine(new_list[i]).opts(color='green')
+                
+            self.update_temp_comp_sub(None)
+
+
+
                  
         #adding buttons 
         load_feature_button = Button(name='Load', button_type='success')
         unload_feature_button = Button(name='Unload', button_type='danger')
-        frequency_filter_button = Button(name='Frequency', button_type='primary')
-        peak_value_filter_button = Button(name='Peak Value', button_type='primary')
-        rising_time_filter_button = Button(name='Rising Time', button_type='primary')
         filter_button = Button(name='Filter', button_type='success')
         
         load_dendrogram_button = Button(name='Generate Dendrogram from Loaded Features', button_type='primary')
@@ -223,11 +271,16 @@ class ClusteringExplorer:
         load_dendrogram_button.param.watch(load_dendrogram, "clicks")
         load_cluster_button.param.watch(load_cluster,"clicks")
         filter_button.param.watch(load_filter,"clicks")
+        w_select_cell.param.watch(update_usub, "value")
+        w_initial_range.param.watch(update_visual_ranges, "value")
+        w_event_filter_select.param.watch(update_visual_events, "value")
         
         # Register the callback with the value attribute of the feature selection widget               
         self.pn_data_features = pn.Tabs(('Initial Data',w_data_select),('Loaded Features',Column(w_added_feature_select,unload_feature_button)))
-        self.pn_utility = Column(w_event_filter_select,self.w_time_filter,
-                                 Column(frequency_filter_button,peak_value_filter_button,rising_time_filter_button),
+        self.pn_utility = Column(w_initial_range,
+                                 w_event_filter_select,
+                                 w_haste_slider,
+                                 w_window_slider,
                                  filter_button, width=300)
         self.pn_description = ('Description',Column(self.w_visualize, w_select_cell))
         self.pn_description_advanced = ('Description',Column(self.w_visualize, w_select_cell, w_distance_metric))
@@ -240,9 +293,13 @@ class ClusteringExplorer:
         w_data_select.param.watch(update_feature_info, 'value')
         w_added_feature_select.param.watch(update_feature_info, 'value')
 
-        w_data_select.value = ["E"]
+        w_data_select.value = ['S']
+        w_event_filter_select.value = ['RNFS', 'IALP']
+        w_window_slider.value = 10
+        load_filter()
+        
 
-    def _temp_comp_sub(self, usub=None, data=None):
+    def _temp_comp_sub(self, usub=None, data=None, ranges=None):
         if usub is None:
             usub = self.strm_usub.usub
         
@@ -252,11 +309,32 @@ class ClusteringExplorer:
                 .rename("Intensity (A. U.)")
                 .dropna("frame", how="all")
             ).to(hv.Curve, "frame")
+        
+        if ranges is not None:
+            signal *= hv.VLine(ranges[0]).opts(color='red') * hv.VLine(ranges[1]).opts(color='red')
+        for visual_events in self.currents_events.values():
+            signal *= visual_events
         return pn.panel(signal, width=400, height=200)
         
     
+    
     def update_temp_comp_sub(self, usub=None):
-        self.w_visualize.object = self._temp_comp_sub(usub, self.selection).object
+        self.w_visualize.object = self._temp_comp_sub(usub, self.selection, self.ranges).object
+
+    def get_section(self, starting_frame: int, duration: float) -> xr.Dataset:
+        """
+        Return the selection of the data that is within the given time frame.
+        duration indicates the number of frames.
+        """
+        # duration is in seconds convert to ms
+        duration *= 1000
+        max_length = len(self.events.index)
+        frame_gap = 1
+        while self.events['Time Stamp (ms)'][starting_frame + frame_gap] - self.events['Time Stamp (ms)'][starting_frame] < duration and starting_frame + frame_gap < max_length:
+            frame_gap += 1
+
+        
+        return self.selection.sel(frame=slice(starting_frame, starting_frame+frame_gap))
     
     def show(self) -> Row:
         """
@@ -270,6 +348,4 @@ class ClusteringExplorer:
         return self.main_panel
 
     def display(self):
-        layout = self.show()
-    
-        layout.show()
+        self.show().show()
