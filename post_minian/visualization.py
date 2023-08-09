@@ -146,27 +146,31 @@ class ClusteringExplorer:
                 if selected_features:
                     selected_feature_name = selected_features[0]
                     selected_feature = self.data.get(selected_feature_name)
+                    # Visualization stuff for C ,E and S
+                    if selected_feature is not None:
+                        if selected_feature.name in ['C','S','E']:
+                            self.selection = selected_feature
+                            self._all_cells = self.selection.isel(frame=0).dropna("unit_id").coords["unit_id"].values
+                            w_select_cell.options = [f"Cell {u}" for u in self._all_cells]
+                            self.update_temp_comp_sub(self._all_cells[0])
+                            if self.pn_data_features.active == 0:
+                                w_initial_range.end = self.selection.shape[1]
+                                w_initial_range.value = (0, w_initial_range.end)
+                                self.main_panel.objects = pn.Row(self.pn_data_features, self.pn_utility, pn.Tabs(self.pn_description)).objects
+                            else:
+                                self.main_panel.objects = pn.Row(self.pn_data_features, pn.Tabs(self.pn_description_advanced, self.pn_dendrogram, self.pn_clustering)).objects
+                    
+                        elif selected_feature.name == 'A':
+                            self.w_visualize.object = hv.Image(self.Asum)
 
-                    # Visualization stuff for C and S
-                    if selected_feature.name in ['C','S','E']:
-                        self.selection = selected_feature
-                        self._all_cells = self.selection.isel(frame=0).dropna("unit_id").coords["unit_id"].values
-                        w_select_cell.options = [f"Cell {u}" for u in self._all_cells]
-                        self.update_temp_comp_sub(self._all_cells[0])
-                        if self.pn_data_features.active == 0:
-                            w_initial_range.end = self.selection.shape[1]
-                            w_initial_range.value = (0, w_initial_range.end)
-                            self.main_panel.objects = pn.Row(self.pn_data_features, self.pn_utility, pn.Tabs(self.pn_description)).objects
-                        else:
+                            if self.pn_data_features.active == 0:
+                                self.main_panel.objects = pn.Row(self.pn_data_features, self.pn_utility, pn.Tabs(self.pn_description)).objects
+                            else:
+                                self.main_panel.objects = pn.Row(self.pn_data_features, pn.Tabs(self.pn_description, self.pn_dendrogram, self.pn_clustering)).objects
+                    else:
+                        if selected_feature_name in self.features.keys():
                             self.main_panel.objects = pn.Row(self.pn_data_features, pn.Tabs(self.pn_description_advanced, self.pn_dendrogram, self.pn_clustering)).objects
-                
-                    elif selected_feature.name == 'A':
-                        self.w_visualize.object = hv.Image(self.Asum)
-
-                        if self.pn_data_features.active == 0:
-                            self.main_panel.objects = pn.Row(self.pn_data_features, self.pn_utility, pn.Tabs(self.pn_description)).objects
-                        else:
-                            self.main_panel.objects = pn.Row(self.pn_data_features, pn.Tabs(self.pn_description, self.pn_dendrogram, self.pn_clustering)).objects
+                            
 
         def load_feature(clicks=None):
             if w_data_select.value:
@@ -174,8 +178,10 @@ class ClusteringExplorer:
         
         def unload_feature(clicks=None):
             if w_added_feature_select.value:
+                self.features.pop(w_added_feature_select.value[0])
                 trimmed_options = [option for option in w_added_feature_select.options if option not in w_added_feature_select.value]
                 w_added_feature_select.options = trimmed_options
+                #print(self.features)
         
         def load_dendrogram(clicks=None):
             w_added_feature_select.options = ["C"]
@@ -210,7 +216,7 @@ class ClusteringExplorer:
                     for index in pre_trimmed_list:
                         values.append(self.get_section(index - w_haste_slider.value, w_window_slider.value))
                 
-                name = ','.join(w_data_select.value) + ":" + ','.join(selected_events)
+                name = ','.join(w_data_select.value) + ":" + ','.join(selected_events) + '  ' + str(w_initial_range.value)
                 description = (f"{name} contains all the values from {self.ranges[0]} to {self.ranges[1]} "
                                f"filtered by {','.join(selected_events)} with a window of {w_window_slider.value} "
                                f"and a haste of {w_haste_slider.value}.")
