@@ -130,7 +130,7 @@ class ClusteringExplorer:
         w_ranges = StaticText(name="Ranges", value="")
         w_events = StaticText(name="Events", value="")
         self.w_cluster_distance = IntSlider(name="Cluster Distance", value=1,step=1,start=1,end=1000)
-        w_distance_metric = Select(name='Select', options=['Euclidean', 'Cosine', 'Manhattan'])
+        w_distance_metric = Select(name='Distance Metrics', options=['euclidean', 'cosine', 'manhattan'])
 
         def update_usub(usub):
             to_int = int(usub.new.split(" ")[1])
@@ -199,13 +199,13 @@ class ClusteringExplorer:
             if w_added_feature_select.options:
                 load_cluster_button.name = "Loading..."
                 selected_feature = self.data.get(w_added_feature_select.options[0])
-                self.cell_clustering = CellClustering(selected_feature, self.data['A'])
+                self.cell_clustering = CellClustering(selected_feature, self.data['A'], metric=w_distance_metric.value)
                 fig, ax = plt.subplots()
                 ax.imshow(self.cell_clustering.visualize_clusters(distance=self.w_cluster_distance.value))
                 ax.set_axis_off()
                 self.w_visualize_cluster.object = fig
                 load_cluster_button.name = "Load Cluster from Loaded Features"
-        
+        #task-1 here we need to append the to values 
         def load_filter(clicks=None):
             trimmed_df = self.events.loc[self.ranges[0]:self.ranges[1],:]
             if w_event_filter_select.value:
@@ -225,7 +225,16 @@ class ClusteringExplorer:
                 timeframevalue = tuple(self.ranges)
                 values = trimmed_df
                 description = f"{name} contains all the values from {timeframevalue[0]} to {timeframevalue[1]}"
-            self.features[name] = Feature(name=name, ranges=self.ranges, values=values, description=description)
+            
+            # Merge the list of xarrays along the 'unit_id' dimension
+            merged_data = xr.concat(values, dim='unit_id')
+
+            # Flatten the merged xarray along the 'frame' dimension
+            flattened_data = merged_data.stack(unit_frame=('frame', 'unit_id'))
+            
+            self.features[name] = Feature(name=name, ranges=self.ranges, values=flattened_data, description=description)
+            print('Here is the feaeture:',flattened_data) #Bug Print
+            
             w_added_feature_select.options = w_added_feature_select.options + [name]
         
         def data_feat_switch(event):

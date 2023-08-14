@@ -38,7 +38,8 @@ class CellClustering:
         self,
         section: Optional[xr.Dataset] = None,
         A: Optional[xr.DataArray] = None,
-        fft: bool = True
+        fft: bool = True,
+        metric: Optional[str] = 'euclidean'
     ):
     
         self.signals = section
@@ -53,7 +54,7 @@ class CellClustering:
             self.psd_list = [self.signals.sel(unit_id=unit).values for unit in self.units]
         
         # Compute agglomerative clustering
-        self.linkage_data = linkage(self.psd_list, method='average', metric='euclidean')
+        self.linkage_data = linkage(self.psd_list, method='average', metric=metric)
 
     def compute_psd(self, unit: int):
         val = self.signals.sel(unit_id=unit).values
