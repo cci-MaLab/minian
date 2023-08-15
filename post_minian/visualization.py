@@ -126,9 +126,9 @@ class ClusteringExplorer:
         self.w_visualize_dendogram = pn.pane.Matplotlib(width=400, height=200)
         self.w_visualize_cluster = pn.pane.Matplotlib(width=400, height=200)
         
-        w_description = StaticText(name="Description", value="")
-        w_ranges = StaticText(name="Ranges", value="")
-        w_events = StaticText(name="Events", value="")
+        self.w_description = StaticText(name="Description", value="")
+        self.w_ranges = StaticText(name="Ranges", value="")
+        self.w_events = StaticText(name="Events", value="")
         self.w_cluster_distance = IntSlider(name="Cluster Distance", value=1,step=1,start=1,end=1000)
         w_distance_metric = Select(name='Distance Metrics', options=['euclidean', 'cosine', 'manhattan'])
 
@@ -169,6 +169,17 @@ class ClusteringExplorer:
                                 self.main_panel.objects = pn.Row(self.pn_data_features, pn.Tabs(self.pn_description, self.pn_dendrogram, self.pn_clustering)).objects
                     else:
                         if selected_feature_name in self.features.keys():
+                            self.w_description.value = self.features[selected_feature_name].description
+                            self.w_ranges.value = self.features[selected_feature_name].ranges
+                            
+                            '''
+                                Implementing the visualization of selected features.  
+                            '''
+                            #self.selection = self.features[selected_feature_name].values
+                            #self._all_cells = self.selection.dropna("unit_frame").coords["unit_id"].values
+                            #w_select_cell.options = [f"Cell {u}" for u in self._all_cells]
+                            #self.update_temp_comp_sub(self._all_cells[0])
+                            
                             self.main_panel.objects = pn.Row(self.pn_data_features, pn.Tabs(self.pn_description_advanced, self.pn_dendrogram, self.pn_clustering)).objects
                             
 
@@ -205,7 +216,7 @@ class ClusteringExplorer:
                 ax.set_axis_off()
                 self.w_visualize_cluster.object = fig
                 load_cluster_button.name = "Load Cluster from Loaded Features"
-        #task-1 here we need to append the to values 
+        
         def load_filter(clicks=None):
             trimmed_df = self.events.loc[self.ranges[0]:self.ranges[1],:]
             if w_event_filter_select.value:
@@ -233,8 +244,8 @@ class ClusteringExplorer:
             flattened_data = merged_data.stack(unit_frame=('frame', 'unit_id'))
             
             self.features[name] = Feature(name=name, ranges=self.ranges, values=flattened_data, description=description)
-            print('Here is the feaeture:',flattened_data) #Bug Print
-            
+            #print('Here is the feaeture:',flattened_data) #Bug Print
+            #print('Cell Data: ',flattened_data.dropna("unit_frame").coords["unit_id"].values)
             w_added_feature_select.options = w_added_feature_select.options + [name]
         
         def data_feat_switch(event):
@@ -298,7 +309,7 @@ class ClusteringExplorer:
                                  w_window_slider,
                                  filter_button, width=300)
         self.pn_description = ('Description',Column(self.w_visualize, w_select_cell))
-        self.pn_description_advanced = ('Description',Column(self.w_visualize, w_select_cell, w_distance_metric))
+        self.pn_description_advanced = ('Description',Column(self.w_visualize, w_select_cell, w_distance_metric, self.w_description, self.w_ranges))
         self.pn_dendrogram = ('Dendrogram',Column(load_dendrogram_button, self.w_visualize_dendogram))
         self.pn_clustering = ('Cluster',Column(self.w_cluster_distance, load_cluster_button, self.w_visualize_cluster))
         
