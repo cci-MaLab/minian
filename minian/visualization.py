@@ -43,6 +43,7 @@ from scipy.signal import find_peaks
 from .cnmf import compute_AtC
 from .motion_correction import apply_shifts
 from .utilities import custom_arr_optimize, rechunk_like
+import copy
 
 from tqdm import tqdm
 
@@ -217,6 +218,10 @@ class VArrayViewer:
             except AttributeError:
                 self.sum_sub = self.summary
         self.pnplot = pn.panel(self.get_hvobj())
+        # Testing stuff
+        self._last = 10
+        self._fill_left(True)
+
 
     def update_ds(self):
         if type(self._summary_types) is list:
@@ -461,19 +466,29 @@ class VArrayViewer:
     
     def _fill_left(self, click):
         if self._last > self._first:
+            # Create the fill in array
+            fill_array = np.zeros(self.varr_copy.sizes['frame'])
+            fill_array[self._first+1:self._last] = 1
+            fill_array = xr.DataArray(fill_array, coords={'frame': np.arange(len(fill_array))}, dims=['frame']).chunk(self.varr_copy.chunks[0])
+
+            target_frames = self.varr.sel(frame=self._last).values
+
             self.update_status.value = "Started Filling"
             fill = xr.apply_ufunc(
                 _fill,
-                self.varr_copy.chunk(dict(frame=-1)),
-                input_core_dims=[["frame", "height", "width"]],
-                output_core_dims=[["frame", "height", "width"]],
+                self.varr_copy,
+                fill_array,
+                input_core_dims=[["height", "width"], []],
+                output_core_dims=[["height", "width"]],
+                vectorize=True,
                 dask="parallelized",
-                kwargs=dict(direction="left", first=self._first, last=self._last),
-                output_dtypes=[self.varr_copy.dtype],
-            ).compute()
+                kwargs=dict(direction="left", target_frames=target_frames),
+                output_dtypes=[self.varr_copy.dtype]
+            )
             # Convert to dataset and update self.ds
+            print(fill.sel(frame=0).values)
             self.varr_copy = fill
-            self.ds = fill.to_dataset().compute()
+            self.ds = fill.to_dataset()
             self.update_status.value = "Applied fill function (Still Loading...)"
             self.update_ds()
 
@@ -506,7 +521,7 @@ class VArrayViewer:
                 dask="parallelized",
                 kwargs=dict(direction="interpolate", first=self._first, last=self._last),
                 output_dtypes=[self.varr_copy.dtype],
-            ).compute()
+            )
             # Convert to dataset and update self.ds
             self.varr_copy = fill
             self.ds = fill.to_dataset().compute()
@@ -515,14 +530,11 @@ class VArrayViewer:
     def return_updated_varr(self):
         return self.varr_copy
 
-def _fill(x: np.ndarray, first: int, last: int, direction: str = 'left') -> np.ndarray:
-    x = x.copy()
-    if x.any():
-        if direction == "left":
-            x[first:last] = x[first]
-        elif direction == "right":
-            x[first+1:last] = x[last]
-        elif direction == "interpolate":
+def _fill(x: np.ndarray, indices: np.ndarray, direction: str = 'left', target_frames = None) -> np.ndarray:
+
+    copy = x.copy()
+    if indices.any():
+        if direction == "interpolate":
             frames = last-first-1
             first_frame = x[first].astype("float")
             last_frame = x[last].astype("float")
@@ -530,7 +542,11 @@ def _fill(x: np.ndarray, first: int, last: int, direction: str = 'left') -> np.n
             # Due to memory issues, we need to do this per frame
             for i, coef in enumerate(coefficients):
                 x[first+i+1] = np.rint(first_frame - (first_frame - last_frame) * coef).astype(x.dtype)
+        else:
+            print(indices.sum()) 
+            x[indices == 1] = 0        
     return x
+
 
 
 class CNMFViewer:
