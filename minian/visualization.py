@@ -196,6 +196,7 @@ class VArrayViewer:
                 "max": self.ds.max(["height", "width"]),
                 "min": self.ds.min(["height", "width"]),
                 "diff": self.ds.diff("frame").mean(["height", "width"]),
+                "residual": ((self.ds.astype(np.int16) - self.ds.sel(frame=0).astype(np.int16))*10).apply(np.fabs).mean(["height", "width"])
             }
             try:
                 summ = {k: summ_all[k] for k in summary}
@@ -235,6 +236,8 @@ class VArrayViewer:
                 summ["min"] = self.ds.min(["height", "width"])
             if "diff" in self._summary_types:
                 summ["diff"] = self.ds.diff("frame").mean(["height", "width"])
+            if "residual" in self._summary_types:
+                summ["residual"] = ((self.ds.astype(np.int16) - self.ds.sel(frame=0).astype(np.int16)) * 10).apply(np.fabs).mean(["height", "width"])
 
             if summ:
                 sum_list = []
