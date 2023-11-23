@@ -218,9 +218,9 @@ class VArrayViewer:
             except AttributeError:
                 self.sum_sub = self.summary
         self.pnplot = pn.panel(self.get_hvobj())
-        # Testing stuff
         self._last = 10
-        self._fill_left(True)
+        self._fill_interpolate(True)
+        
 
 
     def update_ds(self):
@@ -408,7 +408,11 @@ class VArrayViewer:
             w_reset = pnwgt.Button(
                 name="Reset", button_type="primary", width=100, height=30
             )
-            w_reset.param.watch(self._reset, "clicks")
+            w_reset.param.watch(self._update_varr, "clicks")
+            w_update_varr = pnwgt.Button(
+                name="Update Original Varr", button_type="success", width=100, height=30
+            )
+            w_update_varr.param.watch(self._update_varr, "clicks")
         if not self._layout:
             wgt_meta = {
                 d: pnwgt.Select(name=d, options=v, height=45, width=120)
@@ -429,7 +433,7 @@ class VArrayViewer:
             if self.can_change:
                 wgts = pn.layout.WidgetBox(pn.Row(w_box, w_first, w_last, frame_ranges, frame_value),
                                         w_play, pn.Row(w_interpolate, w_fill_left, w_fill_right, self.update_status),
-                                        w_reset, *list(wgt_meta.values()))
+                                        pn.Row(w_reset, w_update_varr), *list(wgt_meta.values()))
             else:
                 wgts = pn.layout.WidgetBox(w_box,
                                         w_play, *list(wgt_meta.values()))
@@ -438,7 +442,7 @@ class VArrayViewer:
             if self.can_change:
                 wgts = pn.layout.WidgetBox(pn.Row(w_box, w_first, w_last, frame_ranges, frame_value),
                                        w_play, pn.Row(w_interpolate, w_fill_left, w_fill_right, self.update_status),
-                                       w_reset)
+                                       pn.Row(w_reset, w_update_varr))
             else:
                 wgts = pn.layout.WidgetBox(w_box, w_play)
         return wgts
@@ -466,86 +470,43 @@ class VArrayViewer:
     
     def _fill_left(self, click):
         if self._last > self._first:
-            # Create the fill in array
-            fill_array = np.zeros(self.varr_copy.sizes['frame'])
-            fill_array[self._first+1:self._last] = 1
-            fill_array = xr.DataArray(fill_array, coords={'frame': np.arange(len(fill_array))}, dims=['frame']).chunk(self.varr_copy.chunks[0])
-
-            target_frames = self.varr.sel(frame=self._last).values
-
             self.update_status.value = "Started Filling"
-            fill = xr.apply_ufunc(
-                _fill,
-                self.varr_copy,
-                fill_array,
-                input_core_dims=[["height", "width"], []],
-                output_core_dims=[["height", "width"]],
-                vectorize=True,
-                dask="parallelized",
-                kwargs=dict(direction="left", target_frames=target_frames),
-                output_dtypes=[self.varr_copy.dtype]
-            )
-            # Convert to dataset and update self.ds
-            print(fill.sel(frame=0).values)
-            self.varr_copy = fill
-            self.ds = fill.to_dataset()
-            self.update_status.value = "Applied fill function (Still Loading...)"
+            self.varr_copy.data[self._first+1:self._last] = self.varr_copy.sel(frame=self._last).values
+
+            self.ds = self.varr_copy.to_dataset()
             self.update_ds()
 
 
     def _fill_right(self, click):
         if self._last > self._first:
             self.update_status.value = "Started Filling"
-            fill = xr.apply_ufunc(
-                _fill,
-                self.varr_copy.chunk(dict(frame=-1)),
-                input_core_dims=[["frame", "height", "width"]],
-                output_core_dims=[["frame", "height", "width"]],
-                dask="parallelized",
-                kwargs=dict(direction="right", first=self._first, last=self._last),
-                output_dtypes=[self.varr_copy.dtype],
-            ).compute()
-            # Convert to dataset and update self.ds
-            self.varr_copy = fill
-            self.ds = fill.to_dataset().compute()
+            self.varr_copy.data[self._first+1:self._last] = self.varr_copy.sel(frame=self._first).values
+
+            self.ds = self.varr_copy.to_dataset()
             self.update_ds()
 
     def _fill_interpolate(self, click):
         if self._last > self._first:
             self.update_status.value = "Started Filling"
-            fill = xr.apply_ufunc(
-                _fill,
-                self.varr_copy.chunk(dict(frame=-1)),
-                input_core_dims=[["frame", "height", "width"]],
-                output_core_dims=[["frame", "height", "width"]],
-                dask="parallelized",
-                kwargs=dict(direction="interpolate", first=self._first, last=self._last),
-                output_dtypes=[self.varr_copy.dtype],
-            )
-            # Convert to dataset and update self.ds
-            self.varr_copy = fill
-            self.ds = fill.to_dataset().compute()
+
+            first_frame = self.varr_copy.sel(frame=self._first).values.astype("float")
+            last_frame = self.varr_copy.sel(frame=self._last).values.astype("float")
+
+            diff = first_frame - last_frame
+            frames = self._last-self._first-1
+            coefficients = (np.arange(0, frames) + 1) / (frames + 2)
+            interpolated_frames = np.empty((len(coefficients), first_frame.shape[0], first_frame.shape[1]))
+            diff_frames = np.empty((len(coefficients), first_frame.shape[0], first_frame.shape[1]))
+            diff_frames[:] = diff
+            interpolated_frames[:] = first_frame           
+            interpolated_frames -= diff_frames.astype("float") * coefficients[:, None, None]
+            self.varr_copy.data[self._first+1:self._last] = interpolated_frames.astype("uint8")
+
+            self.ds = self.varr_copy.to_dataset()
             self.update_ds()
 
-    def return_updated_varr(self):
-        return self.varr_copy
-
-def _fill(x: np.ndarray, indices: np.ndarray, direction: str = 'left', target_frames = None) -> np.ndarray:
-
-    copy = x.copy()
-    if indices.any():
-        if direction == "interpolate":
-            frames = last-first-1
-            first_frame = x[first].astype("float")
-            last_frame = x[last].astype("float")
-            coefficients = (np.arange(1, frames+1)) / (frames + 2)
-            # Due to memory issues, we need to do this per frame
-            for i, coef in enumerate(coefficients):
-                x[first+i+1] = np.rint(first_frame - (first_frame - last_frame) * coef).astype(x.dtype)
-        else:
-            print(indices.sum()) 
-            x[indices == 1] = 0        
-    return x
+    def _update_varr(self):
+        self.varr = self.varr_copy
 
 
 
