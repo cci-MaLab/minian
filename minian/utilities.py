@@ -560,8 +560,8 @@ def match_information(dpath):# Add by HF
     '''
     pattern_mouseID = "[A-Z]+[0-9]+"
     pattern_day = "D[0-9]+"
-    pattern_session = "S\d+"
-    pattern1 = r"(/N/project/Cortical_Calcium_Image/Miniscope data/.*?/(?P<mouse_folder_name>.*?))/.*?/.*?/Miniscope_2/(?P<session>S\d+)"
+    pattern_session = "S.+"
+    pattern1 = r"(/N/project/Cortical_Calcium_Image/Miniscope data/.*?/(?P<mouse_folder_name>.*?))/.*?/.*?/Miniscope_2/(?P<session>S.+)"
     pattern2 = r"(/N/project/Cortical_Calcium_Image/Miniscope data/.*?/(?P<mouse_folder_name>.*?))/.*?/.*?/Miniscope_2"
     if (re.match(pattern1, dpath)):
         result = re.match(pattern1, dpath)
