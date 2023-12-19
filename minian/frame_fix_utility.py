@@ -1,6 +1,6 @@
 import numpy as np
 
-def interpolate(videodata):
+def interpolate(video):
     diff = videodata[0].astype("float") - videodata[-1].astype("float")
     frames = len(videodata)-2
     coefficients = (np.arange(0, frames) + 1) / (frames + 2)
@@ -15,13 +15,14 @@ def interpolate(videodata):
 
     return videodata.copy()
 
-def fill_linear(videodata, left):
+def fill_right(video, first, last):
+    video.data[first+1:last] = self.varr_copy.sel(frame=self._first).values
+
+def fill_left(video, first, last):
     if left:
         videodata[:] = videodata[-1]
     else:
         videodata[:] = videodata[0]
-    
-    return videodata.copy()
 
 def fix_brightness(videodata):
    
