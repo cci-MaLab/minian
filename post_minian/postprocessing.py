@@ -7,6 +7,7 @@ from scipy.signal import welch
 from scipy.signal import savgol_filter
 from scipy.cluster.hierarchy import dendrogram, linkage, fcluster
 from matplotlib import cm
+from matplotlib import colors 
 import matplotlib.pyplot as plt
 import holoviews as hv
 from holoviews.util import Dynamic
@@ -167,7 +168,11 @@ class FeatureExploration:
     ):        
         mouseID, day, session = match_information(dpath)
         mouse_path, video_path = match_path(dpath)
-        behavior_data = pd.read_csv(os.path.join(mouse_path, mouseID + "_" + day + "_" + session + "_" + "behavior_ms.csv"),sep=',')
+        print(session)
+        if (session is None):
+            behavior_data = pd.read_csv(os.path.join(mouse_path, mouseID + "_" + day + "_" + "behavior_ms.csv"),sep=',')
+        else:
+            behavior_data = pd.read_csv(os.path.join(mouse_path, mouseID + "_" + day + "_" + session + "_" + "behavior_ms.csv"),sep=',')
         data_types = ['RNFS', 'ALP', 'IALP', 'Time Stamp (ms)']
         self.data = {}
         for dt in data_types:            
@@ -192,7 +197,10 @@ class FeatureExploration:
         self.data['collapsed_E'] = None
 
         output_dpath = "/N/project/Cortical_Calcium_Image/analysis"
-        self.output_path = os.path.join(output_dpath, mouseID,day,session)
+        if session is None:
+            self.output_path = os.path.join(output_dpath, mouseID,day)
+        else:
+            self.output_path = os.path.join(output_dpath, mouseID,day,session)
 
         if(os.path.exists(self.output_path) == False):
             os.makedirs(self.output_path)
@@ -300,13 +308,6 @@ class FeatureExploration:
             event = section.sel(unit_id=unit_id).values
             unique_events = np.unique(event)
             all_cell_frequency[unit_id] = len(unique_events)-1 / time
-        # return xr.apply_ufunc(
-        #     np.mean,
-        #     section.chunk(dict(frame=-1, unit_id="auto")),
-        #     input_core_dims=[["frame"]],
-        #     dask="parallelized",
-        #     output_dtypes=[section.dtype],
-        # )
         return all_cell_frequency
 
     
@@ -592,7 +593,6 @@ class NewFeatures:
                 ALP: List[xr.DataArray],
                 IALP: List[xr.DataArray],
                 RNFS: List[xr.DataArray],  
-                timefilter: Optional[tuple] = None,
                 events: Optional[List[str]] = None, 
                 description: Optional[str] = None,
                 dist_met: Optional[str] = None, 
@@ -601,31 +601,39 @@ class NewFeatures:
         self.ALPlist = ALP
         self.IALPlist = IALP
         self.RNFSlist = RNFS
-        self.timefilter = timefilter
         self.events = events
         self.dist_met = dist_met
+        self.timefilter = None
         self.description = description
-        self.set_timefilter(self.timefilter)
+        self.set_timefilter()
         self.set_vector(self.events)
 
     
-    def set_timefilter(self, timefilter:Optional[tuple]):
+    def set_timefilter(self):
         ALP = {}
         IALP = {}
         RNFS = {}
         if self.timefilter is None:
             for i in self.ALPlist:
-                for j in self.ALPlist.coords['unit_id'].values:
+                for j in i.coords['unit_id'].values:
                     try:
                         ALP[j]
                     except:
                         ALP[j] = np.array([])
                     ALP[j] = np.r_['-1', ALP[j], np.array(i.sel(unit_id=j).values)]
             for i in self.IALPlist:
-                for j in self.IALPlist.coords['unit_id'].values:
+                for j in i.coords['unit_id'].values:
+                    try:
+                        IALP[j]
+                    except:
+                        IALP[j] = np.array([])
                     IALP[j] = np.r_['-1', IALP[j], np.array(i.sel(unit_id=j).values)]
             for i in self.RNFSlist:
-                for j in self.RNFSlist.coords['unit_id'].values:
+                for j in i.coords['unit_id'].values:
+                    try:
+                        RNFS[j]
+                    except:
+                        RNFS[j] = np.array([])
                     RNFS[j] = np.r_['-1', RNFS[j], np.array(i.sel(unit_id=j).values)]
         self.ALP = ALP
         self.IALP = IALP
@@ -666,6 +674,8 @@ class NewFeatures:
                 except:
                     values[key] = np.array([])
                 values[key] = np.r_['-1', values[key], self.RNFS[key]]
+        if values == np.array([]):
+            values
         self.values = values
     
     def set_description(self, content:str):
@@ -675,3 +685,71 @@ class NewFeatures:
         a = np.array([])
         return a
     
+
+class NewCellClustering:
+    """
+    Cell clustering class. This class is used to cluster cells based on their
+    temporal activity, using FFT and agglomerative clustering.
+    """
+
+    def __init__(
+        self,
+        section: Optional[dict] = None,
+        A: Optional[xr.DataArray] = None,
+        fft: bool = True
+    ):
+        self.A = A
+        self.signals = section
+        self.psd_list = []
+
+        if fft:
+            for unit_id in self.signals:
+                self.compute_psd(unit_id) # compute psd for each unit
+        else:
+            self.psd_list = [self.signals[unit_id] for unit_id in self.signals]        
+        # Compute agglomerative clustering
+        self.linkage_data = linkage(self.psd_list, method='average', metric='euclidean')
+
+    def compute_psd(self, unit: int):
+        val = self.signals[unit]
+        f, psd = welch(val,
+               fs=1./30,
+               window='hann',
+               nperseg=256,
+               detrend='constant') 
+        self.psd_list.append(psd)
+    
+    def visualize_dendrogram(self, color_threshold=None, ax=None):
+        self.dendro = dendrogram(self.linkage_data,labels=list(self.signals.keys()), color_threshold=color_threshold, ax=ax)
+        return self.dendro
+
+    def visualize_clusters(self, t=4):
+        self.cluster_indices = fcluster(self.linkage_data, t, criterion='maxclust')
+        
+        viridis = cm.get_cmap('jet', self.cluster_indices.max()+1)
+
+        
+        image_shape = self.A[list(self.A.keys())[0]].values.shape
+        final_image = np.zeros((image_shape[0], image_shape[1], 3))
+        # print((self.A[list(self.A.keys())[0]].values,)*3)
+        for idx, cluster in enumerate(self.cluster_indices):
+           
+           
+            final_image += np.stack((self.A[list(self.A.keys())[idx]].values,)*3, axis=-1) * viridis(cluster)[:3]
+        
+        return final_image
+    
+    def visualize_clusters_color(self):
+        viridis = cm.get_cmap('viridis', len(np.unique(self.dendro["leaves_color_list"])))
+        
+        color_mapping= {}
+        for i, leaf in enumerate(self.dendro['leaves']):
+            color_mapping[leaf] = int(self.dendro['leaves_color_list'][i][1]) - 1 # Convert to int
+        
+        image_shape = self.A[list(self.A.keys())[0]].values.shape
+        final_image = np.zeros((image_shape[0], image_shape[1], 3))
+
+        for idx in self.dendro['leaves']:
+            final_image += np.stack((self.A[list(self.A.keys())[idx]].values,)*3, axis=-1) * viridis(color_mapping[idx])[:3]
+        
+        return plt.imshow(final_image)

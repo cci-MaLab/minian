@@ -18,7 +18,7 @@ from dask.diagnostics import ProgressBar
 
 def plot_multiple_traces(explorer, neurons_to_plot=None, data_type='C', shift_amount=0.4, figure_ax = None):
     if figure_ax == None:
-        fig, ax = plt.subplots(figsize=(40,5))
+        fig, ax = plt.subplots(figsize=(40,len(neurons_to_plot)*0.5))
     else:
         ax = figure_ax
     if data_type in ['C', 'S', 'E', 'smoothed_C','filted_C']:
@@ -30,6 +30,7 @@ def plot_multiple_traces(explorer, neurons_to_plot=None, data_type='C', shift_am
             trace = explorer.data[data_type].sel(unit_id = neuron)
             trace /= np.max(trace)
     #         ax.autoscale()
+            ax.text(explorer.data['Time Stamp (ms)'][0],shift,neuron)
             ax.plot(explorer.data['Time Stamp (ms)'],trace + shift,alpha=0.5)
         ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('RNFS')],0,shifts[-1] + 1,color="green")
         ax.vlines(explorer.data['Time Stamp (ms)'].loc[explorer.get_timestep('IALP')],0,shifts[-1] + 1,color="blue")
