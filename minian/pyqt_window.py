@@ -279,9 +279,9 @@ class VideoWindow(QMainWindow):
                                     .mean(["height", "width"])
         }
         try:
-            self.summ = {k: self.summ_all[k] for k in summary}
+            self.summ = {k: self.summ_all[k] for k in self._summary_types}
         except KeyError:
-            print("{} Not understood for specifying summary".format(summary))
+            print("{} Not understood for specifying summary".format(self._summary_types))
         if self.summ:
             print("computing summary")
             sum_list = []
