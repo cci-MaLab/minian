@@ -47,7 +47,6 @@ import copy
 
 from tqdm import tqdm
 
-
 class VArrayViewer:
     """
     Interactive visualization for movie data arrays.
@@ -219,8 +218,6 @@ class VArrayViewer:
             except AttributeError:
                 self.sum_sub = self.summary
         self.pnplot = pn.panel(self.get_hvobj())
-        self._last = 10
-        self._fill_interpolate(True)
         
 
 
